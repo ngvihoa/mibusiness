@@ -13,6 +13,9 @@ const initWebRoutes = (app) => {
   router.get("/", homeController.handleHomePage);
   router.get("/user", homeController.handleUserPage);
 
+  // action api
+  router.post("/users/create-user", homeController.handleCreateNewUser);
+
   // setup base url route
   return app.use("/", router);
 };
