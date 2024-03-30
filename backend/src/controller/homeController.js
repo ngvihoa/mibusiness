@@ -6,7 +6,6 @@ const handleHomePage = (req, res, next) => {
 
 const handleUserPage = async (req, res, next) => {
   const userList = await userService.getUserList();
-  console.log(userList);
   return res.render("user.ejs", { userList });
 };
 
@@ -25,8 +24,17 @@ const handleCreateNewUser = (req, res, next) => {
   //     .status(400)
   //     .json({ error: "Woah there, that password is too short!" });
   // }
-  return res.send("New user is adding...");
+  return res.redirect("/user");
 };
 
-// export { handleHomePage, handleUserPage };
-export default { handleHomePage, handleUserPage, handleCreateNewUser };
+const handleDeleteUser = async (req, res, next) => {
+  await userService.deleteUser(req.params.id);
+  return res.redirect("/user");
+};
+
+export default {
+  handleHomePage,
+  handleUserPage,
+  handleCreateNewUser,
+  handleDeleteUser,
+};

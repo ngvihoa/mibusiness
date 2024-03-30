@@ -18,7 +18,7 @@
           <form
             class="border rounded-3 shadow-sm"
             method="post"
-            action="/users/create-user"
+            action="/create-user"
           >
             <div class="mb-2 bg-primary py-2 px-3 rounded-top-3 text-white">
               <h3>Create new user</h3>
@@ -82,16 +82,22 @@
             <tbody>
               <% userList.forEach((item, index)=>{ %>
               <tr>
-                <th scope="row"><%= index + 1 %></th>
+                <th scope="row"><%= item.id %></th>
                 <td><%=item.username%></td>
                 <td><%=item.email%></td>
                 <td>
-                  <button type="button" class="btn btn-warning fw-medium">
-                    Edit
-                  </button>
-                  <button type="button" class="btn btn-danger fw-medium">
-                    Delete
-                  </button>
+                  <form action="" class="d-inline">
+                    <button class="btn btn-warning fw-medium">Edit</button>
+                  </form>
+                  <form
+                    action="/delete-user/<%=item.id%>"
+                    method="post"
+                    class="d-inline"
+                  >
+                    <button type="submit" class="btn btn-danger fw-medium">
+                      Delete
+                    </button>
+                  </form>
                 </td>
               </tr>
               <% }) %>
