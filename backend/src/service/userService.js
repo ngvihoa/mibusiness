@@ -1,12 +1,15 @@
 // Get the client
-import mysql from "mysql2";
+import mysql from "mysql2/promise";
+// get the promise implementation, we will use bluebird
+import bluebird from "bluebird";
 import bcrypt from "bcryptjs";
 
-// Create the connection to database
-const connection = mysql.createConnection({
+// create the connection, specify bluebird as Promise
+const connection = await mysql.createConnection({
   host: "localhost",
   user: "root",
   database: "decentral_app",
+  Promise: bluebird,
 });
 
 // setup bcrypt
@@ -52,12 +55,13 @@ const createNewUser = (email, username, password) => {
   );
 };
 
-const getUserList = () => {
-  let users = [];
-  connection.query(`SELECT * FROM users`, function (err, results, fields) {
-    console.log(results); // results contains rows returned by server
-    console.log(fields); // fields contains extra meta data about results, if available
-  });
+const getUserList = async () => {
+  try {
+    const [rows, fields] = await connection.execute("SELECT * FROM users");
+    return rows;
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export default {

@@ -12,54 +12,93 @@
     <title>User Page</title>
   </head>
   <body>
-    <div class="user-info-form container col-6 mt-4">
-      <form
-        class="border rounded-3 p-3 shadow-sm"
-        method="post"
-        action="/users/create-user"
-      >
-        <div class="row">
-          <div class="mb-3"><h3>Create new user</h3></div>
-          <div class="form-group mb-3 col-12">
-            <label for="email">Email address</label>
-            <input
-              type="email"
-              class="form-control"
-              id="email"
-              name="email"
-              required
-              aria-describedby="emailHelp"
-              placeholder="Enter email"
-            />
-          </div>
-          <div class="form-group mb-3 col-12">
-            <label for="username">Username</label>
-            <input
-              type="text"
-              class="form-control"
-              id="username"
-              name="username"
-              required
-              aria-describedby="usernameHelp"
-              placeholder="Enter username"
-            />
-          </div>
-          <div class="form-group mb-3 col-12">
-            <label for="password">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="password"
-              name="password"
-              required
-              placeholder="Password"
-            />
-          </div>
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
+    <div class="container">
+      <div class="row">
+        <div class="user-info-form col-6 mt-4 p-0">
+          <form
+            class="border rounded-3 shadow-sm"
+            method="post"
+            action="/users/create-user"
+          >
+            <div class="mb-2 bg-primary py-2 px-3 rounded-top-3 text-white">
+              <h3>Create new user</h3>
+            </div>
+            <div class="row p-3 pt-0">
+              <div class="form-group mb-3 col-12">
+                <label for="email" class="fw-medium">Email address</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  required
+                  aria-describedby="emailHelp"
+                  placeholder="Enter email"
+                />
+              </div>
+              <div class="form-group mb-3 col-12">
+                <label for="username" class="fw-medium">Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  name="username"
+                  required
+                  aria-describedby="usernameHelp"
+                  placeholder="Enter username"
+                />
+              </div>
+              <div class="form-group mb-3 col-12">
+                <label for="password" class="fw-medium">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  name="password"
+                  required
+                  placeholder="Password"
+                />
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary fw-medium">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-      </form>
+
+        <div class="table-user-info mt-3 p-0">
+          <h3>Table User Info</h3>
+          <table class="table table-striped table-hover table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% userList.forEach((item, index)=>{ %>
+              <tr>
+                <th scope="row"><%= index + 1 %></th>
+                <td><%=item.username%></td>
+                <td><%=item.email%></td>
+                <td>
+                  <button type="button" class="btn btn-warning fw-medium">
+                    Edit
+                  </button>
+                  <button type="button" class="btn btn-danger fw-medium">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </body>
 </html>

@@ -4,8 +4,10 @@ const handleHomePage = (req, res, next) => {
   return res.render("home.ejs");
 };
 
-const handleUserPage = (req, res, next) => {
-  return res.render("user.ejs");
+const handleUserPage = async (req, res, next) => {
+  const userList = await userService.getUserList();
+  console.log(userList);
+  return res.render("user.ejs", { userList });
 };
 
 const handleCreateNewUser = (req, res, next) => {
