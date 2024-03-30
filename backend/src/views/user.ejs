@@ -14,16 +14,23 @@
   <body>
     <div class="container">
       <div class="row">
-        <div class="user-info-form col-6 mt-4 p-0">
-          <form
-            class="border rounded-3 shadow-sm"
-            method="post"
-            action="/create-user"
+        <div class="user-info-form col-6 mt-4 p-0 shadow-sm rounded-3 border">
+          <div
+            class="bg-primary py-2 px-3 rounded-3 text-white"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseBox"
+            aria-expanded="false"
+            aria-controls="collapseBox"
           >
-            <div class="mb-2 bg-primary py-2 px-3 rounded-top-3 text-white">
-              <h3>Create new user</h3>
-            </div>
-            <div class="row p-3 pt-0">
+            <h3>Create new user</h3>
+          </div>
+          <form
+            class="rounded-bottom-3 mb-0 collapse"
+            id="collapseBox"
+            method="post"
+            action="/users/create-user"
+          >
+            <div class="row p-3">
               <div class="form-group mb-3 col-12">
                 <label for="email" class="fw-medium">Email address</label>
                 <input
@@ -86,11 +93,14 @@
                 <td><%=item.username%></td>
                 <td><%=item.email%></td>
                 <td>
-                  <form action="" class="d-inline">
-                    <button class="btn btn-warning fw-medium">Edit</button>
-                  </form>
+                  <a
+                    href="/update-user/<%=item.id%>"
+                    class="d-inline btn btn-warning fw-medium border border-warning me-2"
+                  >
+                    Edit
+                  </a>
                   <form
-                    action="/delete-user/<%=item.id%>"
+                    action="/users/delete-user/<%=item.id%>"
                     method="post"
                     class="d-inline"
                   >
