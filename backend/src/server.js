@@ -3,7 +3,7 @@ import express from "express";
 import configViewEngine from "./config/viewEngine.js";
 import initWebRoutes from "./routes/web.js";
 import bodyParser from "body-parser";
-// import connection from "./config/connectDB.js";
+import connection from "./config/connectDB.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
