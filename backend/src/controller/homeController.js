@@ -34,9 +34,10 @@ const handleUpdateUserPage = async (req, res, next) => {
   const id = req.params.id;
   const user = await userService.getUserById(id);
   let userData = {};
-  if (user && user.length > 0) {
-    userData = user[0];
-  }
+  userData = user;
+  // if (user && user.length > 0) {
+  //   userData = user[0];
+  // }
   return res.render("user-update.ejs", { userData });
 };
 

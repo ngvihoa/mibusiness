@@ -44,38 +44,58 @@ const createNewUser = async (email, username, password) => {
 };
 
 const getUserList = async () => {
-  const connection = await mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    database: "decentral_app",
-    Promise: bluebird,
-  });
+  // const connection = await mysql.createConnection({
+  //   host: "localhost",
+  //   user: "root",
+  //   database: "decentral_app",
+  //   Promise: bluebird,
+  // });
+  // try {
+  //   const [rows, fields] = await connection.execute("SELECT * FROM user");
+  //   return rows;
+  // } catch (e) {
+  //   console.log(e);
+  // }
+
+  let users = [];
   try {
-    const [rows, fields] = await connection.execute("SELECT * FROM user");
-    return rows;
+    users = await db.User.findAll();
   } catch (e) {
-    console.log(e);
+    console.log(">>> check get uerlist:", e);
+  }
+
+  return users;
+};
+
+const deleteUser = async (userId) => {
+  // const connection = await mysql.createConnection({
+  //   host: "localhost",
+  //   user: "root",
+  //   database: "decentral_app",
+  //   Promise: bluebird,
+  // });
+  // try {
+  //   const [rows, fields] = await connection.execute(
+  //     "DELETE FROM user WHERE id=?",
+  //     [id]
+  //   );
+  // } catch (e) {
+  //   console.log(e);
+  // }
+
+  try {
+    await db.User.destroy({
+      where: {
+        id: userId,
+      },
+    });
+  } catch (e) {
+    console.log(">>> check deleteUser :", e);
   }
 };
 
-const deleteUser = async (id) => {
-  const connection = await mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    database: "decentral_app",
-    Promise: bluebird,
-  });
-  try {
-    const [rows, fields] = await connection.execute(
-      "DELETE FROM user WHERE id=?",
-      [id]
-    );
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-const getUserById = async (id) => {
+const getUserById = async (userId) => {
+  /*
   const connection = await mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -91,9 +111,23 @@ const getUserById = async (id) => {
   } catch (e) {
     console.log(e);
   }
+  */
+
+  try {
+    const user = await db.User.findOne({
+      where: {
+        id: userId,
+      },
+    });
+
+    return user;
+  } catch (e) {
+    console.log(">>> check edit user:", e);
+  }
 };
 
 const updateUserInfo = async (id, email, username) => {
+  /*
   const connection = await mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -107,6 +141,22 @@ const updateUserInfo = async (id, email, username) => {
     );
   } catch (e) {
     console.log(e);
+  }
+  */
+  try {
+    await db.User.update(
+      {
+        email: email,
+        username: username,
+      },
+      {
+        where: {
+          id: id,
+        },
+      }
+    );
+  } catch (e) {
+    console.log(">>> check update user:", e);
   }
 };
 
