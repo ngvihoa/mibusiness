@@ -44,18 +44,27 @@ const createNewUser = async (email, username, password) => {
 };
 
 const getUserList = async () => {
-  // const connection = await mysql.createConnection({
-  //   host: "localhost",
-  //   user: "root",
-  //   database: "decentral_app",
-  //   Promise: bluebird,
-  // });
-  // try {
-  //   const [rows, fields] = await connection.execute("SELECT * FROM user");
-  //   return rows;
-  // } catch (e) {
-  //   console.log(e);
-  // }
+  // test association
+  let newUser = await db.User.findOne({
+    where: { id: 1 },
+    attributes: ["id", "email", "username"], // identify cols in query
+    include: { model: db.Group, attributes: ["id", "name", "description"] }, // join
+    raw: true,
+    nest: true,
+  });
+
+  console.log(">>> check a user", newUser);
+
+  let roles = await db.Role.findAll({
+    include: {
+      model: db.Group,
+      where: { id: newUser.Group.id },
+    },
+    raw: true,
+    nest: true,
+  });
+
+  console.log(">>> check user role", roles);
 
   let users = [];
   try {
