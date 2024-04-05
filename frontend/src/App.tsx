@@ -2,6 +2,8 @@ import Login from "./components/login/login";
 import NavBar from "./components/navigation/nav";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from "./components/signup/signup";
+import { Bounce, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -48,6 +50,19 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<>404</>} />
         </Routes>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Bounce}
+        />
       </BrowserRouter>
     </>
   );
