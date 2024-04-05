@@ -1,11 +1,25 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./signup.scss";
+import { useEffect } from "react";
+import axios from "axios";
 
 const Signup = () => {
   let navigate = useNavigate();
   const handleToSignup = () => {
     navigate("/login");
   };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8888/api/test-api")
+      .then((data) => console.log(">>> check data:", data))
+      .catch((err) => {
+        console.log("AXIOS ERROR:", err);
+      });
+
+    return () => {};
+  }, []);
+
   return (
     <div
       className="signup-container vh-100 d-flex
