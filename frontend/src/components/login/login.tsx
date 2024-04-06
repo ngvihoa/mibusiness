@@ -60,6 +60,7 @@ const Login = () => {
         sessionStorage.setItem("auth", JSON.stringify(state));
 
         navigate("/users");
+        window.location.reload();
       } else {
         toast.error(data.EM);
         if (data.DT)
@@ -68,6 +69,13 @@ const Login = () => {
             ...data.DT,
           }));
       }
+    }
+  };
+
+  const handleEnter = (e: any) => {
+    // console.log("check event", e);
+    if (e.key === "Enter") {
+      handleLogIn();
     }
   };
 
@@ -104,6 +112,7 @@ const Login = () => {
               id="keyLogin"
               value={formLogin.keyLogin}
               onChange={(e) => handleFormChange(e)}
+              onKeyDown={(e) => handleEnter(e)}
               placeholder="Email or your phone number..."
               className={`form-control ${
                 !formState.isValidKeyLogin ? "is-invalid" : ""
@@ -115,6 +124,7 @@ const Login = () => {
               id="password"
               value={formLogin.password}
               onChange={(e) => handleFormChange(e)}
+              onKeyDown={(e) => handleEnter(e)}
               placeholder="Enter your password..."
               className={`form-control ${
                 !formState.isValidPassword ? "is-invalid" : ""
