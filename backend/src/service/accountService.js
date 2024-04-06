@@ -1,5 +1,7 @@
 import bcrypt from "bcryptjs";
 import db from "../models/index.js";
+import { Op } from "sequelize";
+import { raw } from "body-parser";
 
 // setup bcrypt
 const salt = bcrypt.genSaltSync(10);
@@ -31,6 +33,10 @@ function validatePhone(phone) {
 
 function validatePassword(password) {
   return password.length >= 8;
+}
+
+function checkPassword(pass, hashPass) {
+  return bcrypt.compareSync(pass, hashPass);
 }
 
 const hashPassword = (userPassword) => {
@@ -94,6 +100,49 @@ const createNewUser = async (rawData) => {
       EM: "New user has been created successfully!",
       EC: "0",
       DT: "",
+    };
+  } catch (e) {
+    return {
+      EM: "Something wrong with service!",
+      EC: "-2",
+      DT: "",
+    };
+  }
+};
+
+const handleUserLogIn = async (rawData) => {
+  try {
+    // check user
+    let user = await db.User.findOne({
+      where: {
+        [Op.or]: [{ email: rawData.keyLogin }, { phone: rawData.keyLogin }],
+      },
+    });
+
+    if (user) {
+      console.log("Found user with email/phone");
+      if (checkPassword(rawData.password, user.password)) {
+        return {
+          EM: "Login success!",
+          EC: 0,
+          DT: "",
+        };
+      }
+    }
+
+    console.log(
+      "Not found user with email/phone:",
+      rawData.keyLogin,
+      ", password:",
+      rawData.password
+    );
+    return {
+      EM: "Your email, phone number or password is incorrect",
+      EC: "-1",
+      DT: {
+        isValidKeyLogin: false,
+        isValidPassword: false,
+      },
     };
   } catch (e) {
     return {
@@ -181,6 +230,7 @@ export default {
   validatePhone,
   validatePassword,
   createNewUser,
+  handleUserLogIn,
   getUserList,
   deleteUser,
   getUserById,

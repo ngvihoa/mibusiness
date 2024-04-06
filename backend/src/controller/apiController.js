@@ -90,7 +90,55 @@ const handleSignUp = async (req, res, next) => {
   }
 };
 
-const handleLogIn = (req, res, next) => {};
+const handleLogIn = async (req, res, next) => {
+  try {
+    console.log(req.body);
+    if (!req.body.keyLogin || !req.body.password) {
+      return res.status(400).json({
+        EM: "Missing required fields!",
+        EC: "-1",
+        DT: {
+          isValidKeyLogin: !!req.body.keyLogin,
+          isValidPassword: !!req.body.password,
+        },
+      });
+    }
+
+    const keyLogin = accountService.test_input(req.body.keyLogin);
+    const password = accountService.test_input(req.body.password);
+
+    // validate input
+    if (
+      !accountService.validateEmail(keyLogin) &&
+      !accountService.validatePhone(keyLogin) &&
+      !accountService.validatePassword(password)
+    ) {
+      return res.status(400).json({
+        EM: "Your email, phone number or password is incorrect!",
+        EC: "-1",
+        DT: {
+          isValidKeyLogin: false,
+          isValidPassword: false,
+        },
+      });
+    }
+
+    // check user
+    let data = await accountService.handleUserLogIn(req.body);
+
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      EM: "Error from server!",
+      EC: "-1",
+      DT: "",
+    });
+  }
+};
 
 export default {
   testApi,
