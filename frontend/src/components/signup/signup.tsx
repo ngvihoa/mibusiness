@@ -10,7 +10,15 @@ interface FormProps {
   username: string;
   phone: string;
   password: string;
-  "confirm-password": string;
+  confirmPassword: string;
+}
+
+interface FormStateProps {
+  isValidEmail: boolean;
+  isValidUsername: boolean;
+  isValidPhone: boolean;
+  isValidPassword: boolean;
+  isValidConfirmPassword: boolean;
 }
 
 const initialForm = {
@@ -18,11 +26,20 @@ const initialForm = {
   username: "",
   phone: "",
   password: "",
-  "confirm-password": "",
+  confirmPassword: "",
+};
+
+const initialFormState = {
+  isValidEmail: true,
+  isValidUsername: true,
+  isValidPhone: true,
+  isValidPassword: true,
+  isValidConfirmPassword: true,
 };
 
 const Signup = () => {
   const [form, setForm] = useState<FormProps>(initialForm);
+  const [formState, setFormState] = useState<FormStateProps>(initialFormState);
   const navigate = useNavigate();
 
   const handleToSignup = () => {
@@ -37,37 +54,76 @@ const Signup = () => {
   };
 
   const isValidateInput = () => {
+    setFormState(initialFormState);
+
     if (!form.email) {
       toast.error("Email is required!");
-      return false;
-    }
-    if (!form.username) {
-      toast.error("Username is required!");
-      return false;
-    }
-    if (!form.phone) {
-      toast.error("Phone number is required!");
-      return false;
-    }
-    if (!form.password) {
-      toast.error("Password is required!");
-      return false;
-    }
-    if (form.password.length < 8) {
-      toast.warning("Please enter at least 8 characters for the password.");
-      return false;
-    }
-    if (form.password !== form["confirm-password"]) {
-      toast.error("Your password is not the same!");
+      setFormState({
+        ...initialFormState,
+        isValidEmail: false,
+      });
       return false;
     }
     if (!validateEmail(form.email)) {
       toast.error("Invalid email adddress");
+      setFormState({
+        ...initialFormState,
+        isValidEmail: false,
+      });
+      return false;
+    }
+
+    if (!form.username) {
+      toast.error("Username is required!");
+      setFormState({
+        ...initialFormState,
+        isValidUsername: false,
+      });
+      return false;
+    }
+
+    if (!form.phone) {
+      toast.error("Phone number is required!");
+      setFormState({
+        ...initialFormState,
+        isValidPhone: false,
+      });
       return false;
     }
 
     if (!validatePhone(form.phone)) {
       toast.warning("Phone number should have 10 digits");
+      setFormState({
+        ...initialFormState,
+        isValidPhone: false,
+      });
+      return false;
+    }
+
+    if (!form.password) {
+      toast.error("Password is required!");
+      setFormState({
+        ...initialFormState,
+        isValidPhone: false,
+      });
+      return false;
+    }
+
+    if (form.password.length < 8) {
+      toast.warning("Please enter at least 8 characters for the password.");
+      setFormState({
+        ...initialFormState,
+        isValidPassword: false,
+      });
+      return false;
+    }
+
+    if (form.password !== form.confirmPassword) {
+      toast.error("Your password is not the same!");
+      setFormState({
+        ...initialFormState,
+        isValidConfirmPassword: false,
+      });
       return false;
     }
 
@@ -76,17 +132,23 @@ const Signup = () => {
 
   const handleSignUp = () => {
     let isValid = isValidateInput();
-    console.log(form);
+    if (isValid) {
+      toast.success("The new account is created");
+      const { confirmPassword, ...user } = form;
+      axios
+        .post("http://localhost:8888/api/v1/signup", {
+          ...user,
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   useEffect(() => {
-    // axios
-    //   .get("http://localhost:8888/api/test-api")
-    //   .then((data) => console.log(">>> check data:", data))
-    //   .catch((err) => {
-    //     console.log("AXIOS ERROR:", err);
-    //   });
-
     return () => {};
   }, []);
 
@@ -121,7 +183,9 @@ const Signup = () => {
               <div className="form-floating">
                 <input
                   type="email"
-                  className="form-control"
+                  className={`form-control ${
+                    !formState.isValidEmail ? "is-invalid" : ""
+                  }`}
                   id="email"
                   name="email"
                   placeholder="name@example.com"
@@ -133,7 +197,9 @@ const Signup = () => {
               <div className="form-floating">
                 <input
                   type="text"
-                  className="form-control"
+                  className={`form-control ${
+                    !formState.isValidUsername ? "is-invalid" : ""
+                  }`}
                   id="username"
                   name="username"
                   placeholder="John Doe"
@@ -145,7 +211,9 @@ const Signup = () => {
               <div className="form-floating">
                 <input
                   type="text"
-                  className="form-control"
+                  className={`form-control ${
+                    !formState.isValidPhone ? "is-invalid" : ""
+                  }`}
                   id="phone"
                   name="phone"
                   placeholder="0977272384"
@@ -157,7 +225,9 @@ const Signup = () => {
               <div className="form-floating">
                 <input
                   type="password"
-                  className="form-control"
+                  className={`form-control ${
+                    !formState.isValidPassword ? "is-invalid" : ""
+                  }`}
                   id="password"
                   name="password"
                   placeholder="Password"
@@ -169,11 +239,13 @@ const Signup = () => {
               <div className="form-floating">
                 <input
                   type="password"
-                  className="form-control"
-                  id="confirm-password"
-                  name="confirm-password"
+                  className={`form-control ${
+                    !formState.isValidConfirmPassword ? "is-invalid" : ""
+                  }`}
+                  id="confirmPassword"
+                  name="confirmPassword"
                   placeholder="Confirm password"
-                  value={form["confirm-password"]}
+                  value={form.confirmPassword}
                   onChange={(e) => handleFormChange(e)}
                 />
                 <label htmlFor="password">Confirm password</label>
