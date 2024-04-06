@@ -1,5 +1,6 @@
 import express from "express";
-import apiController from "../controller/apiController.js";
+import authController from "../controller/authController.js";
+import userController from "../controller/userController.js";
 
 const router = express.Router();
 
@@ -9,9 +10,14 @@ const router = express.Router();
  */
 const initApiRoutes = (app) => {
   // rest api - not return view
-  router.get("/test-api", apiController.testApi);
-  router.post("/signup", apiController.handleSignUp);
-  router.post("/login", apiController.handleLogIn);
+  router.get("/test-api", authController.testApi);
+  router.post("/signup", authController.handleSignUp);
+  router.post("/login", authController.handleLogIn);
+
+  router.post("/user/create", userController.createFunc); // C
+  router.get("/user/read", userController.readFunc); // R
+  router.put("/user/update", userController.updateFunc); // U
+  router.delete("/user/delete", userController.deleteFunc); // D
 
   // setup base url route
   return app.use("/api/v1", router);

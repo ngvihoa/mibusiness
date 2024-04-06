@@ -153,76 +153,76 @@ const handleUserLogIn = async (rawData) => {
   }
 };
 
-const getUserList = async () => {
-  // test association
-  // let newUser = await db.User.findOne({
-  //   where: { id: 1 },
-  //   attributes: ["id", "email", "username"], // identify cols in query
-  //   include: { model: db.Group, attributes: ["id", "name", "description"] }, // join
-  //   raw: true,
-  //   nest: true,
-  // });
-  // console.log(">>> check a user", newUser);
-  // let roles = await db.Role.findAll({
-  //   include: {
-  //     model: db.Group,
-  //     where: { id: newUser.Group.id },
-  //   },
-  //   raw: true,
-  //   nest: true,
-  // });
-  // console.log(">>> check user role", roles);
-  // let users = [];
-  // try {
-  //   users = await db.User.findAll();
-  // } catch (e) {
-  //   console.log(">>> check get uerlist:", e);
-  // }
-  // return users;
-};
+// const getUserList = async () => {
+//   // test association
+//   // let newUser = await db.User.findOne({
+//   //   where: { id: 1 },
+//   //   attributes: ["id", "email", "username"], // identify cols in query
+//   //   include: { model: db.Group, attributes: ["id", "name", "description"] }, // join
+//   //   raw: true,
+//   //   nest: true,
+//   // });
+//   // console.log(">>> check a user", newUser);
+//   // let roles = await db.Role.findAll({
+//   //   include: {
+//   //     model: db.Group,
+//   //     where: { id: newUser.Group.id },
+//   //   },
+//   //   raw: true,
+//   //   nest: true,
+//   // });
+//   // console.log(">>> check user role", roles);
+//   // let users = [];
+//   // try {
+//   //   users = await db.User.findAll();
+//   // } catch (e) {
+//   //   console.log(">>> check get uerlist:", e);
+//   // }
+//   // return users;
+// };
 
-const deleteUser = async (userId) => {
-  // try {
-  //   await db.User.destroy({
-  //     where: {
-  //       id: userId,
-  //     },
-  //   });
-  // } catch (e) {
-  //   console.log(">>> check deleteUser :", e);
-  // }
-};
+// const deleteUser = async (userId) => {
+//   // try {
+//   //   await db.User.destroy({
+//   //     where: {
+//   //       id: userId,
+//   //     },
+//   //   });
+//   // } catch (e) {
+//   //   console.log(">>> check deleteUser :", e);
+//   // }
+// };
 
-const getUserById = async (userId) => {
-  // try {
-  //   const user = await db.User.findOne({
-  //     where: {
-  //       id: userId,
-  //     },
-  //   });
-  //   return user;
-  // } catch (e) {
-  //   console.log(">>> check edit user:", e);
-  // }
-};
+// const getUserById = async (userId) => {
+//   // try {
+//   //   const user = await db.User.findOne({
+//   //     where: {
+//   //       id: userId,
+//   //     },
+//   //   });
+//   //   return user;
+//   // } catch (e) {
+//   //   console.log(">>> check edit user:", e);
+//   // }
+// };
 
-const updateUserInfo = async (id, email, username) => {
-  // try {
-  //   await db.User.update(
-  //     {
-  //       email: email,
-  //       username: username,
-  //     },
-  //     {
-  //       where: {
-  //         id: id,
-  //       },
-  //     }
-  //   );
-  // } catch (e) {
-  //   console.log(">>> check update user:", e);
-  // }
-};
+// const updateUserInfo = async (id, email, username) => {
+//   // try {
+//   //   await db.User.update(
+//   //     {
+//   //       email: email,
+//   //       username: username,
+//   //     },
+//   //     {
+//   //       where: {
+//   //         id: id,
+//   //       },
+//   //     }
+//   //   );
+//   // } catch (e) {
+//   //   console.log(">>> check update user:", e);
+//   // }
+// };
 
 export default {
   test_input,
@@ -231,8 +231,8 @@ export default {
   validatePassword,
   createNewUser,
   handleUserLogIn,
-  getUserList,
-  deleteUser,
-  getUserById,
-  updateUserInfo,
+  // getUserList,
+  // deleteUser,
+  // getUserById,
+  // updateUserInfo,
 };

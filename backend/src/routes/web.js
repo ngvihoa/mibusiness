@@ -1,6 +1,5 @@
 import express from "express";
 import homeController from "../controller/homeController.js";
-import apiController from "../controller/apiController.js";
 
 const router = express.Router();
 
@@ -19,9 +18,6 @@ const initWebRoutes = (app) => {
   router.post("/users/create-user", homeController.handleCreateNewUser);
   router.post("/users/delete-user/:id", homeController.handleDeleteUser);
   router.post("/users/edit-user", homeController.handleUpdateUser);
-
-  // rest api - not return view
-  router.get("/api/test-api", apiController.testApi);
 
   // setup base url route
   return app.use("/", router);
