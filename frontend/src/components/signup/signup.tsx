@@ -133,14 +133,16 @@ const Signup = () => {
   const handleSignUp = () => {
     let isValid = isValidateInput();
     if (isValid) {
-      toast.success("The new account is created");
-      const { confirmPassword, ...user } = form;
       axios
         .post("http://localhost:8888/api/v1/signup", {
-          ...user,
+          ...form,
         })
         .then(function (response) {
-          console.log(response);
+          if (response.data.EC === "0") {
+            toast.success(response.data.EM);
+          } else {
+            toast.error(response.data.EM);
+          }
         })
         .catch(function (error) {
           console.log(error);
