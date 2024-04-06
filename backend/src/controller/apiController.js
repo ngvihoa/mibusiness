@@ -16,7 +16,13 @@ const handleSignUp = async (req, res, next) => {
       return res.status(400).json({
         EM: "Missing required fields!",
         EC: "-1",
-        DT: "",
+        DT: {
+          isValidEmail: !!req.body.email,
+          isValidUsername: !!req.body.username,
+          isValidPhone: !!req.body.phone,
+          isValidPassword: !!req.body.password,
+          isValidConfirmPassword: !!req.body.confirmPassword,
+        },
       });
     }
 
@@ -30,7 +36,9 @@ const handleSignUp = async (req, res, next) => {
       return res.status(400).json({
         EM: "You have entered invalid email!",
         EC: "-1",
-        DT: "",
+        DT: {
+          isValidEmail: false,
+        },
       });
     }
 
@@ -38,7 +46,9 @@ const handleSignUp = async (req, res, next) => {
       return res.status(400).json({
         EM: "Phone number should have 10 digits!",
         EC: "-1",
-        DT: "",
+        DT: {
+          isValidPhone: false,
+        },
       });
     }
 
@@ -46,7 +56,9 @@ const handleSignUp = async (req, res, next) => {
       return res.status(400).json({
         EM: "Your password's length should have at least 8 characters!",
         EC: "-1",
-        DT: "",
+        DT: {
+          isValidPassword: false,
+        },
       });
     }
 
@@ -54,7 +66,10 @@ const handleSignUp = async (req, res, next) => {
       return res.status(400).json({
         EM: "Passwords do not match!",
         EC: "-1",
-        DT: "",
+        DT: {
+          isValidPassword: false,
+          isValidConfirmPassword: false,
+        },
       });
     }
 
@@ -64,7 +79,7 @@ const handleSignUp = async (req, res, next) => {
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
-      DT: "",
+      DT: data.DT,
     });
   } catch (e) {
     return res.status(500).json({

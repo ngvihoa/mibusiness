@@ -4,22 +4,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { validateEmail, validatePhone } from "../../lib/func";
-
-interface FormProps {
-  email: string;
-  username: string;
-  phone: string;
-  password: string;
-  confirmPassword: string;
-}
-
-interface FormStateProps {
-  isValidEmail: boolean;
-  isValidUsername: boolean;
-  isValidPhone: boolean;
-  isValidPassword: boolean;
-  isValidConfirmPassword: boolean;
-}
+import { FormProps, FormStateProps } from "../../lib/type";
+import { signUpNewUser } from "../../services/userService";
 
 const initialForm = {
   email: "",
@@ -130,23 +116,21 @@ const Signup = () => {
     return true;
   };
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     let isValid = isValidateInput();
     if (isValid) {
-      axios
-        .post("http://localhost:8888/api/v1/signup", {
-          ...form,
-        })
-        .then(function (response) {
-          if (response.data.EC === "0") {
-            toast.success(response.data.EM);
-          } else {
-            toast.error(response.data.EM);
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      const { data } = await signUpNewUser(form);
+      if (+data.EC === 0) {
+        toast.success(data.EM);
+        navigate("/login");
+      } else {
+        toast.error(data.EM);
+        if (data.DT)
+          setFormState((prev) => ({
+            ...prev,
+            ...data.DT,
+          }));
+      }
     }
   };
 

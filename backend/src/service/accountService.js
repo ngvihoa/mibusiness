@@ -66,12 +66,18 @@ const createNewUser = async (rawData) => {
     return {
       EM: "The email has already existed.",
       EC: "1",
+      DT: {
+        isValidEmail: false,
+      },
     };
   }
   if (await checkPhoneExist(rawData.phone)) {
     return {
       EM: "The phone number has already existed.",
       EC: "1",
+      DT: {
+        isValidPhone: false,
+      },
     };
   }
 
@@ -87,11 +93,13 @@ const createNewUser = async (rawData) => {
     return {
       EM: "New user has been created successfully!",
       EC: "0",
+      DT: "",
     };
   } catch (e) {
     return {
       EM: "Something wrong with service!",
       EC: "-2",
+      DT: "",
     };
   }
 };
