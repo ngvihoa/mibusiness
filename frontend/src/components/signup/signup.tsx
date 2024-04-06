@@ -1,10 +1,9 @@
 import "./signup.scss";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { validateEmail, validatePhone } from "../../lib/func";
-import { FormProps, FormStateProps } from "../../lib/type";
+import { SignUpFormProps, SignUpFormStateProps } from "../../lib/type";
 import { signUpNewUser } from "../../services/userService";
 
 const initialForm = {
@@ -24,8 +23,9 @@ const initialFormState = {
 };
 
 const Signup = () => {
-  const [form, setForm] = useState<FormProps>(initialForm);
-  const [formState, setFormState] = useState<FormStateProps>(initialFormState);
+  const [form, setForm] = useState<SignUpFormProps>(initialForm);
+  const [formState, setFormState] =
+    useState<SignUpFormStateProps>(initialFormState);
   const navigate = useNavigate();
 
   const handleToSignup = () => {
@@ -133,10 +133,6 @@ const Signup = () => {
       }
     }
   };
-
-  useEffect(() => {
-    return () => {};
-  }, []);
 
   return (
     <div

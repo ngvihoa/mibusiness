@@ -1,11 +1,76 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./login.scss";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { LoginFormProps, LoginFormStateProps } from "../../lib/type";
+import { logInUser } from "../../services/userService";
+
+const initialLoginForm: LoginFormProps = {
+  keyLogin: "",
+  password: "",
+};
+
+const initialLoginFormState: LoginFormStateProps = {
+  isValidKeyLogin: true,
+  isValidPassword: true,
+};
 
 const Login = () => {
+  const [formLogin, setFormLogin] = useState<LoginFormProps>(initialLoginForm);
+  const [formState, setFormState] = useState<LoginFormStateProps>(
+    initialLoginFormState
+  );
   let navigate = useNavigate();
+
   const handleToSignup = () => {
     navigate("/signup");
   };
+
+  const handleFormChange = (e: any) => {
+    setFormLogin({ ...formLogin, [e.target.name]: e.target.value });
+  };
+
+  const isValidLoginForm = () => {
+    setFormState(initialLoginFormState);
+    if (!formLogin.keyLogin) {
+      toast.error("Please enter your email or phone number!");
+      setFormState({ ...formState, isValidKeyLogin: false });
+      return false;
+    }
+    if (!formLogin.password) {
+      toast.error("Please enter your password!");
+      setFormState({ ...formState, isValidPassword: false });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleLogIn = async () => {
+    if (isValidLoginForm()) {
+      let { data } = await logInUser(formLogin);
+
+      if (+data.EC === 0) {
+        toast.success(data.EM);
+
+        let state = {
+          isAuthenticated: true,
+          token: "fake token",
+        };
+        sessionStorage.setItem("auth", JSON.stringify(state));
+
+        navigate("/users");
+      } else {
+        toast.error(data.EM);
+        if (data.DT)
+          setFormState((prev) => ({
+            ...prev,
+            ...data.DT,
+          }));
+      }
+    }
+  };
+
   return (
     <div
       className="login-container vh-100 d-flex
@@ -35,19 +100,32 @@ const Login = () => {
             </h1>
             <input
               type="text"
-              name="username"
-              id="username"
-              placeholder="Email, username or your phone number..."
-              className="form-control"
+              name="keyLogin"
+              id="keyLogin"
+              value={formLogin.keyLogin}
+              onChange={(e) => handleFormChange(e)}
+              placeholder="Email or your phone number..."
+              className={`form-control ${
+                !formState.isValidKeyLogin ? "is-invalid" : ""
+              }`}
             />
             <input
               type="password"
               name="password"
               id="password"
+              value={formLogin.password}
+              onChange={(e) => handleFormChange(e)}
               placeholder="Enter your password..."
-              className="form-control"
+              className={`form-control ${
+                !formState.isValidPassword ? "is-invalid" : ""
+              }`}
             />
-            <button className="btn btn-primary fw-medium fs-5">Log In</button>
+            <button
+              className="btn btn-primary fw-medium fs-5"
+              onClick={handleLogIn}
+            >
+              Log In
+            </button>
             <span className="btn btn-link p-0 m-0 text-start text-decoration-none">
               Forgot your password?
             </span>

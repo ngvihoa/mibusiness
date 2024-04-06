@@ -1,4 +1,4 @@
-export interface FormProps {
+export interface SignUpFormProps {
   email: string;
   username: string;
   phone: string;
@@ -6,10 +6,20 @@ export interface FormProps {
   confirmPassword: string;
 }
 
-export interface FormStateProps {
+export interface SignUpFormStateProps {
   isValidEmail: boolean;
   isValidUsername: boolean;
   isValidPhone: boolean;
   isValidPassword: boolean;
   isValidConfirmPassword: boolean;
+}
+
+export interface LoginFormProps {
+  keyLogin: string;
+  password: string;
+}
+
+export interface LoginFormStateProps {
+  isValidKeyLogin: boolean;
+  isValidPassword: boolean;
 }
