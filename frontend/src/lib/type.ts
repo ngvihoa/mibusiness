@@ -23,3 +23,20 @@ export interface LoginFormStateProps {
   isValidKeyLogin: boolean;
   isValidPassword: boolean;
 }
+
+export type InitialState = {
+  value: AuthState;
+};
+
+export type AuthState = {
+  isAuth: boolean;
+  username: string;
+  uid: string;
+  role: string;
+};
+
+export type LoginType = {
+  username: string;
+  id: string;
+  role: string;
+};

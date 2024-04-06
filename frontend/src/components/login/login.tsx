@@ -1,9 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import "./login.scss";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { LoginFormProps, LoginFormStateProps } from "../../lib/type";
+import { LoginFormProps, LoginFormStateProps, LoginType } from "../../lib/type";
 import { logInUser } from "../../services/userService";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import { logIn } from "../../redux/features/auth-slice";
 
 const initialLoginForm: LoginFormProps = {
   keyLogin: "",
@@ -21,6 +24,7 @@ const Login = () => {
     initialLoginFormState
   );
   let navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleToSignup = () => {
     navigate("/signup");
@@ -51,16 +55,14 @@ const Login = () => {
       let { data } = await logInUser(formLogin);
 
       if (+data.EC === 0) {
-        toast.success(data.EM);
-
-        let state = {
-          isAuthenticated: true,
-          token: "fake token",
+        let state: LoginType = {
+          username: "",
+          id: "",
+          role: "",
         };
-        sessionStorage.setItem("auth", JSON.stringify(state));
-
+        dispatch(logIn(state));
+        toast.success(data.EM);
         navigate("/users");
-        window.location.reload();
       } else {
         toast.error(data.EM);
         if (data.DT)

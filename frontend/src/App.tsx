@@ -1,54 +1,43 @@
-import Login from "./components/login/login";
 import NavBar from "./components/navigation/nav";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Signup from "./components/signup/signup";
+import { BrowserRouter } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Users from "./components/manage-users/users";
-import { useEffect, useState } from "react";
-import _ from "lodash";
-
-interface AuthSession {
-  isAuthenticated: boolean;
-  token: string;
-}
+import AppRoutes from "./routes/app-routes";
+import { persistStore } from "redux-persist";
+import { store } from "./redux/store";
+import { ReduxProvider } from "./redux/provider";
+import { PersistGate } from "redux-persist/integration/react";
 
 function App() {
-  const [auth, setAuth] = useState<AuthSession | null>();
-  useEffect(() => {
-    let session = sessionStorage.getItem("auth");
-    if (session) {
-      setAuth(JSON.parse(session));
-    }
-  }, []);
+  let persistor = persistStore(store);
+
   return (
     <>
-      <BrowserRouter>
-        {auth && !_.isEmpty(auth) && auth.isAuthenticated && <NavBar />}
-        <Routes>
-          <Route path="/" element={<>Hello Home</>} />
-          <Route path="/news" element={<>News</>} />
-          <Route path="/about" element={<>About</>} />
-          <Route path="/contact" element={<>Contact</>} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="*" element={<>404</>} />
-        </Routes>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          transition={Bounce}
-        />
-      </BrowserRouter>
+      <ReduxProvider>
+        <PersistGate persistor={persistor}>
+          <BrowserRouter>
+            <div className="app-header">
+              <NavBar />
+            </div>
+            <div className="app-container">
+              <AppRoutes />
+            </div>
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+              transition={Bounce}
+            />
+          </BrowserRouter>
+        </PersistGate>
+      </ReduxProvider>
     </>
   );
 }
