@@ -6,7 +6,6 @@ const PrivateRoutes = () => {
   const navigate = useNavigate();
   const { isAuth } = useAppSelector((state) => state.auth.value);
   useEffect(() => {
-    console.log(">> check isAuth:", isAuth);
     if (!isAuth) {
       navigate("/login");
     }

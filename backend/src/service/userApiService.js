@@ -31,6 +31,33 @@ const getAllUsers = async () => {
   }
 };
 
+const getUserPaginated = async (page, limit) => {
+  try {
+    let offset = (page - 1) * limit;
+    const { count, rows } = await db.User.findAndCountAll({
+      attributes: ["id", "username", "email", "phone", "sex"],
+      include: {
+        model: db.Group,
+        attributes: ["name", "description"],
+      },
+      limit: +limit,
+      offset: +offset,
+    });
+    const totalPages = Math.ceil(count / limit);
+    return {
+      EM: "Found users from " + offset + " to " + (offset + limit),
+      EC: 0,
+      DT: { totalRows: count, totalPages: totalPages, users: rows },
+    };
+  } catch (e) {
+    return {
+      EM: "Error from server - service",
+      EC: -1,
+      DT: "",
+    };
+  }
+};
+
 const createNewUser = async (user) => {
   try {
     await db.User.create({
@@ -83,4 +110,10 @@ const deleteUser = async (id) => {
   }
 };
 
-export default { getAllUsers, createNewUser, updateUser, deleteUser };
+export default {
+  getAllUsers,
+  createNewUser,
+  updateUser,
+  deleteUser,
+  getUserPaginated,
+};

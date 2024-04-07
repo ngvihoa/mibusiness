@@ -17,9 +17,8 @@ const NavBar = () => {
       {show && (
         <div className="nav-bar">
           <NavLink to="/">Home</NavLink>
-          <NavLink to="/news">News</NavLink>
-          <NavLink to="/contact">Contact</NavLink>
-          <NavLink to="/about">About</NavLink>
+          <NavLink to="/users">Users</NavLink>
+          <NavLink to="/projects">Projects</NavLink>
         </div>
       )}
     </>

@@ -13,4 +13,10 @@ const logInUser = (form: LoginFormProps) => {
   });
 };
 
-export { signUpNewUser, logInUser };
+const fetchAllUsers = (page: number, limit: number) => {
+  return axios.get(
+    `http://localhost:8888/api/v1/user/read?page=${page}&limit=${limit}`
+  );
+};
+
+export { signUpNewUser, logInUser, fetchAllUsers };
