@@ -54,6 +54,14 @@ const updateFunc = async (req, res, next) => {
 };
 const deleteFunc = async (req, res, next) => {
   try {
+    const id = req.body.id;
+    let data = await userApiService.deleteUser(id);
+
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
   } catch (e) {
     return res.status(500).json({
       EM: "Error from server!",

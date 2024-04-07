@@ -1,22 +1,19 @@
 import { useEffect, useState } from "react";
-import { fetchAllUsers } from "../../services/userService";
+import { deleteUser, fetchAllUsers } from "../../services/userService";
 import ReactPaginate from "react-paginate";
+import { toast } from "react-toastify";
+import ModalConfirm from "./modal-confirm";
+import { ModalTextProps, UsersType } from "../../lib/type";
 
-interface GroupType {
-  name: string;
-  description: string;
-}
-
-interface UsersType {
-  id: string;
-  email: string;
-  username: string;
-  phone: string;
-  sex: string;
-  Group: GroupType | null;
-}
+const initModal: ModalTextProps = {
+  headingText: "",
+  bodyText: "",
+};
 
 const Users = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [modalText, setModalText] = useState<ModalTextProps>(initModal);
+  const [dataModal, setDataModal] = useState<UsersType | null>(null);
   const [userList, setUserList] = useState<UsersType[] | null>(null);
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,14 +32,64 @@ const Users = () => {
     setCurrentPage(newOffset);
   };
 
+  const handleCloseModal = () => {
+    setDataModal(null);
+    setShowModal(false);
+  };
+  const handleShowModal = (user: UsersType) => {
+    setModalText({
+      headingText: "Delete user",
+      bodyText:
+        "Do you really want to delete user: " +
+        user.id +
+        " - " +
+        user.username +
+        "?",
+    });
+    setDataModal(user);
+    setShowModal(true);
+  };
+  const handleConfirmDelete = async () => {
+    if (dataModal) {
+      let { data } = await deleteUser(+dataModal.id);
+      if (data && +data.EC === 0) {
+        toast.success(data.EM);
+        await fetchUsers();
+      } else {
+        toast.error(data.EM);
+      }
+      handleCloseModal();
+    }
+  };
+
+  const handleDeleteUser = async (user: UsersType) => {
+    // console.log(user);
+    // setModalText({
+    //   headingText: "Delete user",
+    //   bodyText:
+    //     "Do you really want to delete user: " + user.id + " - " + user.username,
+    // });
+    // console.log(isConfirmed);
+    // handleShowModal();
+    // console.log(isConfirmed);
+    // let { data } = await deleteUser(+user.id);
+    // if (data && +data.EC === 0) {
+    //   toast.success(data.EM);
+    //   await fetchUsers();
+    // } else {
+    //   toast.error(data.EM);
+    // }
+  };
+
   useEffect(() => {
     fetchUsers();
   }, [currentPage]);
 
   return (
-    <div className="manage-users-container container">
-      <div className="row">
-        {/* <div className="user-info-form col-6 mt-4 p-0 shadow-sm rounded-3 border">
+    <>
+      <div className="manage-users-container container">
+        <div className="row">
+          {/* <div className="user-info-form col-6 mt-4 p-0 shadow-sm rounded-3 border">
           <div
             className="bg-primary py-2 px-3 rounded-3 text-white"
             data-bs-toggle="collapse"
@@ -109,84 +156,94 @@ const Users = () => {
           </form>
         </div> */}
 
-        <div className="table-user-info mt-3 p-0">
-          <div className="row d-flex flex-row justify-content-between align-items-center mb-3">
-            <h3 className="col m-0">Table users</h3>
-            <div className="actions col text-end">
-              <button className="btn btn-success">Refresh</button>
-              <button className="btn btn-primary ms-1">Add new user</button>
+          <div className="table-user-info mt-3 p-0">
+            <div className="row d-flex flex-row justify-content-between align-items-center mb-3">
+              <h3 className="col m-0">Table users</h3>
+              <div className="actions col text-end">
+                <button className="btn btn-success">Refresh</button>
+                <button className="btn btn-primary ms-1">Add new user</button>
+              </div>
             </div>
-          </div>
-          <table className="table table-striped table-hover table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Id</th>
-                <th scope="col">Username</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Gender</th>
-                <th scope="col">Group</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {userList && userList.length > 0 ? (
-                <>
-                  {userList.map((item, index) => (
-                    <tr key={`row-${index}`}>
-                      <td>{index}</td>
-                      <td>{item.id}</td>
-                      <td>{item.username}</td>
-                      <td>{item.email}</td>
-                      <td>{item.phone}</td>
-                      <td>{item.sex ? item.sex : "NULL"}</td>
-                      <td>{item.Group ? item.Group.description : "NULL"}</td>
-                      <td>
-                        <button className="btn btn-warning fw-medium me-2">
-                          Edit
-                        </button>
-                        <button className="btn btn-danger fw-medium">
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </>
-              ) : (
+            <table className="table table-striped table-hover table-bordered">
+              <thead>
                 <tr>
-                  <td scope="col">Not found users</td>
+                  <th scope="col">#</th>
+                  <th scope="col">Id</th>
+                  <th scope="col">Username</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone</th>
+                  <th scope="col">Gender</th>
+                  <th scope="col">Group</th>
+                  <th scope="col">Action</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
-          {pageCount > 0 && (
-            <div className="table-footer-container">
-              <ReactPaginate
-                nextLabel="next >"
-                onPageChange={handlePageClick}
-                pageRangeDisplayed={2}
-                marginPagesDisplayed={2}
-                pageCount={pageCount}
-                previousLabel="< previous"
-                pageClassName="page-item"
-                pageLinkClassName="page-link"
-                previousClassName="page-item"
-                previousLinkClassName="page-link"
-                nextClassName="page-item"
-                nextLinkClassName="page-link"
-                breakLabel="..."
-                breakClassName="page-item"
-                breakLinkClassName="page-link"
-                containerClassName="pagination"
-                activeClassName="active"
-                renderOnZeroPageCount={null}
-              />
-            </div>
-          )}
+              </thead>
+              <tbody>
+                {userList && userList.length > 0 ? (
+                  <>
+                    {userList.map((item, index) => (
+                      <tr key={`row-${index}`}>
+                        <td>{index}</td>
+                        <td>{item.id}</td>
+                        <td>{item.username}</td>
+                        <td>{item.email}</td>
+                        <td>{item.phone}</td>
+                        <td>{item.sex ? item.sex : "NULL"}</td>
+                        <td>{item.Group ? item.Group.description : "NULL"}</td>
+                        <td>
+                          <button className="btn btn-warning fw-medium me-2">
+                            Edit
+                          </button>
+                          <button
+                            className="btn btn-danger fw-medium"
+                            onClick={() => handleShowModal(item)}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </>
+                ) : (
+                  <tr>
+                    <td scope="col">Not found users</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+            {pageCount > 0 && (
+              <div className="table-footer-container">
+                <ReactPaginate
+                  nextLabel="next >"
+                  onPageChange={handlePageClick}
+                  pageRangeDisplayed={2}
+                  marginPagesDisplayed={2}
+                  pageCount={pageCount}
+                  previousLabel="< previous"
+                  pageClassName="page-item"
+                  pageLinkClassName="page-link"
+                  previousClassName="page-item"
+                  previousLinkClassName="page-link"
+                  nextClassName="page-item"
+                  nextLinkClassName="page-link"
+                  breakLabel="..."
+                  breakClassName="page-item"
+                  breakLinkClassName="page-link"
+                  containerClassName="pagination"
+                  activeClassName="active"
+                  renderOnZeroPageCount={null}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+      <ModalConfirm
+        show={showModal}
+        text={modalText}
+        handleClose={handleCloseModal}
+        handleConfirm={handleConfirmDelete}
+      />
+    </>
   );
 };
 
