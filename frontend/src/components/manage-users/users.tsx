@@ -4,6 +4,8 @@ import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 import ModalConfirm from "./modal-confirm";
 import { ModalTextProps, UsersType } from "../../lib/type";
+import ModalUser from "./modal-user";
+import "./users.scss";
 
 const initModal: ModalTextProps = {
   headingText: "",
@@ -11,9 +13,13 @@ const initModal: ModalTextProps = {
 };
 
 const Users = () => {
-  const [showModal, setShowModal] = useState(false);
+  // confirm delete user states
+  const [showModalConfirmDelete, setShowModalConfirmDelete] = useState(false);
+  const [showModalCreateUser, setShowModalCreateUser] = useState(false);
   const [modalText, setModalText] = useState<ModalTextProps>(initModal);
+
   const [dataModal, setDataModal] = useState<UsersType | null>(null);
+  // pagination states
   const [userList, setUserList] = useState<UsersType[] | null>(null);
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,11 +38,12 @@ const Users = () => {
     setCurrentPage(newOffset);
   };
 
-  const handleCloseModal = () => {
+  // function for delete user
+  const handleCloseModalConfirmDelete = () => {
     setDataModal(null);
-    setShowModal(false);
+    setShowModalConfirmDelete(false);
   };
-  const handleShowModal = (user: UsersType) => {
+  const handleShowModalConfirmDelete = (user: UsersType) => {
     setModalText({
       headingText: "Delete user",
       bodyText:
@@ -47,7 +54,7 @@ const Users = () => {
         "?",
     });
     setDataModal(user);
-    setShowModal(true);
+    setShowModalConfirmDelete(true);
   };
   const handleConfirmDelete = async () => {
     if (dataModal) {
@@ -58,36 +65,35 @@ const Users = () => {
       } else {
         toast.error(data.EM);
       }
-      handleCloseModal();
+      handleCloseModalConfirmDelete();
     }
   };
 
-  const handleDeleteUser = async (user: UsersType) => {
-    // console.log(user);
-    // setModalText({
-    //   headingText: "Delete user",
-    //   bodyText:
-    //     "Do you really want to delete user: " + user.id + " - " + user.username,
-    // });
-    // console.log(isConfirmed);
-    // handleShowModal();
-    // console.log(isConfirmed);
-    // let { data } = await deleteUser(+user.id);
-    // if (data && +data.EC === 0) {
-    //   toast.success(data.EM);
-    //   await fetchUsers();
-    // } else {
-    //   toast.error(data.EM);
-    // }
+  // function for create/edit user
+  const handleCloseModalCreateUser = () => {
+    setDataModal(null);
+    setShowModalCreateUser(false);
+  };
+  const handleShowModalCreateUser = (user: UsersType | null) => {
+    setModalText({
+      headingText: "Create a new user",
+      bodyText: "",
+    });
+    if (user) setDataModal(user);
+    setShowModalCreateUser(true);
+  };
+  const handleCreateUser = () => {
+    console.log("create user ha :D");
   };
 
+  // fetching on mount
   useEffect(() => {
     fetchUsers();
   }, [currentPage]);
 
   return (
     <>
-      <div className="manage-users-container container">
+      <div className="manage-users-container container-fluid px-4 mx-0 container-md mx-md-auto">
         <div className="row">
           {/* <div className="user-info-form col-6 mt-4 p-0 shadow-sm rounded-3 border">
           <div
@@ -161,55 +167,64 @@ const Users = () => {
               <h3 className="col m-0">Table users</h3>
               <div className="actions col text-end">
                 <button className="btn btn-success">Refresh</button>
-                <button className="btn btn-primary ms-1">Add new user</button>
+                <button
+                  className="btn btn-primary ms-1"
+                  onClick={() => handleShowModalCreateUser(null)}
+                >
+                  Add new user
+                </button>
               </div>
             </div>
-            <table className="table table-striped table-hover table-bordered">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Id</th>
-                  <th scope="col">Username</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Phone</th>
-                  <th scope="col">Gender</th>
-                  <th scope="col">Group</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {userList && userList.length > 0 ? (
-                  <>
-                    {userList.map((item, index) => (
-                      <tr key={`row-${index}`}>
-                        <td>{index}</td>
-                        <td>{item.id}</td>
-                        <td>{item.username}</td>
-                        <td>{item.email}</td>
-                        <td>{item.phone}</td>
-                        <td>{item.sex ? item.sex : "NULL"}</td>
-                        <td>{item.Group ? item.Group.description : "NULL"}</td>
-                        <td>
-                          <button className="btn btn-warning fw-medium me-2">
-                            Edit
-                          </button>
-                          <button
-                            className="btn btn-danger fw-medium"
-                            onClick={() => handleShowModal(item)}
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </>
-                ) : (
+            <div className="container-fluid mx-0 px-0 overflow-x-auto">
+              <table className="table table-striped table-hover table-bordered">
+                <thead>
                   <tr>
-                    <td scope="col">Not found users</td>
+                    <th scope="col">#</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Group</th>
+                    <th scope="col">Action</th>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {userList && userList.length > 0 ? (
+                    <>
+                      {userList.map((item, index) => (
+                        <tr key={`row-${index}`}>
+                          <td>{index}</td>
+                          <td>{item.id}</td>
+                          <td>{item.username}</td>
+                          <td>{item.email}</td>
+                          <td>{item.phone}</td>
+                          <td>{item.sex ? item.sex : "NULL"}</td>
+                          <td>
+                            {item.Group ? item.Group.description : "NULL"}
+                          </td>
+                          <td>
+                            <button className="btn btn-warning fw-medium me-2">
+                              Edit
+                            </button>
+                            <button
+                              className="btn btn-danger fw-medium"
+                              onClick={() => handleShowModalConfirmDelete(item)}
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </>
+                  ) : (
+                    <tr>
+                      <td scope="col">Not found users</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
             {pageCount > 0 && (
               <div className="table-footer-container">
                 <ReactPaginate
@@ -238,10 +253,16 @@ const Users = () => {
         </div>
       </div>
       <ModalConfirm
-        show={showModal}
+        show={showModalConfirmDelete}
         text={modalText}
-        handleClose={handleCloseModal}
+        handleClose={handleCloseModalConfirmDelete}
         handleConfirm={handleConfirmDelete}
+      />
+      <ModalUser
+        show={showModalCreateUser}
+        text={modalText}
+        handleClose={handleCloseModalCreateUser}
+        handleConfirm={handleCreateUser}
       />
     </>
   );

@@ -27,4 +27,8 @@ const deleteUser = (id: number) => {
   });
 };
 
-export { signUpNewUser, logInUser, fetchAllUsers, deleteUser };
+const fetchGroups = () => {
+  return axios.get(`http://localhost:8888/api/v1/group/read`);
+};
+
+export { signUpNewUser, logInUser, fetchAllUsers, deleteUser, fetchGroups };

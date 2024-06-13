@@ -1,3 +1,23 @@
+export type createUserFormProps = {
+  email: string;
+  username: string;
+  phone: string;
+  password: string;
+  gender?: string;
+  group: string;
+  address?: string;
+};
+
+export type createUserFormStateProps = {
+  isValidEmail: boolean;
+  isValidUsername: boolean;
+  isValidPhone: boolean;
+  isValidPassword: boolean;
+  isValidGender: boolean;
+  isValidGroup: boolean;
+  isValidAddress: boolean;
+};
+
 export interface SignUpFormProps {
   email: string;
   username: string;
@@ -59,3 +79,11 @@ export interface ModalTextProps {
   headingText: string;
   bodyText: string;
 }
+
+export type GroupDBGet = {
+  createdAt: string;
+  updatedAt: string;
+  description: string;
+  id: number;
+  name: string;
+};

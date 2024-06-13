@@ -16,7 +16,12 @@ const ModalConfirm = ({
 }: ModalConfirmProps) => {
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        centered
+        className="model-confirm"
+      >
         <Modal.Header closeButton>
           <Modal.Title>{text.headingText}</Modal.Title>
         </Modal.Header>
