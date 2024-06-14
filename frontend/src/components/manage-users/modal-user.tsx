@@ -57,7 +57,7 @@ const ModalUser = ({
 
   const getGroups = async () => {
     try {
-      let { data } = await fetchGroups();
+      let data = await fetchGroups();
       if (data && +data.EC === 0) {
         setGroup(data.DT);
         setForm((prev) => ({
@@ -175,17 +175,17 @@ const ModalUser = ({
     try {
       const isValid = isValidateInputCreate();
       if (!isValid) return;
-      let res = await createNewUser(form);
-      if (+res.data.EC === 0) {
+      let data = await createNewUser(form);
+      if (+data.EC === 0) {
         toast.success("New user is created!");
         onClose();
         handleConfirm();
       } else {
         setFormState((prev) => ({
           ...prev,
-          ...res.data.DT,
+          ...data.DT,
         }));
-        toast.error(res.data.EM);
+        toast.error(data.EM);
       }
     } catch (error) {
       toast.error("Cannot create new user!");
@@ -198,13 +198,13 @@ const ModalUser = ({
       const isValid = isValidateInputUpdate();
       if (!isValid) return;
       console.log(form);
-      let res = await updateUser(Number(existData.id), form);
-      if (+res.data.EC === 0) {
+      let data = await updateUser(Number(existData.id), form);
+      if (+data.EC === 0) {
         toast.success(`User ${existData.id} is updated!`);
         onClose();
         handleConfirm();
       } else {
-        toast.error(res.data.EM);
+        toast.error(data.EM);
       }
     } catch (error) {
       toast.error("Cannot update user!");

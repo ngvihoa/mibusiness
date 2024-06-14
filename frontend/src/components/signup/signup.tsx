@@ -119,7 +119,7 @@ const Signup = () => {
   const handleSignUp = async () => {
     let isValid = isValidateInput();
     if (isValid) {
-      const { data } = await signUpNewUser(form);
+      const data = await signUpNewUser(form);
       if (+data.EC === 0) {
         toast.success(data.EM);
         navigate("/login");

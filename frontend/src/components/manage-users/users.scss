@@ -20,6 +20,9 @@
   }
 
   .custom-button {
+    span {
+      cursor: pointer;
+    }
     .edit {
       color: #ffc107;
       margin-right: 6px;

@@ -52,7 +52,7 @@ const Login = () => {
 
   const handleLogIn = async () => {
     if (isValidLoginForm()) {
-      let { data } = await logInUser(formLogin);
+      let data = await logInUser(formLogin);
 
       if (+data.EC === 0) {
         let state: LoginType = {

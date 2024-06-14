@@ -29,11 +29,10 @@ const Users = () => {
   const itemsPerPage = 5;
 
   const fetchUsers = async () => {
-    let { data } = await fetchAllUsers(currentPage, itemsPerPage);
+    let data = await fetchAllUsers(currentPage, itemsPerPage);
     if (data && +data.EC === 0) {
       setPageCount(data.DT.totalPages);
       setUserList(data.DT.users);
-      console.log(data.DT.users);
     }
   };
 
@@ -62,7 +61,7 @@ const Users = () => {
   };
   const handleConfirmDelete = async () => {
     if (dataModal) {
-      let { data } = await deleteUser(+dataModal.id);
+      let data = await deleteUser(+dataModal.id);
       if (data && +data.EC === 0) {
         toast.success(data.EM);
         await fetchUsers();
