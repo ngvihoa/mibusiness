@@ -1,4 +1,5 @@
 import accountService from "../service/accountService";
+import helperService from "../service/helperService";
 
 const testApi = (req, res) => {
   return res.status(200).json({ message: "API is working", data: "test data" });
@@ -26,13 +27,13 @@ const handleSignUp = async (req, res, next) => {
       });
     }
 
-    const email = accountService.test_input(req.body.email);
-    const username = accountService.test_input(req.body.username);
-    const phone = accountService.test_input(req.body.phone);
-    const password = accountService.test_input(req.body.password);
-    const confirmPassword = accountService.test_input(req.body.confirmPassword);
+    const email = helperService.test_input(req.body.email);
+    const username = helperService.test_input(req.body.username);
+    const phone = helperService.test_input(req.body.phone);
+    const password = helperService.test_input(req.body.password);
+    const confirmPassword = helperService.test_input(req.body.confirmPassword);
 
-    if (!accountService.validateEmail(email)) {
+    if (!helperService.validateEmail(email)) {
       return res.status(400).json({
         EM: "You have entered invalid email!",
         EC: "-1",
@@ -42,7 +43,7 @@ const handleSignUp = async (req, res, next) => {
       });
     }
 
-    if (!accountService.validatePhone(phone)) {
+    if (!helperService.validatePhone(phone)) {
       return res.status(400).json({
         EM: "Phone number should have 10 digits!",
         EC: "-1",
@@ -52,7 +53,7 @@ const handleSignUp = async (req, res, next) => {
       });
     }
 
-    if (!accountService.validatePassword(password)) {
+    if (!helperService.validatePassword(password)) {
       return res.status(400).json({
         EM: "Your password's length should have at least 8 characters!",
         EC: "-1",
@@ -104,14 +105,14 @@ const handleLogIn = async (req, res, next) => {
       });
     }
 
-    const keyLogin = accountService.test_input(req.body.keyLogin);
-    const password = accountService.test_input(req.body.password);
+    const keyLogin = helperService.test_input(req.body.keyLogin);
+    const password = helperService.test_input(req.body.password);
 
     // validate input
     if (
-      !accountService.validateEmail(keyLogin) &&
-      !accountService.validatePhone(keyLogin) &&
-      !accountService.validatePassword(password)
+      !helperService.validateEmail(keyLogin) &&
+      !helperService.validatePhone(keyLogin) &&
+      !helperService.validatePassword(password)
     ) {
       return res.status(400).json({
         EM: "Your email, phone number or password is incorrect!",

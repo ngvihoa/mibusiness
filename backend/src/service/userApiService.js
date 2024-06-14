@@ -1,4 +1,5 @@
-import db from "../models";
+import db from "../models/index.js";
+import helperService from "./helperService.js";
 
 const getAllUsers = async () => {
   try {
@@ -35,13 +36,14 @@ const getUserPaginated = async (page, limit) => {
   try {
     let offset = (page - 1) * limit;
     const { count, rows } = await db.User.findAndCountAll({
-      attributes: ["id", "username", "email", "phone", "sex"],
+      attributes: ["id", "username", "email", "phone", "sex", "address"],
       include: {
         model: db.Group,
-        attributes: ["name", "description"],
+        attributes: ["id", "name", "description"],
       },
       limit: +limit,
       offset: +offset,
+      order: [["id", "DESC"]],
     });
     const totalPages = Math.ceil(count / limit);
     return {
@@ -60,10 +62,42 @@ const getUserPaginated = async (page, limit) => {
 
 const createNewUser = async (user) => {
   try {
+    // check email, phone unique
+    if (await helperService.checkEmailExist(user.email)) {
+      return {
+        EM: "The email has already existed.",
+        EC: "1",
+        DT: {
+          email: false,
+        },
+      };
+    }
+
+    if (await helperService.checkPhoneExist(user.phone)) {
+      return {
+        EM: "The phone number has already existed.",
+        EC: "1",
+        DT: {
+          phone: false,
+        },
+      };
+    }
+
+    // hash password
+    let hashPass = helperService.hashPassword(user.password);
+
+    // create user
     await db.User.create({
       ...user,
+      password: hashPass,
     });
+    return {
+      EM: "Create new user ok!",
+      EC: 0,
+      DT: user,
+    };
   } catch (e) {
+    console.log(e);
     return {
       EM: "Error from server - service",
       EC: -1,
@@ -74,20 +108,32 @@ const createNewUser = async (user) => {
 
 const updateUser = async (data) => {
   try {
-    let user = await db.User.finOne({
+    console.log("finding", data.id);
+    let user = await db.User.findOne({
       where: { id: data.id },
     });
 
     if (user) {
-      user.save({});
+      await user.update({
+        username: data.username,
+        address: data.address,
+        sex: data.sex,
+        groupId: data.groupId,
+      });
+      return {
+        EM: "Update user successfully",
+        EC: 0,
+        DT: "",
+      };
     } else {
       return {
-        EM: "Cannot find user",
+        EM: "Updating user is not exist",
         EC: -1,
         DT: "",
       };
     }
   } catch (e) {
+    console.log(e);
     return {
       EM: "Error from server - service",
       EC: -1,
