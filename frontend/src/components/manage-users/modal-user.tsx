@@ -2,18 +2,25 @@ import { Button, Modal } from "react-bootstrap";
 import {
   GroupDBGet,
   ModalTextProps,
+  UsersType,
   createUserFormProps,
   createUserFormStateProps,
 } from "../../lib/type";
-import { fetchGroups } from "../../services/userService";
+import {
+  createNewUser,
+  fetchGroups,
+  updateUser,
+} from "../../services/userService";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { validateEmail, validatePhone } from "../../lib/func";
 
 interface ModalUserProps {
   show: boolean;
   text: ModalTextProps;
   handleClose: () => void;
   handleConfirm: () => void;
+  existData: UsersType | null;
 }
 
 const initialForm = {
@@ -21,26 +28,27 @@ const initialForm = {
   username: "",
   phone: "",
   password: "",
-  gender: "",
-  group: "",
+  sex: "male",
+  groupId: "",
   address: "",
 };
 
 const initialFormState = {
-  isValidEmail: true,
-  isValidUsername: true,
-  isValidPhone: true,
-  isValidPassword: true,
-  isValidGender: true,
-  isValidAddress: true,
-  isValidGroup: true,
+  email: true,
+  username: true,
+  phone: true,
+  password: true,
+  sex: true,
+  groupId: true,
+  address: true,
 };
 
 const ModalUser = ({
   show,
-  handleClose,
   text,
+  handleClose,
   handleConfirm,
+  existData,
 }: ModalUserProps) => {
   const [group, setGroup] = useState<GroupDBGet[]>([]);
   const [form, setForm] = useState<createUserFormProps>(initialForm);
@@ -51,8 +59,11 @@ const ModalUser = ({
     try {
       let { data } = await fetchGroups();
       if (data && +data.EC === 0) {
-        console.log(data.DT);
         setGroup(data.DT);
+        setForm((prev) => ({
+          ...prev,
+          groupId: data.DT[0].id,
+        }));
       } else {
         toast.error(data.EM);
       }
@@ -65,13 +76,148 @@ const ModalUser = ({
     getGroups();
   }, []);
 
+  useEffect(() => {
+    if (existData) {
+      setForm({
+        email: existData.email,
+        username: existData.username,
+        phone: existData.phone,
+        password: "",
+        sex: existData.sex ?? "other",
+        groupId: existData.Group
+          ? String(existData.Group.id)
+          : String(group[0].id),
+        address: existData.address,
+      });
+    }
+  }, [existData]);
+
+  const handleFormChange = (e: any) => {
+    setForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const onClose = () => {
+    setForm({
+      ...initialForm,
+      groupId: group.length ? String(group[0].id) : "",
+    });
+    setFormState(initialFormState);
+    handleClose();
+  };
+
+  const isValidateInputCreate = () => {
+    setFormState(initialFormState);
+
+    let checkArr = ["email", "phone", "username", "password", "groupId"];
+    for (let i = 0; i < checkArr.length; i++) {
+      if (!form[checkArr[i]]) {
+        toast.error(`Input ${checkArr[i]} is required!`);
+        setFormState({
+          ...initialFormState,
+          [checkArr[i]]: false,
+        });
+        return false;
+      }
+    }
+
+    if (!validateEmail(form.email)) {
+      toast.error("Invalid email adddress");
+      setFormState({
+        ...initialFormState,
+        email: false,
+      });
+      return false;
+    }
+
+    if (!validatePhone(form.phone)) {
+      toast.warning("Phone number should have 10 digits");
+      setFormState({
+        ...initialFormState,
+        phone: false,
+      });
+      return false;
+    }
+
+    if (form.password.length < 8) {
+      toast.warning("Please enter at least 8 characters for the password.");
+      setFormState({
+        ...initialFormState,
+        password: false,
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const isValidateInputUpdate = () => {
+    setFormState(initialFormState);
+
+    let checkArr = ["username", "groupId"];
+    for (let i = 0; i < checkArr.length; i++) {
+      if (!form[checkArr[i]]) {
+        toast.error(`Input ${checkArr[i]} is required!`);
+        setFormState({
+          ...initialFormState,
+          [checkArr[i]]: false,
+        });
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  const handleSubmitCreate = async () => {
+    try {
+      const isValid = isValidateInputCreate();
+      if (!isValid) return;
+      let res = await createNewUser(form);
+      if (+res.data.EC === 0) {
+        toast.success("New user is created!");
+        onClose();
+        handleConfirm();
+      } else {
+        setFormState((prev) => ({
+          ...prev,
+          ...res.data.DT,
+        }));
+        toast.error(res.data.EM);
+      }
+    } catch (error) {
+      toast.error("Cannot create new user!");
+    }
+  };
+
+  const handleSubmitUpdate = async () => {
+    try {
+      if (!existData) return;
+      const isValid = isValidateInputUpdate();
+      if (!isValid) return;
+      console.log(form);
+      let res = await updateUser(Number(existData.id), form);
+      if (+res.data.EC === 0) {
+        toast.success(`User ${existData.id} is updated!`);
+        onClose();
+        handleConfirm();
+      } else {
+        toast.error(res.data.EM);
+      }
+    } catch (error) {
+      toast.error("Cannot update user!");
+    }
+  };
+
   return (
     <>
       {group.length > 0 && (
         <Modal
           size="lg"
           show={show}
-          onHide={handleClose}
+          onHide={onClose}
           centered
           className="modal-user"
         >
@@ -86,43 +232,80 @@ const ModalUser = ({
                 </label>
                 <input
                   type="email"
-                  className="form-control"
+                  className={`form-control ${
+                    !formState.email ? "is-invalid" : ""
+                  }`}
                   name="email"
                   autoFocus
+                  value={form.email}
+                  onChange={(e) => handleFormChange(e)}
+                  disabled={existData != null}
                 />
               </div>
               <div className="col-12 col-md-6 form-group">
                 <label htmlFor="phone">
                   Phone number (<span className="red">*</span>):
                 </label>
-                <input type="text" className="form-control" name="phone" />
+                <input
+                  type="text"
+                  className={`form-control ${
+                    !formState.phone ? "is-invalid" : ""
+                  }`}
+                  name="phone"
+                  value={form.phone}
+                  onChange={(e) => handleFormChange(e)}
+                  disabled={existData != null}
+                />
               </div>
               <div className="col-12 col-md-6 form-group">
                 <label htmlFor="username">
                   Username (<span className="red">*</span>):
                 </label>
-                <input type="text" className="form-control" name="username" />
-              </div>
-              <div className="col-12 col-md-6 form-group">
-                <label htmlFor="password">
-                  Password (<span className="red">*</span>):
-                </label>
                 <input
-                  type="password"
-                  className="form-control"
-                  name="password"
+                  type="text"
+                  className={`form-control ${
+                    !formState.username ? "is-invalid" : ""
+                  }`}
+                  name="username"
+                  value={form.username}
+                  onChange={(e) => handleFormChange(e)}
                 />
               </div>
-              <div className="col-12 form-group">
+              {!existData ? (
+                <div className="col-12 col-md-6 form-group">
+                  <label htmlFor="password">
+                    Password (<span className="red">*</span>):
+                  </label>
+                  <input
+                    type="password"
+                    className={`form-control ${
+                      !formState.password ? "is-invalid" : ""
+                    }`}
+                    name="password"
+                    value={form.password}
+                    onChange={(e) => handleFormChange(e)}
+                  />
+                </div>
+              ) : null}
+              <div
+                className={`col-12 form-group ${existData ? "col-md-6" : ""}`}
+              >
                 <label htmlFor="address">Address:</label>
-                <input type="text" className="form-control" name="address" />
+                <input
+                  type="text"
+                  className={`form-control`}
+                  name="address"
+                  value={form.address}
+                  onChange={(e) => handleFormChange(e)}
+                />
               </div>
               <div className="col-12 col-md-6 form-group">
-                <label htmlFor="gender">Gender:</label>
+                <label htmlFor="sex">Gender:</label>
                 <select
-                  className="form-select"
-                  name="gender"
-                  defaultValue={"male"}
+                  className={`form-select`}
+                  name="sex"
+                  value={form.sex}
+                  onChange={(e) => handleFormChange(e)}
                 >
                   <option value="male">Male</option>
                   <option value="female">Female</option>
@@ -130,10 +313,17 @@ const ModalUser = ({
                 </select>
               </div>
               <div className="col-12 col-md-6 form-group">
-                <label htmlFor="group">
+                <label htmlFor="groupId">
                   Group (<span className="red">*</span>):
                 </label>
-                <select className="form-select" name="group">
+                <select
+                  className={`form-select ${
+                    !formState.groupId ? "is-invalid" : ""
+                  }`}
+                  name="groupId"
+                  value={form.groupId}
+                  onChange={(e) => handleFormChange(e)}
+                >
                   {group.map((item, index) => (
                     <option key={index} value={item.id}>
                       {item.name}
@@ -144,10 +334,13 @@ const ModalUser = ({
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+            <Button variant="secondary" onClick={onClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={handleConfirm}>
+            <Button
+              variant="primary"
+              onClick={existData ? handleSubmitUpdate : handleSubmitCreate}
+            >
               Save Changes
             </Button>
           </Modal.Footer>

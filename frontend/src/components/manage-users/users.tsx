@@ -5,6 +5,9 @@ import { toast } from "react-toastify";
 import ModalConfirm from "./modal-confirm";
 import { ModalTextProps, UsersType } from "../../lib/type";
 import ModalUser from "./modal-user";
+import { MdDelete, MdEdit } from "react-icons/md";
+import { LuRefreshCw } from "react-icons/lu";
+import { FiPlusCircle } from "react-icons/fi";
 import "./users.scss";
 
 const initModal: ModalTextProps = {
@@ -15,7 +18,7 @@ const initModal: ModalTextProps = {
 const Users = () => {
   // confirm delete user states
   const [showModalConfirmDelete, setShowModalConfirmDelete] = useState(false);
-  const [showModalCreateUser, setShowModalCreateUser] = useState(false);
+  const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
   const [modalText, setModalText] = useState<ModalTextProps>(initModal);
 
   const [dataModal, setDataModal] = useState<UsersType | null>(null);
@@ -30,6 +33,7 @@ const Users = () => {
     if (data && +data.EC === 0) {
       setPageCount(data.DT.totalPages);
       setUserList(data.DT.users);
+      console.log(data.DT.users);
     }
   };
 
@@ -70,20 +74,24 @@ const Users = () => {
   };
 
   // function for create/edit user
-  const handleCloseModalCreateUser = () => {
+  const handleCloseModalUpdateUser = () => {
     setDataModal(null);
-    setShowModalCreateUser(false);
+    setShowModalUpdateUser(false);
   };
-  const handleShowModalCreateUser = (user: UsersType | null) => {
+  const handleShowModalUpdateUser = (user: UsersType | null) => {
     setModalText({
-      headingText: "Create a new user",
+      headingText: user ? "Edit user" : "Create a new user",
       bodyText: "",
     });
     if (user) setDataModal(user);
-    setShowModalCreateUser(true);
+    setShowModalUpdateUser(true);
   };
-  const handleCreateUser = () => {
-    console.log("create user ha :D");
+  const handleConfirmUpdateUser = async () => {
+    await fetchUsers();
+  };
+
+  const handleRefresh = async () => {
+    await fetchUsers();
   };
 
   // fetching on mount
@@ -95,83 +103,18 @@ const Users = () => {
     <>
       <div className="manage-users-container container-fluid px-4 mx-0 container-md mx-md-auto">
         <div className="row">
-          {/* <div className="user-info-form col-6 mt-4 p-0 shadow-sm rounded-3 border">
-          <div
-            className="bg-primary py-2 px-3 rounded-3 text-white"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseBox"
-            aria-expanded="false"
-            aria-controls="collapseBox"
-          >
-            <h3>Create new user</h3>
-          </div>
-          <form
-            className="rounded-bottom-3 mb-0 collapse"
-            id="collapseBox"
-            method="post"
-            action="/users/create-user"
-          >
-            <div className="row p-3">
-              <div className="form-group mb-3 col-12">
-                <label htmlFor="email" className="fw-medium">
-                  Email address
-                </label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="email"
-                  name="email"
-                  required
-                  aria-describedby="emailHelp"
-                  placeholder="Enter email"
-                />
-              </div>
-              <div className="form-group mb-3 col-12">
-                <label htmlFor="username" className="fw-medium">
-                  Username
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="username"
-                  name="username"
-                  required
-                  aria-describedby="usernameHelp"
-                  placeholder="Enter username"
-                />
-              </div>
-              <div className="form-group mb-3 col-12">
-                <label htmlFor="password" className="fw-medium">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="password"
-                  name="password"
-                  required
-                  placeholder="Password"
-                />
-              </div>
-              <div className="col-12">
-                <button type="submit" className="btn btn-primary fw-medium">
-                  Submit
-                </button>
-              </div>
-            </div>
-          </form>
-        </div> */}
-
           <div className="table-user-info mt-3 p-0">
             <div className="row d-flex flex-row justify-content-between align-items-center mb-3">
-              <h3 className="col m-0">Table users</h3>
+              <h3 className="col m-0">Manage users</h3>
               <div className="actions col text-end">
-                <button className="btn btn-success">Refresh</button>
+                <button className="btn btn-success" onClick={handleRefresh}>
+                  <LuRefreshCw /> Refresh
+                </button>
                 <button
                   className="btn btn-primary ms-1"
-                  onClick={() => handleShowModalCreateUser(null)}
+                  onClick={() => handleShowModalUpdateUser(null)}
                 >
-                  Add new user
+                  <FiPlusCircle /> Add new user
                 </button>
               </div>
             </div>
@@ -194,7 +137,9 @@ const Users = () => {
                     <>
                       {userList.map((item, index) => (
                         <tr key={`row-${index}`}>
-                          <td>{index}</td>
+                          <td>
+                            {index + (currentPage - 1) * itemsPerPage + 1}
+                          </td>
                           <td>{item.id}</td>
                           <td>{item.username}</td>
                           <td>{item.email}</td>
@@ -203,23 +148,28 @@ const Users = () => {
                           <td>
                             {item.Group ? item.Group.description : "NULL"}
                           </td>
-                          <td>
-                            <button className="btn btn-warning fw-medium me-2">
-                              Edit
-                            </button>
-                            <button
-                              className="btn btn-danger fw-medium"
+                          <td className="custom-button h-100">
+                            <span
+                              title="Edit"
+                              className="edit fw-medium"
+                              onClick={() => handleShowModalUpdateUser(item)}
+                            >
+                              <MdEdit style={{ width: 16, height: 16 }} />
+                            </span>
+                            <span
+                              title="Delete"
+                              className="delete fw-medium"
                               onClick={() => handleShowModalConfirmDelete(item)}
                             >
-                              Delete
-                            </button>
+                              <MdDelete style={{ width: 16, height: 16 }} />
+                            </span>
                           </td>
                         </tr>
                       ))}
                     </>
                   ) : (
                     <tr>
-                      <td scope="col">Not found users</td>
+                      <th scope="col">Not found users</th>
                     </tr>
                   )}
                 </tbody>
@@ -259,10 +209,11 @@ const Users = () => {
         handleConfirm={handleConfirmDelete}
       />
       <ModalUser
-        show={showModalCreateUser}
+        show={showModalUpdateUser}
         text={modalText}
-        handleClose={handleCloseModalCreateUser}
-        handleConfirm={handleCreateUser}
+        handleClose={handleCloseModalUpdateUser}
+        handleConfirm={handleConfirmUpdateUser}
+        existData={dataModal}
       />
     </>
   );

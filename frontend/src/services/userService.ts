@@ -1,5 +1,9 @@
 import axios from "axios";
-import { LoginFormProps, SignUpFormProps } from "../lib/type";
+import {
+  LoginFormProps,
+  SignUpFormProps,
+  createUserFormProps,
+} from "../lib/type";
 
 const signUpNewUser = (form: SignUpFormProps) => {
   return axios.post("http://localhost:8888/api/v1/signup", {
@@ -31,4 +35,25 @@ const fetchGroups = () => {
   return axios.get(`http://localhost:8888/api/v1/group/read`);
 };
 
-export { signUpNewUser, logInUser, fetchAllUsers, deleteUser, fetchGroups };
+const createNewUser = (user: createUserFormProps) => {
+  return axios.post(`http://localhost:8888/api/v1/user/create`, {
+    ...user,
+  });
+};
+
+const updateUser = (id: number, user: createUserFormProps) => {
+  return axios.put(`http://localhost:8888/api/v1/user/update`, {
+    id,
+    ...user,
+  });
+};
+
+export {
+  signUpNewUser,
+  logInUser,
+  fetchAllUsers,
+  deleteUser,
+  fetchGroups,
+  createNewUser,
+  updateUser,
+};

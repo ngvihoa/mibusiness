@@ -10,3 +10,22 @@
     }
   }
 }
+
+.manage-users-container {
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .custom-button {
+    .edit {
+      color: #ffc107;
+      margin-right: 6px;
+    }
+    .delete {
+      color: #dc3545;
+    }
+  }
+}

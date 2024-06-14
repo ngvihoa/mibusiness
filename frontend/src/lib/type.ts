@@ -1,48 +1,49 @@
 export type createUserFormProps = {
+  [key: string]: string;
   email: string;
   username: string;
   phone: string;
   password: string;
-  gender?: string;
-  group: string;
-  address?: string;
+  sex: string;
+  groupId: string;
+  address: string;
 };
 
 export type createUserFormStateProps = {
-  isValidEmail: boolean;
-  isValidUsername: boolean;
-  isValidPhone: boolean;
-  isValidPassword: boolean;
-  isValidGender: boolean;
-  isValidGroup: boolean;
-  isValidAddress: boolean;
+  email: boolean;
+  username: boolean;
+  phone: boolean;
+  password: boolean;
+  sex?: boolean;
+  groupId: boolean;
+  address?: boolean;
 };
 
-export interface SignUpFormProps {
+export type SignUpFormProps = {
   email: string;
   username: string;
   phone: string;
   password: string;
   confirmPassword: string;
-}
+};
 
-export interface SignUpFormStateProps {
+export type SignUpFormStateProps = {
   isValidEmail: boolean;
   isValidUsername: boolean;
   isValidPhone: boolean;
   isValidPassword: boolean;
   isValidConfirmPassword: boolean;
-}
+};
 
-export interface LoginFormProps {
+export type LoginFormProps = {
   keyLogin: string;
   password: string;
-}
+};
 
-export interface LoginFormStateProps {
+export type LoginFormStateProps = {
   isValidKeyLogin: boolean;
   isValidPassword: boolean;
-}
+};
 
 export type InitialState = {
   value: AuthState;
@@ -61,24 +62,26 @@ export type LoginType = {
   role: string;
 };
 
-export interface GroupType {
+export type GroupType = {
+  id: number;
   name: string;
   description: string;
-}
+};
 
-export interface UsersType {
+export type UsersType = {
   id: string;
   email: string;
   username: string;
   phone: string;
   sex: string;
+  address: string;
   Group: GroupType | null;
-}
+};
 
-export interface ModalTextProps {
+export type ModalTextProps = {
   headingText: string;
   bodyText: string;
-}
+};
 
 export type GroupDBGet = {
   createdAt: string;
