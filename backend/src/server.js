@@ -28,6 +28,10 @@ initApiRoutes(app);
 // test connection to database
 connection();
 
+app.use((req, res) => {
+  return res.send("404 Not Found");
+});
+
 // start server
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}!`);
