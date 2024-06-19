@@ -1,5 +1,8 @@
+import { createJWT } from "../middleware/jwt.action.js";
 import db from "../models/index.js";
 import helperService from "./helperService.js";
+import { getGroupWithRole } from "./jwtService.js";
+import "dotenv/config.js";
 import { Op } from "sequelize";
 
 const createNewUser = async (rawData) => {
@@ -31,6 +34,8 @@ const createNewUser = async (rawData) => {
     await db.User.create({
       ...rawData,
       password: hashPass,
+      groupId: 4,
+      sex: "other",
     });
     return {
       EM: "New user has been created successfully!",
@@ -58,20 +63,27 @@ const handleUserLogIn = async (rawData) => {
     if (user) {
       console.log("Found user with email/phone");
       if (helperService.checkPassword(rawData.password, user.password)) {
+        // get role
+        let role = await getGroupWithRole(user);
+        // create token
+        let payloadJWT = {
+          expiresIn: process.env.TOKEN_EXPIRE_TIME,
+          email: user.email,
+          role,
+        };
+        let token = createJWT(payloadJWT);
+
         return {
           EM: "Login success!",
           EC: 0,
-          DT: "",
+          DT: {
+            access_token: token,
+            role,
+          },
         };
       }
     }
 
-    console.log(
-      "Not found user with email/phone:",
-      rawData.keyLogin,
-      ", password:",
-      rawData.password
-    );
     return {
       EM: "Your email, phone number or password is incorrect",
       EC: "-1",

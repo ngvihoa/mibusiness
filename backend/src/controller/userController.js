@@ -1,7 +1,7 @@
 import userApiService from "../service/userApiService";
 import helperService from "../service/helperService";
 
-const createFunc = async (req, res, next) => {
+const createFunc = async (req, res) => {
   try {
     if (
       !req.body.email ||
@@ -88,7 +88,7 @@ const createFunc = async (req, res, next) => {
   }
 };
 
-const readFunc = async (req, res, next) => {
+const readFunc = async (req, res) => {
   try {
     if (req.query.page && req.query.limit) {
       let page = req.query.page;
@@ -119,7 +119,7 @@ const readFunc = async (req, res, next) => {
   }
 };
 
-const updateFunc = async (req, res, next) => {
+const updateFunc = async (req, res) => {
   try {
     let id = Number(req.body.id);
     if (id === null || id === undefined || isNaN(id)) {
@@ -172,7 +172,7 @@ const updateFunc = async (req, res, next) => {
     });
   }
 };
-const deleteFunc = async (req, res, next) => {
+const deleteFunc = async (req, res) => {
   try {
     const id = req.body.id;
     let data = await userApiService.deleteUser(id);

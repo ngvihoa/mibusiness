@@ -5,7 +5,7 @@ const testApi = (req, res) => {
   return res.status(200).json({ message: "API is working", data: "test data" });
 };
 
-const handleSignUp = async (req, res, next) => {
+const handleSignUp = async (req, res) => {
   try {
     if (
       !req.body.email ||
@@ -91,7 +91,7 @@ const handleSignUp = async (req, res, next) => {
   }
 };
 
-const handleLogIn = async (req, res, next) => {
+const handleLogIn = async (req, res) => {
   try {
     console.log(req.body);
     if (!req.body.keyLogin || !req.body.password) {

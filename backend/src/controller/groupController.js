@@ -1,6 +1,6 @@
 import groupApiService from "../service/groupApiService";
 
-const createFunc = async (req, res, next) => {
+const createFunc = async (req, res) => {
   try {
   } catch (e) {
     return res.status(500).json({
@@ -11,7 +11,7 @@ const createFunc = async (req, res, next) => {
   }
 };
 
-const readFunc = async (req, res, next) => {
+const readFunc = async (req, res) => {
   try {
     let data = await groupApiService.getGroups();
 
@@ -30,7 +30,7 @@ const readFunc = async (req, res, next) => {
   }
 };
 
-const updateFunc = async (req, res, next) => {
+const updateFunc = async (req, res) => {
   try {
   } catch (e) {
     return res.status(500).json({
@@ -40,7 +40,7 @@ const updateFunc = async (req, res, next) => {
     });
   }
 };
-const deleteFunc = async (req, res, next) => {
+const deleteFunc = async (req, res) => {
   try {
     const id = req.body.id;
     let data = await userApiService.deleteUser(id);
