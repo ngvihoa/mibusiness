@@ -81,7 +81,7 @@ const ModalUser = ({
         groupId: existData.Group
           ? String(existData.Group.id)
           : String(group[0].id),
-        address: existData.address,
+        address: existData.address ?? "",
       });
     }
   }, [existData]);
@@ -187,21 +187,14 @@ const ModalUser = ({
   };
 
   const handleSubmitUpdate = async () => {
-    try {
-      if (!existData) return;
-      const isValid = isValidateInputUpdate();
-      if (!isValid) return;
-      console.log(form);
-      let data = await updateUser(Number(existData.id), form);
-      if (+data.EC === 0) {
-        toast.success(`User ${existData.id} is updated!`);
-        onClose();
-        handleConfirm();
-      } else {
-        toast.error(data.EM);
-      }
-    } catch (error) {
-      toast.error("Cannot update user!");
+    if (!existData) return;
+    const isValid = isValidateInputUpdate();
+    if (!isValid) return;
+    let data = await updateUser(Number(existData.id), form);
+    if (+data.EC === 0) {
+      toast.success(`User ${existData.id} is updated!`);
+      onClose();
+      handleConfirm();
     }
   };
 

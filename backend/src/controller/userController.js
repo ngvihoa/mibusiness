@@ -163,6 +163,7 @@ const updateFunc = async (req, res) => {
       DT: data.DT,
     });
   } catch (e) {
+    console.log(e);
     return res.status(500).json({
       EM: "Error from server!",
       EC: -1,
@@ -170,6 +171,7 @@ const updateFunc = async (req, res) => {
     });
   }
 };
+
 const deleteFunc = async (req, res) => {
   try {
     const id = req.body.id;
