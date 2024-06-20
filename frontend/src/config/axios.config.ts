@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 // Set config defaults when creating the instance
 const instance = axios.create({
-  baseURL: "http://localhost:8888/api/v1",
+  baseURL: process.env.REACT_APP_BE_URL,
 });
 
 // Allow cookie setting from server

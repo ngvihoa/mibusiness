@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { deleteUser, fetchAllUsers } from "../../services/userService";
+import { deleteUser, fetchAllUsers } from "src/services/userService";
 import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 import ModalConfirm from "./modal-confirm";
-import { ModalTextProps, UsersType } from "../../lib/type";
+import { ModalTextProps, UsersType } from "src/lib/type";
 import ModalUser from "./modal-user";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { LuRefreshCw } from "react-icons/lu";

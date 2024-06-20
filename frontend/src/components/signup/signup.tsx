@@ -2,9 +2,9 @@ import "./signup.scss";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { validateEmail, validatePhone } from "../../lib/func";
-import { SignUpFormProps, SignUpFormStateProps } from "../../lib/type";
-import { signUpNewUser } from "../../services/userService";
+import { validateEmail, validatePhone } from "src/lib/func";
+import { SignUpFormProps, SignUpFormStateProps } from "src/lib/type";
+import { signUpNewUser } from "src/services/userService";
 
 const initialForm = {
   email: "",

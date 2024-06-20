@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./nav.scss";
 import { NavLink } from "react-router-dom";
-import { useAppSelector } from "../../redux/store";
+import { useAppSelector } from "src/redux/store";
 
 const NavBar = () => {
   const [show, setShow] = useState(false);

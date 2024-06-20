@@ -1,12 +1,12 @@
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./login.scss";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { LoginFormProps, LoginFormStateProps, LoginType } from "../../lib/type";
-import { logInUser } from "../../services/userService";
+import { LoginFormProps, LoginFormStateProps, LoginType } from "src/lib/type";
+import { logInUser } from "src/services/userService";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
-import { logIn } from "../../redux/features/auth-slice";
+import { AppDispatch } from "src/redux/store";
+import { logIn } from "src/redux/features/auth-slice";
 
 const initialLoginForm: LoginFormProps = {
   keyLogin: "",

@@ -5,15 +5,15 @@ import {
   UsersType,
   createUserFormProps,
   createUserFormStateProps,
-} from "../../lib/type";
+} from "src/lib/type";
 import {
   createNewUser,
   fetchGroups,
   updateUser,
-} from "../../services/userService";
+} from "src/services/userService";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { validateEmail, validatePhone } from "../../lib/func";
+import { validateEmail, validatePhone } from "src/lib/func";
 
 interface ModalUserProps {
   show: boolean;
