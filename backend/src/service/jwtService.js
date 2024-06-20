@@ -1,11 +1,11 @@
 import { raw } from "body-parser";
 import db from "../models";
 
-const getGroupWithRole = async (user) => {
+const getGroupWithRole = async (groupId) => {
   let role = null;
   try {
     role = await db.Group.findOne({
-      where: { id: user.id },
+      where: { id: groupId },
       attributes: ["id", "name", "description"],
       include: [
         {
