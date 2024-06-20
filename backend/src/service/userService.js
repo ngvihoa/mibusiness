@@ -53,8 +53,6 @@ const getUserList = async () => {
     nest: true,
   });
 
-  console.log(">>> check a user", newUser);
-
   let roles = await db.Role.findAll({
     include: {
       model: db.Group,
@@ -63,8 +61,6 @@ const getUserList = async () => {
     raw: true,
     nest: true,
   });
-
-  console.log(">>> check user role", roles);
 
   let users = [];
   try {
@@ -77,21 +73,6 @@ const getUserList = async () => {
 };
 
 const deleteUser = async (userId) => {
-  // const connection = await mysql.createConnection({
-  //   host: "localhost",
-  //   user: "root",
-  //   database: "decentral_app",
-  //   Promise: bluebird,
-  // });
-  // try {
-  //   const [rows, fields] = await connection.execute(
-  //     "DELETE FROM user WHERE id=?",
-  //     [id]
-  //   );
-  // } catch (e) {
-  //   console.log(e);
-  // }
-
   try {
     await db.User.destroy({
       where: {
@@ -104,24 +85,6 @@ const deleteUser = async (userId) => {
 };
 
 const getUserById = async (userId) => {
-  /*
-  const connection = await mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    database: "decentral_app",
-    Promise: bluebird,
-  });
-  try {
-    const [rows, fields] = await connection.execute(
-      "SELECT * FROM user WHERE id=?",
-      [id]
-    );
-    return rows;
-  } catch (e) {
-    console.log(e);
-  }
-  */
-
   try {
     const user = await db.User.findOne({
       where: {
@@ -136,22 +99,6 @@ const getUserById = async (userId) => {
 };
 
 const updateUserInfo = async (id, email, username) => {
-  /*
-  const connection = await mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    database: "decentral_app",
-    Promise: bluebird,
-  });
-  try {
-    const [rows, fields] = await connection.execute(
-      "UPDATE user SET email=?, username=? WHERE id=?",
-      [email, username, id]
-    );
-  } catch (e) {
-    console.log(e);
-  }
-  */
   try {
     await db.User.update(
       {

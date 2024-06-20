@@ -5,6 +5,9 @@ const instance = axios.create({
   baseURL: "http://localhost:8888/api/v1",
 });
 
+// Allow cookie setting from server
+instance.defaults.withCredentials = true;
+
 // Alter defaults after instance has been created
 instance.defaults.headers.common["Authorization"] = "AUTH_TOKEN";
 

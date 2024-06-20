@@ -15,13 +15,6 @@ const handleCreateNewUser = (req, res) => {
   const password = userService.test_input(req.body.password);
 
   userService.createNewUser(email, username, password);
-  // if (!email || !username || !password) {
-  //   return res.status(400).json({ error: "RAWR! All fields are required" });
-  // } else if (password.length < 6) {
-  //   return res
-  //     .status(400)
-  //     .json({ error: "Woah there, that password is too short!" });
-  // }
   return res.redirect("/user");
 };
 
