@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 // Set config defaults when creating the instance
 const instance = axios.create({
@@ -18,7 +19,6 @@ instance.interceptors.request.use(
     return config;
   },
   function (error) {
-    // Do something with request error
     return Promise.reject(error);
   }
 );
@@ -32,8 +32,49 @@ instance.interceptors.response.use(
   },
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
-    return Promise.reject(error);
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    const status = error.response?.status || 500;
+    // we can handle global errors here
+    switch (status) {
+      // authentication (token related issues)
+      case 401: {
+        toast.error("Unauthorized access. Please login!");
+        break;
+      }
+
+      // forbidden (permission related issues)
+      case 403: {
+        toast.error("No permission to access the resources!");
+        break;
+      }
+
+      // bad request
+      case 400: {
+        break;
+      }
+
+      // not found
+      case 404: {
+        break;
+      }
+
+      // conflict
+      case 409: {
+        break;
+      }
+
+      // unprocessable
+      case 422: {
+        break;
+      }
+
+      // generic api error (server related) unexpected
+      default: {
+        toast.error("Server error!");
+        break;
+      }
+    }
+    return null;
   }
 );
 

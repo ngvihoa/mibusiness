@@ -61,10 +61,9 @@ const handleUserLogIn = async (rawData) => {
     });
 
     if (user) {
-      console.log("Found user with email/phone");
       if (helperService.checkPassword(rawData.password, user.password)) {
         // get role
-        let role = await getGroupWithRole(user);
+        let role = await getGroupWithRole(user.groupId);
         // create token
         let payloadJWT = {
           expiresIn: process.env.TOKEN_EXPIRE_TIME,

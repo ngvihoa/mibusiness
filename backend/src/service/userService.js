@@ -66,7 +66,7 @@ const getUserList = async () => {
   try {
     users = await db.User.findAll();
   } catch (e) {
-    console.log(">>> check get uerlist:", e);
+    console.log(e);
   }
 
   return users;
@@ -80,7 +80,7 @@ const deleteUser = async (userId) => {
       },
     });
   } catch (e) {
-    console.log(">>> check deleteUser :", e);
+    console.log(e);
   }
 };
 
@@ -94,7 +94,7 @@ const getUserById = async (userId) => {
 
     return user;
   } catch (e) {
-    console.log(">>> check edit user:", e);
+    console.log(e);
   }
 };
 
@@ -112,7 +112,7 @@ const updateUserInfo = async (id, email, username) => {
       }
     );
   } catch (e) {
-    console.log(">>> check update user:", e);
+    console.log(e);
   }
 };
 

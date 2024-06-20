@@ -72,7 +72,6 @@ const createFunc = async (req, res) => {
     }
 
     let user = { email, username, phone, password, address, sex, groupId };
-    // console.log(user);
     let data = await userApiService.createNewUser(user);
     return res.status(200).json({
       EM: data.EM,
@@ -157,7 +156,6 @@ const updateFunc = async (req, res) => {
     }
 
     let user = { id, username, address, sex, groupId };
-    // console.log(user);
     let data = await userApiService.updateUser(user);
     return res.status(200).json({
       EM: data.EM,

@@ -65,8 +65,6 @@ const Users = () => {
       if (data && +data.EC === 0) {
         toast.success(data.EM);
         await fetchUsers();
-      } else {
-        toast.error(data.EM);
       }
       handleCloseModalConfirmDelete();
     }

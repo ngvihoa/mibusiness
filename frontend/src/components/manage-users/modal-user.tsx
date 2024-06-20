@@ -56,19 +56,13 @@ const ModalUser = ({
     useState<createUserFormStateProps>(initialFormState);
 
   const getGroups = async () => {
-    try {
-      let data = await fetchGroups();
-      if (data && +data.EC === 0) {
-        setGroup(data.DT);
-        setForm((prev) => ({
-          ...prev,
-          groupId: data.DT[0].id,
-        }));
-      } else {
-        toast.error(data.EM);
-      }
-    } catch (error) {
-      toast.error("Cannot fetching data!");
+    let data = await fetchGroups();
+    if (data && +data.EC === 0) {
+      setGroup(data.DT);
+      setForm((prev) => ({
+        ...prev,
+        groupId: data.DT[0].id,
+      }));
     }
   };
 

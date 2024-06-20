@@ -108,7 +108,6 @@ const createNewUser = async (user) => {
 
 const updateUser = async (data) => {
   try {
-    console.log("finding", data.id);
     let user = await db.User.findOne({
       where: { id: data.id },
     });
