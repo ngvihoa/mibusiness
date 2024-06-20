@@ -55,16 +55,15 @@ const Login = () => {
       let data = await logInUser(formLogin);
 
       if (+data.EC === 0) {
-        let state: LoginType = {
-          username: "",
-          id: "",
-          role: "",
+        const authState: LoginType = {
+          accessToken: data.DT.access_token,
+          email: data.DT.email,
+          username: data.DT.username,
         };
-        dispatch(logIn(state));
+        dispatch(logIn(authState));
         toast.success(data.EM);
         navigate("/users");
       } else {
-        toast.error(data.EM);
         if (data.DT)
           setFormState((prev) => ({
             ...prev,

@@ -51,15 +51,15 @@ export type InitialState = {
 
 export type AuthState = {
   isAuth: boolean;
+  accessToken: string;
+  email: string;
   username: string;
-  uid: string;
-  role: string;
 };
 
 export type LoginType = {
+  accessToken: string;
+  email: string;
   username: string;
-  id: string;
-  role: string;
 };
 
 export type GroupType = {

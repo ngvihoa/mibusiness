@@ -55,6 +55,7 @@ instance.interceptors.response.use(
 
       // not found
       case 404: {
+        toast.error("Not found resources!");
         break;
       }
 

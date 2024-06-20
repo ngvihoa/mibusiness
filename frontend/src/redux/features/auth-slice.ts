@@ -4,9 +4,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const initialState = {
   value: {
     isAuth: false,
+    accessToken: "",
+    email: "",
     username: "",
-    uid: "",
-    role: "",
   } as AuthState,
 } as InitialState;
 
@@ -21,9 +21,9 @@ export const auth = createSlice({
       return {
         value: {
           isAuth: true,
+          accessToken: action.payload.accessToken,
+          email: action.payload.email,
           username: action.payload.username,
-          uid: action.payload.id, // should generate the id
-          role: action.payload.role,
         },
       };
     },

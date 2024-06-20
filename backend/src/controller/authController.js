@@ -93,7 +93,6 @@ const handleSignUp = async (req, res) => {
 
 const handleLogIn = async (req, res) => {
   try {
-    console.log(req.body);
     if (!req.body.keyLogin || !req.body.password) {
       return res.status(400).json({
         EM: "Missing required fields!",
@@ -126,6 +125,19 @@ const handleLogIn = async (req, res) => {
 
     // check user
     let data = await accountService.handleUserLogIn(req.body);
+    if (+data.EC === -1) {
+      return res.status(404).json({
+        EM: data.EM,
+        EC: data.EC,
+        DT: data.DT,
+      });
+    } else if (+data.EC === -2) {
+      return res.status(500).json({
+        EM: data.EM,
+        EC: data.EC,
+        DT: data.DT,
+      });
+    }
 
     //set cookie
     res.cookie("jwt", data.DT.access_token, {
@@ -141,7 +153,7 @@ const handleLogIn = async (req, res) => {
   } catch (e) {
     return res.status(500).json({
       EM: "Error from server!",
-      EC: "-1",
+      EC: "-2",
       DT: "",
     });
   }
