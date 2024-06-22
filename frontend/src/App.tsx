@@ -2,7 +2,7 @@ import { Suspense, lazy } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import NavBar from "./components/navigation/nav";
+import NavigationBar from "./components/navigation/navigation-bar";
 import Loading from "./components/loading/loading";
 const AppRoutes = lazy(() => import("./routes/app-routes"));
 
@@ -12,7 +12,7 @@ function App() {
       <BrowserRouter>
         <Suspense fallback={<Loading />}>
           <div className="app-header">
-            <NavBar />
+            <NavigationBar />
           </div>
           <div className="app-container">
             <AppRoutes />
