@@ -1,5 +1,7 @@
 import axios from "axios";
-import { toast } from "react-toastify";
+import { store } from "src/redux/store";
+
+// console.log(state.accessToken);
 
 // Set config defaults when creating the instance
 const instance = axios.create({
@@ -10,7 +12,9 @@ const instance = axios.create({
 instance.defaults.withCredentials = true;
 
 // Alter defaults after instance has been created
-instance.defaults.headers.common["Authorization"] = "AUTH_TOKEN";
+instance.defaults.headers.common["Authorization"] = `Bearer ${
+  store.getState().auth.value.accessToken
+}`;
 
 // Add a request interceptor
 instance.interceptors.request.use(

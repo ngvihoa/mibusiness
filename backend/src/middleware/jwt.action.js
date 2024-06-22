@@ -35,13 +35,24 @@ const verifyToken = (token) => {
   return data;
 };
 
+const extractToken = (req) => {
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.split(" ")[0] === "Bearer"
+  ) {
+    return req.headers.authorization.split(" ")[1];
+  }
+  return null;
+};
+
 const checkToken = (req, res, next) => {
   console.log(req.path);
   if (nonSecurePath.includes(req.path)) return next();
 
   let cookie = req.cookies;
-  if (cookie && cookie.jwt) {
-    const token = cookie.jwt;
+  const headerToken = extractToken(req);
+  if ((cookie && cookie.jwt) || headerToken) {
+    const token = cookie.jwt ?? headerToken;
     const decoded = verifyToken(token);
 
     if (decoded) {
