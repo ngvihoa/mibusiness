@@ -14,7 +14,7 @@ const getGroups = async () => {
     console.log(error);
     return {
       EM: "Error from service!",
-      EC: 1,
+      EC: -2,
       DT: [],
     };
   }

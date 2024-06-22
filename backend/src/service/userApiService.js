@@ -54,7 +54,7 @@ const getUserPaginated = async (page, limit) => {
   } catch (e) {
     return {
       EM: "Error from server - service",
-      EC: -1,
+      EC: -2,
       DT: "",
     };
   }
@@ -66,7 +66,7 @@ const createNewUser = async (user) => {
     if (await helperService.checkEmailExist(user.email)) {
       return {
         EM: "The email has already existed.",
-        EC: "1",
+        EC: "-1",
         DT: {
           email: false,
         },
@@ -76,7 +76,7 @@ const createNewUser = async (user) => {
     if (await helperService.checkPhoneExist(user.phone)) {
       return {
         EM: "The phone number has already existed.",
-        EC: "1",
+        EC: "-1",
         DT: {
           phone: false,
         },
@@ -100,7 +100,7 @@ const createNewUser = async (user) => {
     console.log(e);
     return {
       EM: "Error from server - service",
-      EC: -1,
+      EC: -2,
       DT: "",
     };
   }
@@ -135,7 +135,7 @@ const updateUser = async (data) => {
     console.log(e);
     return {
       EM: "Error from server - service",
-      EC: -1,
+      EC: -2,
       DT: "",
     };
   }
@@ -155,7 +155,7 @@ const deleteUser = async (id) => {
     console.log(e);
     return {
       EM: "Error from server - service",
-      EC: -1,
+      EC: -2,
       DT: "",
     };
   }

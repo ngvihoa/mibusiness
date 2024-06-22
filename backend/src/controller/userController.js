@@ -73,6 +73,15 @@ const createFunc = async (req, res) => {
 
     let user = { email, username, phone, password, address, sex, groupId };
     let data = await userApiService.createNewUser(user);
+    if (+data.EC === -1) {
+      return res.status(400).json({
+        EM: data.EM,
+        EC: "-1",
+        DT: data.DT,
+      });
+    } else if (+data.EC === -2) {
+      throw new Error();
+    }
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -81,7 +90,7 @@ const createFunc = async (req, res) => {
   } catch (e) {
     return res.status(500).json({
       EM: "Error from server!",
-      EC: -1,
+      EC: -2,
       DT: "",
     });
   }
@@ -93,7 +102,7 @@ const readFunc = async (req, res) => {
       let page = req.query.page;
       let limit = req.query.limit;
       let data = await userApiService.getUserPaginated(page, limit);
-
+      if (+data.EC === -2) throw new Error();
       return res.status(200).json({
         EM: data.EM,
         EC: data.EC,
@@ -101,7 +110,7 @@ const readFunc = async (req, res) => {
       });
     } else {
       let data = await userApiService.getAllUsers();
-
+      if (+data.EC === -2) throw new Error();
       return res.status(200).json({
         EM: data.EM,
         EC: data.EC,
@@ -112,7 +121,7 @@ const readFunc = async (req, res) => {
     console.log(e);
     return res.status(500).json({
       EM: "Error from server!",
-      EC: -1,
+      EC: -2,
       DT: "",
     });
   }
@@ -157,6 +166,15 @@ const updateFunc = async (req, res) => {
 
     let user = { id, username, address, sex, groupId };
     let data = await userApiService.updateUser(user);
+    if (+data.EC === -1) {
+      return res.status(400).json({
+        EM: data.EM,
+        EC: "-1",
+        DT: data.DT,
+      });
+    } else if (+data.EC === -2) {
+      throw new Error();
+    }
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -166,7 +184,7 @@ const updateFunc = async (req, res) => {
     console.log(e);
     return res.status(500).json({
       EM: "Error from server!",
-      EC: -1,
+      EC: -2,
       DT: "",
     });
   }
@@ -176,6 +194,9 @@ const deleteFunc = async (req, res) => {
   try {
     const id = req.body.id;
     let data = await userApiService.deleteUser(id);
+    if (+data.EC === -2) {
+      throw new Error();
+    }
 
     return res.status(200).json({
       EM: data.EM,
@@ -185,10 +206,14 @@ const deleteFunc = async (req, res) => {
   } catch (e) {
     return res.status(500).json({
       EM: "Error from server!",
-      EC: -1,
+      EC: -2,
       DT: "",
     });
   }
+};
+
+const getUserAccount = async (req, res) => {
+  console.log(">>> checking token valid:", req.user);
 };
 
 export default {
@@ -196,4 +221,5 @@ export default {
   createFunc,
   updateFunc,
   deleteFunc,
+  getUserAccount,
 };

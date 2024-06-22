@@ -10,7 +10,9 @@ const createJWT = (payload) => {
   let token = null;
 
   try {
-    token = jwt.sign(payload, key);
+    token = jwt.sign(payload, key, {
+      expiresIn: process.env.TOKEN_EXPIRE_TIME,
+    });
     return token;
   } catch (error) {
     console.log(error);
@@ -78,7 +80,7 @@ const checkPermission = async (req, res, next) => {
     }
     if (!groupRoles || _.isEmpty(groupRoles) || groupRoles.Roles.length === 0) {
       return res.status(403).json({
-        EC: -1,
+        EC: -3,
         EM: "You don't have permission to access this resources",
         DT: "",
       });
@@ -90,7 +92,7 @@ const checkPermission = async (req, res, next) => {
       next();
     } else {
       return res.status(403).json({
-        EC: -1,
+        EC: -3,
         EM: "You don't have permission to access this resources",
         DT: "",
       });

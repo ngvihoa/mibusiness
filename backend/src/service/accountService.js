@@ -10,7 +10,7 @@ const createNewUser = async (rawData) => {
   if (await helperService.checkEmailExist(rawData.email)) {
     return {
       EM: "The email has already existed.",
-      EC: "1",
+      EC: "-1",
       DT: {
         isValidEmail: false,
       },
@@ -19,7 +19,7 @@ const createNewUser = async (rawData) => {
   if (await helperService.checkPhoneExist(rawData.phone)) {
     return {
       EM: "The phone number has already existed.",
-      EC: "1",
+      EC: "-1",
       DT: {
         isValidPhone: false,
       },
@@ -66,8 +66,8 @@ const handleUserLogIn = async (rawData) => {
         let role = await getGroupWithRole(user.groupId);
         // create token
         let payloadJWT = {
-          expiresIn: process.env.TOKEN_EXPIRE_TIME,
           email: user.email,
+          username: user.username,
           role,
         };
         let token = createJWT(payloadJWT);

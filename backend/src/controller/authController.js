@@ -77,6 +77,15 @@ const handleSignUp = async (req, res) => {
     let user = { email, username, phone, password };
     // console.log(user);
     let data = await accountService.createNewUser(user);
+
+    if (+data.EC === -1) {
+      return res.status(400).json({
+        EM: data.EM,
+        EC: data.EC,
+        DT: data.DT,
+      });
+    }
+
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
