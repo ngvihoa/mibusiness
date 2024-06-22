@@ -46,7 +46,6 @@ const extractToken = (req) => {
 };
 
 const checkToken = (req, res, next) => {
-  console.log(req.path);
   if (nonSecurePath.includes(req.path)) return next();
 
   let cookie = req.cookies;
