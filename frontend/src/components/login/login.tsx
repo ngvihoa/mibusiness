@@ -7,6 +7,8 @@ import { logInUser } from "src/services/userService";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "src/redux/store";
 import { logIn } from "src/redux/features/auth-slice";
+import axios from "axios";
+import { handleError } from "src/lib/func";
 
 const initialLoginForm: LoginFormProps = {
   keyLogin: "",
@@ -52,9 +54,8 @@ const Login = () => {
 
   const handleLogIn = async () => {
     if (isValidLoginForm()) {
-      let data = await logInUser(formLogin);
-
-      if (+data.EC === 0) {
+      try {
+        let data = await logInUser(formLogin);
         const authState: LoginType = {
           accessToken: data.DT.access_token,
           email: data.DT.email,
@@ -63,12 +64,20 @@ const Login = () => {
         dispatch(logIn(authState));
         toast.success(data.EM);
         navigate("/users");
-      } else {
-        if (data.DT)
-          setFormState((prev) => ({
-            ...prev,
-            ...data.DT,
-          }));
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          const status = handleError(error.response?.status || 500);
+          if (status === 400) {
+            const data = error.response?.data;
+            if (data.DT) {
+              toast.error(data.EM);
+              setFormState((prev) => ({
+                ...prev,
+                ...data.DT,
+              }));
+            }
+          }
+        }
       }
     }
   };

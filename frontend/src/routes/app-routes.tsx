@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Users from "src/components/manage-users/users";
+import Users from "src/components/users/users";
 import Login from "src/components/login/login";
 import Signup from "src/components/signup/signup";
 import PrivateRoutes from "./private-routes";

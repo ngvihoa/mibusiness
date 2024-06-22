@@ -2,9 +2,10 @@ import "./signup.scss";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { validateEmail, validatePhone } from "src/lib/func";
+import { handleError, validateEmail, validatePhone } from "src/lib/func";
 import { SignUpFormProps, SignUpFormStateProps } from "src/lib/type";
 import { signUpNewUser } from "src/services/userService";
+import axios from "axios";
 
 const initialForm = {
   email: "",
@@ -117,19 +118,25 @@ const Signup = () => {
   };
 
   const handleSignUp = async () => {
-    let isValid = isValidateInput();
-    if (isValid) {
-      const data = await signUpNewUser(form);
-      if (+data.EC === 0) {
+    try {
+      let isValid = isValidateInput();
+      if (isValid) {
+        const data = await signUpNewUser(form);
         toast.success(data.EM);
         navigate("/login");
-      } else {
-        toast.error(data.EM);
-        if (data.DT)
-          setFormState((prev) => ({
-            ...prev,
-            ...data.DT,
-          }));
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const status = handleError(error.response?.status || 500);
+        if (status === 400) {
+          const data = error.response?.data;
+          toast.error(data.EM);
+          if (data.DT)
+            setFormState((prev) => ({
+              ...prev,
+              ...data.DT,
+            }));
+        }
       }
     }
   };

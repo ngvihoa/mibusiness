@@ -9,6 +9,10 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { LuRefreshCw } from "react-icons/lu";
 import { FiPlusCircle } from "react-icons/fi";
 import "./users.scss";
+import axios from "axios";
+import useAuth from "src/hooks/auth.hook";
+import { useNavigate } from "react-router-dom";
+import { handleError } from "src/lib/func";
 
 const initModal: ModalTextProps = {
   headingText: "",
@@ -16,6 +20,8 @@ const initModal: ModalTextProps = {
 };
 
 const Users = () => {
+  const { handleLogOut } = useAuth();
+  const navigate = useNavigate();
   // confirm delete user states
   const [showModalConfirmDelete, setShowModalConfirmDelete] = useState(false);
   const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
@@ -29,10 +35,19 @@ const Users = () => {
   const itemsPerPage = 5;
 
   const fetchUsers = async () => {
-    let data = await fetchAllUsers(currentPage, itemsPerPage);
-    if (data && +data.EC === 0) {
+    try {
+      let data = await fetchAllUsers(currentPage, itemsPerPage);
       setPageCount(data.DT.totalPages);
       setUserList(data.DT.users);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // Access to config, request, and response
+        const status = handleError(error.response?.status || 500);
+        if (status === 401) {
+          handleLogOut();
+          navigate("/login");
+        }
+      }
     }
   };
 
@@ -60,13 +75,22 @@ const Users = () => {
     setShowModalConfirmDelete(true);
   };
   const handleConfirmDelete = async () => {
-    if (dataModal) {
-      let data = await deleteUser(+dataModal.id);
-      if (data && +data.EC === 0) {
+    try {
+      if (dataModal) {
+        let data = await deleteUser(+dataModal.id);
         toast.success(data.EM);
         await fetchUsers();
+        handleCloseModalConfirmDelete();
       }
-      handleCloseModalConfirmDelete();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // Access to config, request, and response
+        const status = handleError(error.response?.status || 500);
+        if (status === 401) {
+          handleLogOut();
+          navigate("/login");
+        }
+      }
     }
   };
 

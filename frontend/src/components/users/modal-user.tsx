@@ -13,7 +13,10 @@ import {
 } from "src/services/userService";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { validateEmail, validatePhone } from "src/lib/func";
+import { handleError, validateEmail, validatePhone } from "src/lib/func";
+import axios from "axios";
+import useAuth from "src/hooks/auth.hook";
+import { useNavigate } from "react-router-dom";
 
 interface ModalUserProps {
   show: boolean;
@@ -50,19 +53,31 @@ const ModalUser = ({
   handleConfirm,
   existData,
 }: ModalUserProps) => {
+  const { handleLogOut } = useAuth();
+  const navigate = useNavigate();
+
   const [group, setGroup] = useState<GroupDBGet[]>([]);
   const [form, setForm] = useState<createUserFormProps>(initialForm);
   const [formState, setFormState] =
     useState<createUserFormStateProps>(initialFormState);
 
   const getGroups = async () => {
-    let data = await fetchGroups();
-    if (data && +data.EC === 0) {
+    try {
+      let data = await fetchGroups();
       setGroup(data.DT);
       setForm((prev) => ({
         ...prev,
         groupId: data.DT[0].id,
       }));
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // Access to config, request, and response
+        const status = handleError(error.response?.status || 500);
+        if (status === 401) {
+          handleLogOut();
+          navigate("/login");
+        }
+      }
     }
   };
 
@@ -170,31 +185,55 @@ const ModalUser = ({
       const isValid = isValidateInputCreate();
       if (!isValid) return;
       let data = await createNewUser(form);
-      if (+data.EC === 0) {
-        toast.success("New user is created!");
-        onClose();
-        handleConfirm();
-      } else {
-        setFormState((prev) => ({
-          ...prev,
-          ...data.DT,
-        }));
-        toast.error(data.EM);
-      }
+      toast.success("New user is created!");
+      onClose();
+      handleConfirm();
     } catch (error) {
-      toast.error("Cannot create new user!");
+      if (axios.isAxiosError(error)) {
+        let status = handleError(error.response?.status || 500);
+        if (status === 400) {
+          let data = error.response?.data;
+          if (data.DT) {
+            toast.error(data.EM);
+            setFormState((prev) => ({
+              ...prev,
+              ...data.DT,
+            }));
+          }
+        } else if (status === 401) {
+          handleLogOut();
+          navigate("/login");
+        }
+      }
     }
   };
 
   const handleSubmitUpdate = async () => {
     if (!existData) return;
-    const isValid = isValidateInputUpdate();
-    if (!isValid) return;
-    let data = await updateUser(Number(existData.id), form);
-    if (+data.EC === 0) {
+    try {
+      const isValid = isValidateInputUpdate();
+      if (!isValid) return;
+      await updateUser(Number(existData.id), form);
       toast.success(`User ${existData.id} is updated!`);
       onClose();
       handleConfirm();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        let status = handleError(error.response?.status || 500);
+        if (status === 400) {
+          let data = error.response?.data;
+          if (data.DT) {
+            toast.error(data.EM);
+            setFormState((prev) => ({
+              ...prev,
+              ...data.DT,
+            }));
+          }
+        } else if (status === 401) {
+          handleLogOut();
+          navigate("/login");
+        }
+      }
     }
   };
 
