@@ -54,7 +54,7 @@
       }
 
       .welcome-text {
-        display: none;
+        display: block;
       }
 
       #basic-nav-dropdown {
@@ -107,9 +107,9 @@
       }
     }
 
-    .welcome-text {
-      display: inline-block !important;
-    }
+    // .welcome-text {
+    //   display: inline-block !important;
+    // }
 
     #basic-nav-dropdown {
       & ~ .dropdown-menu.show {

@@ -3,7 +3,7 @@ import "dotenv/config.js";
 import { getGroupWithRole } from "../service/jwtService";
 import _ from "lodash";
 
-const nonSecurePath = ["/signup", "/login"];
+const nonSecurePath = ["/signup", "/login", "/logout"];
 
 const createJWT = (payload) => {
   const key = process.env.JWT_SECRET_KEY;

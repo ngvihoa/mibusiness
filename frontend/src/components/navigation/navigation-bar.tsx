@@ -1,12 +1,14 @@
-import "./navigation-bar.scss";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAppSelector } from "src/redux/store";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import "./navigation-bar.scss";
+import useAuth from "src/hooks/auth.hook";
 
 const NavigationBar = () => {
-  const { isAuth } = useAppSelector((state) => state.auth.value);
+  const { handleLogOut } = useAuth();
+  const { isAuth, username } = useAppSelector((state) => state.auth.value);
   const location = useLocation();
 
   return (
@@ -35,16 +37,30 @@ const NavigationBar = () => {
                   </NavLink>
                 </Nav>
                 <Nav className="ms-auto">
-                  <Nav.Item className="welcome-text nav-link">Welcome</Nav.Item>
-                  <NavDropdown title="Menu" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.1">
-                      Change password
-                    </NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action/3.4">
-                      Log out
-                    </NavDropdown.Item>
-                  </NavDropdown>
+                  {isAuth && (
+                    <>
+                      <Nav.Item className="welcome-text nav-link">
+                        Welcome {username}!
+                      </Nav.Item>
+                      <NavDropdown title="Setting" id="basic-nav-dropdown">
+                        <NavDropdown.Item href="#action/3.1">
+                          Profile
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="#action/3.2">
+                          Change password
+                        </NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item onClick={handleLogOut}>
+                          Log out
+                        </NavDropdown.Item>
+                      </NavDropdown>
+                    </>
+                  )}
+                  {!isAuth && (
+                    <Link to="/login" className="nav-link">
+                      Log in
+                    </Link>
+                  )}
                 </Nav>
               </Navbar.Collapse>
             </div>

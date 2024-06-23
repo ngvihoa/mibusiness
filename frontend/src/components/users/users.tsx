@@ -11,7 +11,6 @@ import { FiPlusCircle } from "react-icons/fi";
 import "./users.scss";
 import axios from "axios";
 import useAuth from "src/hooks/auth.hook";
-import { useNavigate } from "react-router-dom";
 import { handleError } from "src/lib/func";
 
 const initModal: ModalTextProps = {
@@ -21,7 +20,6 @@ const initModal: ModalTextProps = {
 
 const Users = () => {
   const { handleLogOut } = useAuth();
-  const navigate = useNavigate();
   // confirm delete user states
   const [showModalConfirmDelete, setShowModalConfirmDelete] = useState(false);
   const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
@@ -45,7 +43,6 @@ const Users = () => {
         const status = handleError(error.response?.status || 500);
         if (status === 401) {
           handleLogOut();
-          navigate("/login");
         }
       }
     }
@@ -88,7 +85,6 @@ const Users = () => {
         const status = handleError(error.response?.status || 500);
         if (status === 401) {
           handleLogOut();
-          navigate("/login");
         }
       }
     }

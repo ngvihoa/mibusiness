@@ -47,6 +47,10 @@ const updateUser = (id: number, user: createUserFormProps) => {
   });
 };
 
+const logOutUser = () => {
+  return axios.post(`/logout`);
+};
+
 export {
   signUpNewUser,
   logInUser,
@@ -55,4 +59,5 @@ export {
   fetchGroups,
   createNewUser,
   updateUser,
+  logOutUser,
 };

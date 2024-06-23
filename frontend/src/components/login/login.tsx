@@ -1,14 +1,11 @@
-import { useNavigate } from "react-router-dom";
-import "./login.scss";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { LoginFormProps, LoginFormStateProps, LoginType } from "src/lib/type";
 import { logInUser } from "src/services/userService";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "src/redux/store";
-import { logIn } from "src/redux/features/auth-slice";
 import axios from "axios";
 import { handleError } from "src/lib/func";
+import useAuth from "src/hooks/auth.hook";
+import "./login.scss";
 
 const initialLoginForm: LoginFormProps = {
   keyLogin: "",
@@ -21,16 +18,11 @@ const initialLoginFormState: LoginFormStateProps = {
 };
 
 const Login = () => {
+  const { handleLogIn, handleToSignup } = useAuth();
   const [formLogin, setFormLogin] = useState<LoginFormProps>(initialLoginForm);
   const [formState, setFormState] = useState<LoginFormStateProps>(
     initialLoginFormState
   );
-  let navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-
-  const handleToSignup = () => {
-    navigate("/signup");
-  };
 
   const handleFormChange = (e: any) => {
     setFormLogin({ ...formLogin, [e.target.name]: e.target.value });
@@ -52,7 +44,7 @@ const Login = () => {
     return true;
   };
 
-  const handleLogIn = async () => {
+  const onLogIn = async () => {
     if (isValidLoginForm()) {
       try {
         let data = await logInUser(formLogin);
@@ -61,9 +53,7 @@ const Login = () => {
           email: data.DT.email,
           username: data.DT.username,
         };
-        dispatch(logIn(authState));
-        toast.success(data.EM);
-        navigate("/users");
+        handleLogIn(authState);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           const status = handleError(error.response?.status || 500);
@@ -85,7 +75,7 @@ const Login = () => {
   const handleEnter = (e: any) => {
     // console.log("check event", e);
     if (e.key === "Enter") {
-      handleLogIn();
+      onLogIn();
     }
   };
 
@@ -142,7 +132,7 @@ const Login = () => {
             />
             <button
               className="btn btn-primary fw-medium fs-5"
-              onClick={handleLogIn}
+              onClick={onLogIn}
             >
               Log In
             </button>

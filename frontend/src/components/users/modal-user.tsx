@@ -16,7 +16,6 @@ import { toast } from "react-toastify";
 import { handleError, validateEmail, validatePhone } from "src/lib/func";
 import axios from "axios";
 import useAuth from "src/hooks/auth.hook";
-import { useNavigate } from "react-router-dom";
 
 interface ModalUserProps {
   show: boolean;
@@ -54,7 +53,6 @@ const ModalUser = ({
   existData,
 }: ModalUserProps) => {
   const { handleLogOut } = useAuth();
-  const navigate = useNavigate();
 
   const [group, setGroup] = useState<GroupDBGet[]>([]);
   const [form, setForm] = useState<createUserFormProps>(initialForm);
@@ -75,7 +73,6 @@ const ModalUser = ({
         const status = handleError(error.response?.status || 500);
         if (status === 401) {
           handleLogOut();
-          navigate("/login");
         }
       }
     }
@@ -202,7 +199,6 @@ const ModalUser = ({
           }
         } else if (status === 401) {
           handleLogOut();
-          navigate("/login");
         }
       }
     }
@@ -231,7 +227,6 @@ const ModalUser = ({
           }
         } else if (status === 401) {
           handleLogOut();
-          navigate("/login");
         }
       }
     }

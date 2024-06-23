@@ -1,11 +1,11 @@
-import "./signup.scss";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { handleError, validateEmail, validatePhone } from "src/lib/func";
 import { SignUpFormProps, SignUpFormStateProps } from "src/lib/type";
 import { signUpNewUser } from "src/services/userService";
 import axios from "axios";
+import useAuth from "src/hooks/auth.hook";
+import "./signup.scss";
 
 const initialForm = {
   email: "",
@@ -24,14 +24,10 @@ const initialFormState = {
 };
 
 const Signup = () => {
+  const { handleToLogin } = useAuth();
   const [form, setForm] = useState<SignUpFormProps>(initialForm);
   const [formState, setFormState] =
     useState<SignUpFormStateProps>(initialFormState);
-  const navigate = useNavigate();
-
-  const handleToSignup = () => {
-    navigate("/login");
-  };
 
   const handleFormChange = (e: any) => {
     setForm((prev) => ({
@@ -123,7 +119,7 @@ const Signup = () => {
       if (isValid) {
         const data = await signUpNewUser(form);
         toast.success(data.EM);
-        navigate("/login");
+        handleToLogin();
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -248,7 +244,7 @@ const Signup = () => {
             </button>
             <span
               className="btn btn-link p-0 m-0 text-start text-decoration-none"
-              onClick={handleToSignup}
+              onClick={handleToLogin}
             >
               Already have an account? Login.
             </span>

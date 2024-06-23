@@ -17,6 +17,7 @@ const initApiRoutes = (app) => {
   // rest api
   router.post("/signup", authController.handleSignUp);
   router.post("/login", authController.handleLogIn);
+  router.post("/logout", authController.handleLogOut);
 
   router.post("/user/create", userController.createFunc); // C
   router.get("/user/read", userController.readFunc); // R

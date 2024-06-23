@@ -168,8 +168,28 @@ const handleLogIn = async (req, res) => {
   }
 };
 
+const handleLogOut = async (req, res) => {
+  try {
+    //set cookie
+    res.clearCookie("jwt");
+
+    return res.status(200).json({
+      EM: "ok",
+      EC: 0,
+      DT: "",
+    });
+  } catch (e) {
+    return res.status(500).json({
+      EM: "Error from server!",
+      EC: "-2",
+      DT: "",
+    });
+  }
+};
+
 export default {
   testApi,
   handleSignUp,
   handleLogIn,
+  handleLogOut,
 };
