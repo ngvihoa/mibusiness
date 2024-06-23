@@ -90,3 +90,8 @@ export type GroupDBGet = {
   id: number;
   name: string;
 };
+
+export interface RoleType {
+  url: string;
+  description: string;
+}
