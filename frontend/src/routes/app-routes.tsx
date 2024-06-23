@@ -4,6 +4,7 @@ import Login from "src/components/login/login";
 import Signup from "src/components/signup/signup";
 import PrivateRoutes from "./private-routes";
 import PreventAuthRoutes from "./prevent-auth-routes";
+import Roles from "src/components/roles/roles";
 
 const AppRoutes = () => {
   /**
@@ -19,6 +20,7 @@ const AppRoutes = () => {
         </Route>
         <Route element={<PrivateRoutes />}>
           <Route path="/users" element={<Users />} />
+          <Route path="/roles" element={<Roles />} />
           <Route path="/projects" element={<>Projects</>} />
         </Route>
         <Route path="*" element={<>404</>} />
