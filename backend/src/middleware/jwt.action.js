@@ -75,7 +75,6 @@ const checkToken = (req, res, next) => {
 
 const checkPermission = async (req, res, next) => {
   if (nonSecurePath.includes(req.path)) return next();
-
   if (req.user) {
     const groupId = req.user.role.id;
     let groupRoles = null;

@@ -33,6 +33,71 @@ const createNewRoles = async (roles) => {
   }
 };
 
+const getAllRoles = async () => {
+  try {
+    let data = await db.Role.findAll();
+    return {
+      EM: "Get all roles successfully",
+      EC: 0,
+      DT: data,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      EM: "Error from service!",
+      EC: -2,
+      DT: "",
+    };
+  }
+};
+
+const getRolePaginated = async (page, limit) => {
+  try {
+    let offset = (page - 1) * limit;
+    const { count, rows } = await db.Role.findAndCountAll({
+      attributes: ["id", "url", "description"],
+      limit: +limit,
+      offset: +offset,
+      order: [["id", "DESC"]],
+    });
+    const totalPages = Math.ceil(count / limit);
+    return {
+      EM: "Get roles successfully!",
+      EC: 0,
+      DT: { totalRows: count, totalPages: totalPages, roles: rows },
+    };
+  } catch (e) {
+    return {
+      EM: "Error from server!",
+      EC: -2,
+      DT: "",
+    };
+  }
+};
+
+const deleteRole = async (id) => {
+  try {
+    await db.Role.destroy({
+      where: { id: id },
+    });
+    return {
+      EM: "",
+      EC: 0,
+      DT: "",
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      EM: "Error from server!",
+      EC: -2,
+      DT: "",
+    };
+  }
+};
+
 export default {
   createNewRoles,
+  getAllRoles,
+  getRolePaginated,
+  deleteRole,
 };
