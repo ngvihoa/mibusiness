@@ -95,3 +95,11 @@ export interface RoleType {
   url: string;
   description: string;
 }
+
+export interface RoleDBType {
+  id: number;
+  url: string;
+  description: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
