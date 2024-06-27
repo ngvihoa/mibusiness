@@ -1,5 +1,6 @@
 .roles-container {
   padding-top: 40px;
+  color: var(--custom-color-neutral-2);
 
   .tab-nav-container {
     .nav-link {
@@ -7,8 +8,8 @@
     }
     .nav-link.active {
       font-weight: 600;
-      color: black;
-      background-color: #0ebff0;
+      color: white;
+      background-color: var(--custom-color-primary-2);
     }
   }
 
@@ -116,7 +117,7 @@
 
         &:hover {
           box-shadow: var(--bs-box-shadow-sm);
-          border-color: #0ebff0;
+          border-color: var(--custom-color-primary-2);
         }
       }
     }

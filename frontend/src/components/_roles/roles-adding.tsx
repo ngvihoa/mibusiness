@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./roles.scss";
 import { FiPlusCircle } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";

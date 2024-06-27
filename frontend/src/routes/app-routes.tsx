@@ -1,13 +1,14 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import Users from "src/components/users/users";
-import Login from "src/components/login/login";
-import Signup from "src/components/signup/signup";
+import Users from "src/components/_users/users";
+import Login from "src/components/_auth/login";
+import Signup from "src/components/_auth/signup";
 import PrivateRoutes from "./private-routes";
 import PreventAuthRoutes from "./prevent-auth-routes";
-import Roles from "src/components/roles/roles";
-import RolesDisplay from "src/components/roles/roles-display";
-import RolesAdding from "src/components/roles/roles-adding";
-import RolesAssign from "src/components/roles/roles-assign";
+import Roles from "src/components/_roles/roles";
+import RolesDisplay from "src/components/_roles/roles-display";
+import RolesAdding from "src/components/_roles/roles-adding";
+import RolesAssign from "src/components/_roles/roles-assign";
+import Home from "src/components/_home/home";
 
 const AppRoutes = () => {
   /**
@@ -16,7 +17,7 @@ const AppRoutes = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<>Hello Home</>} />
+        <Route path="/" element={<Home />} />
         <Route element={<PreventAuthRoutes />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

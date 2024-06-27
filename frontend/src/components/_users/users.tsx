@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { deleteUser, fetchAllUsers } from "src/services/userService";
 import { toast } from "react-toastify";
-import ModalConfirm from "./modal-confirm";
+import ModalConfirm from "src/components/modal-confirm/modal-confirm";
 import { ModalTextProps, UsersType } from "src/lib/type";
 import ModalUser from "./modal-user";
 import { MdDelete, MdEdit, MdEmail } from "react-icons/md";
@@ -16,6 +16,9 @@ import { handleError } from "src/lib/func";
 import "./users.scss";
 import usePagination from "src/hooks/pagination.hook";
 import PaginationBar from "src/components/paginate-bar/pagination-bar";
+import UserCard from "./user-card";
+import FillButton from "../button/fill-button";
+import LineButton from "../button/line-button";
 
 const initModal: ModalTextProps = {
   headingText: "",
@@ -132,57 +135,28 @@ const Users = () => {
             <div className="header-container mb-3">
               <h3 className="m-0">Manage users</h3>
               <div className="actions">
-                <button className="btn btn-success" onClick={handleRefresh}>
+                <LineButton variant="primary" onClickFunction={handleRefresh}>
                   <LuRefreshCw /> Refresh
-                </button>
-                <button
-                  className="btn btn-primary ms-1"
-                  onClick={() => handleShowModalUpdateUser(null)}
+                </LineButton>
+                <FillButton
+                  className="ms-1"
+                  variant="primary"
+                  onClickFunction={() => handleShowModalUpdateUser(null)}
                 >
                   <FiPlusCircle /> Add new user
-                </button>
+                </FillButton>
               </div>
             </div>
             <div className="container-fluid mx-0 px-0 overflow-x-auto user-container">
               {userList && userList.length > 0 ? (
                 <>
                   {userList.map((item, index) => (
-                    <div className="user-card" key={`row-${index}`}>
-                      <div className="username">{item.username}</div>
-                      <div className="id">Id: {item.id}</div>
-                      <div className="email">
-                        <MdEmail style={styleIcon} />
-                        {item.email}
-                      </div>
-                      <div className="phone">
-                        <BiSolidPhone style={styleIcon} />
-                        {item.phone}
-                      </div>
-                      <div className="gender">
-                        <PiGenderIntersexFill style={styleIcon} />
-                        {item.sex ? item.sex : "Other"}
-                      </div>
-                      <div className="group">
-                        <FaUserGroup style={styleIcon} />
-                        {item.Group ? item.Group.description : "Undefined"}
-                      </div>
-                      <div className="custom-button">
-                        <span
-                          title="Edit"
-                          className="edit fw-medium"
-                          onClick={() => handleShowModalUpdateUser(item)}
-                        >
-                          <MdEdit style={{ width: 16, height: 16 }} />
-                        </span>
-                        <span
-                          title="Delete"
-                          className="delete fw-medium"
-                          onClick={() => handleShowModalConfirmDelete(item)}
-                        >
-                          <MdDelete style={{ width: 16, height: 16 }} />
-                        </span>
-                      </div>
-                    </div>
+                    <UserCard
+                      key={`user-${index}-${item.id}`}
+                      onShowModalDelete={handleShowModalConfirmDelete}
+                      onShowModalUpdate={handleShowModalUpdateUser}
+                      user={item}
+                    />
                   ))}
                 </>
               ) : (

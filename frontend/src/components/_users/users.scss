@@ -1,8 +1,9 @@
 .modal-user {
+  color: var(--custom-color-neutral-2);
+
   .content-body {
     .red {
       color: red;
-      border: none;
     }
 
     .form-group {
@@ -12,6 +13,7 @@
 }
 
 .manage-users-container {
+  color: var(--custom-color-neutral-2);
   padding-top: 40px;
   button {
     display: inline-flex;
@@ -72,7 +74,7 @@
 
       &:hover {
         box-shadow: var(--bs-box-shadow-sm);
-        border-color: #0ebff0;
+        border-color: var(--custom-color-primary-1);
       }
 
       div {
@@ -104,15 +106,13 @@
           cursor: pointer;
         }
         span:hover {
-          color: #10a3cc;
+          color: var(--custom-color-primary-3);
         }
         .edit {
-          // color: #ffc107;
           color: black;
           margin-right: 6px;
         }
         .delete {
-          // color: #dc3545;
           color: black;
         }
       }

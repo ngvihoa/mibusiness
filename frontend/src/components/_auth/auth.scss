@@ -1,8 +1,8 @@
-.login-container {
+.auth-container {
   .content-left {
     @media (width >= 768px) {
       div {
-        background: linear-gradient(135deg, #72a6f3, #00d4ff, #91fb91);
+        background: var(--custom-gradient-1);
         box-shadow: var(--bs-box-shadow);
         color: white;
 
@@ -28,22 +28,11 @@
       }
     }
   }
+
   .content-right {
     .hr {
-      border: 0.5px solid rgb(196, 196, 196);
+      border: 0.5px solid var(--custom-color-neutral-1);
       margin: 0.5rem 0;
-    }
-    .forgot-pass {
-      cursor: pointer;
-
-      &:hover,
-      &:focus {
-        color: dodgerblue;
-      }
-
-      &:active {
-        color: darkblue;
-      }
     }
   }
 }

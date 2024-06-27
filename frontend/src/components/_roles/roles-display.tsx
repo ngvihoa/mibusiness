@@ -6,7 +6,7 @@ import axios from "axios";
 import { handleError } from "src/lib/func";
 import useAuth from "src/hooks/auth.hook";
 import { toast } from "react-toastify";
-import ModalConfirm from "src/components/users/modal-confirm";
+import ModalConfirm from "src/components/modal-confirm/modal-confirm";
 import PaginationBar from "src/components/paginate-bar/pagination-bar";
 import usePagination from "src/hooks/pagination.hook";
 import "./roles.scss";

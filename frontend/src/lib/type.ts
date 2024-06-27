@@ -108,3 +108,10 @@ export interface GroupRoleType {
   groupId: number;
   roleId: number;
 }
+
+export interface ButtonProps {
+  onClickFunction: () => void;
+  className?: string;
+  variant: string;
+  children: React.ReactNode;
+}

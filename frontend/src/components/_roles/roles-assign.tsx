@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { MdDelete } from "react-icons/md";
-import ReactPaginate from "react-paginate";
+import { useEffect, useState } from "react";
 import {
   GroupDBGet,
   GroupRoleType,
@@ -9,7 +7,6 @@ import {
 } from "src/lib/type";
 import {
   assignRoles,
-  deleteRole,
   fetchAllRoles,
   fetchRolesByGroup,
 } from "src/services/roleService";
@@ -17,10 +14,9 @@ import axios from "axios";
 import { handleError } from "src/lib/func";
 import useAuth from "src/hooks/auth.hook";
 import { toast } from "react-toastify";
-import ModalConfirm from "src/components/users/modal-confirm";
-import "./roles.scss";
 import { Form } from "react-bootstrap";
 import { fetchGroups } from "src/services/userService";
+import "./roles.scss";
 
 const mock: RoleDBType[] = [
   {
