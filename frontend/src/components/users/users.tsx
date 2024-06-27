@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { deleteUser, fetchAllUsers } from "src/services/userService";
-import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 import ModalConfirm from "./modal-confirm";
 import { ModalTextProps, UsersType } from "src/lib/type";
@@ -15,6 +14,8 @@ import axios from "axios";
 import useAuth from "src/hooks/auth.hook";
 import { handleError } from "src/lib/func";
 import "./users.scss";
+import usePagination from "src/hooks/pagination.hook";
+import PaginationBar from "src/components/paginate-bar/pagination-bar";
 
 const initModal: ModalTextProps = {
   headingText: "",
@@ -34,11 +35,15 @@ const Users = () => {
   const [modalText, setModalText] = useState<ModalTextProps>(initModal);
 
   const [dataModal, setDataModal] = useState<UsersType | null>(null);
-  // pagination states
   const [userList, setUserList] = useState<UsersType[] | null>(null);
-  const [pageCount, setPageCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+
+  const {
+    pageCount,
+    setPageCount,
+    currentPage,
+    itemsPerPage,
+    handlePageClick,
+  } = usePagination(6);
 
   const fetchUsers = async () => {
     try {
@@ -54,11 +59,6 @@ const Users = () => {
         }
       }
     }
-  };
-
-  const handlePageClick = (event: any) => {
-    const newOffset = event.selected + 1;
-    setCurrentPage(newOffset);
   };
 
   // function for delete user
@@ -144,61 +144,6 @@ const Users = () => {
               </div>
             </div>
             <div className="container-fluid mx-0 px-0 overflow-x-auto user-container">
-              {/* <table className="table table-striped table-hover table-bordered">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Id</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Gender</th>
-                    <th scope="col">Group</th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {userList && userList.length > 0 ? (
-                    <>
-                      {userList.map((item, index) => (
-                        <tr key={`row-${index}`}>
-                          <td>
-                            {index + (currentPage - 1) * itemsPerPage + 1}
-                          </td>
-                          <td>{item.id}</td>
-                          <td>{item.username}</td>
-                          <td>{item.email}</td>
-                          <td>{item.phone}</td>
-                          <td>{item.sex ? item.sex : "NULL"}</td>
-                          <td>
-                            {item.Group ? item.Group.description : "NULL"}
-                          </td>
-                          <td className="custom-button h-100">
-                            <span
-                              title="Edit"
-                              className="edit fw-medium"
-                              onClick={() => handleShowModalUpdateUser(item)}
-                            >
-                              <MdEdit style={{ width: 16, height: 16 }} />
-                            </span>
-                            <span
-                              title="Delete"
-                              className="delete fw-medium"
-                              onClick={() => handleShowModalConfirmDelete(item)}
-                            >
-                              <MdDelete style={{ width: 16, height: 16 }} />
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </>
-                  ) : (
-                    <tr>
-                      <th scope="col">Not found users</th>
-                    </tr>
-                  )}
-                </tbody>
-              </table> */}
               {userList && userList.length > 0 ? (
                 <>
                   {userList.map((item, index) => (
@@ -246,25 +191,9 @@ const Users = () => {
             </div>
             {pageCount > 0 && (
               <div className="table-footer-container">
-                <ReactPaginate
-                  nextLabel=">"
-                  onPageChange={handlePageClick}
-                  pageRangeDisplayed={2}
-                  marginPagesDisplayed={2}
+                <PaginationBar
+                  handlePageClick={handlePageClick}
                   pageCount={pageCount}
-                  previousLabel="<"
-                  pageClassName="page-item"
-                  pageLinkClassName="page-link"
-                  previousClassName="page-item"
-                  previousLinkClassName="page-link"
-                  nextClassName="page-item"
-                  nextLinkClassName="page-link"
-                  breakLabel="..."
-                  breakClassName="page-item"
-                  breakLinkClassName="page-link"
-                  containerClassName="pagination"
-                  activeClassName="active"
-                  renderOnZeroPageCount={null}
                 />
               </div>
             )}

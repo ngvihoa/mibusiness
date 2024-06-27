@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
-import ReactPaginate from "react-paginate";
-import "./roles.scss";
 import { ModalTextProps, RoleDBType } from "src/lib/type";
 import { deleteRole, fetchAllRoles } from "src/services/roleService";
 import axios from "axios";
@@ -9,49 +7,9 @@ import { handleError } from "src/lib/func";
 import useAuth from "src/hooks/auth.hook";
 import { toast } from "react-toastify";
 import ModalConfirm from "src/components/users/modal-confirm";
-
-const mock: RoleDBType[] = [
-  {
-    id: 1,
-    url: "/user/read",
-    description: "Get user list",
-  },
-  {
-    id: 2,
-    url: "/user/read",
-    description: "",
-  },
-  {
-    id: 3,
-    url: "/user/read",
-    description: "Get user list",
-  },
-  {
-    id: 4,
-    url: "/user/read",
-    description: "Get user list",
-  },
-  {
-    id: 4,
-    url: "/user/read",
-    description: "Get user list",
-  },
-  {
-    id: 4,
-    url: "/user/read",
-    description: "Get user list",
-  },
-  {
-    id: 4,
-    url: "/user/read",
-    description: "Get user list",
-  },
-  {
-    id: 4,
-    url: "/user/read",
-    description: "Get user list",
-  },
-];
+import PaginationBar from "src/components/paginate-bar/pagination-bar";
+import usePagination from "src/hooks/pagination.hook";
+import "./roles.scss";
 
 const initModal: ModalTextProps = {
   headingText: "",
@@ -61,19 +19,18 @@ const initModal: ModalTextProps = {
 const RolesDisplay = () => {
   const { handleLogOut } = useAuth();
   const [showModalConfirmDelete, setShowModalConfirmDelete] = useState(false);
-  const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
   const [modalText, setModalText] = useState<ModalTextProps>(initModal);
   const [dataModal, setDataModal] = useState<RoleDBType | null>(null);
 
   const [roleList, setRoleList] = useState<RoleDBType[] | null>(null);
-  const [pageCount, setPageCount] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
 
-  const handlePageClick = (event: any) => {
-    const newOffset = event.selected + 1;
-    setCurrentPage(newOffset);
-  };
+  const {
+    itemsPerPage,
+    handlePageClick,
+    pageCount,
+    setPageCount,
+    currentPage,
+  } = usePagination(6);
 
   const fetchRoles = async () => {
     try {
@@ -159,25 +116,9 @@ const RolesDisplay = () => {
             </div>
             {pageCount > 0 && (
               <div className="pagination-container">
-                <ReactPaginate
-                  nextLabel=">"
-                  onPageChange={handlePageClick}
-                  pageRangeDisplayed={2}
-                  marginPagesDisplayed={2}
+                <PaginationBar
+                  handlePageClick={handlePageClick}
                   pageCount={pageCount}
-                  previousLabel="<"
-                  pageClassName="page-item"
-                  pageLinkClassName="page-link"
-                  previousClassName="page-item"
-                  previousLinkClassName="page-link"
-                  nextClassName="page-item"
-                  nextLinkClassName="page-link"
-                  breakLabel="..."
-                  breakClassName="page-item"
-                  breakLinkClassName="page-link"
-                  containerClassName="pagination"
-                  activeClassName="active"
-                  renderOnZeroPageCount={null}
                 />
               </div>
             )}
