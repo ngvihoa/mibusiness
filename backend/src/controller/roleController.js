@@ -157,10 +157,32 @@ const getRolesByGroup = async (req, res) => {
   }
 };
 
+const assignRoles = async (req, res) => {
+  try {
+    const groupId = req.body.groupId;
+    const groupRoles = req.body.groupRoles;
+    let data = await roleApiService.assignRolesToGroup(groupId, groupRoles);
+    if (+data.EC === -2) throw new Error();
+    return res.status(200).json({
+      EM: data.EM,
+      EC: 0,
+      DT: data.DT,
+    });
+  } catch (error) {
+    // console.log(error);
+    return res.status(500).json({
+      EM: "Error from server!",
+      EC: -2,
+      DT: "",
+    });
+  }
+};
+
 export default {
   readFunc,
   createFunc,
   updateFunc,
   deleteFunc,
   getRolesByGroup,
+  assignRoles,
 };

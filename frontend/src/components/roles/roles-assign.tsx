@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import ReactPaginate from "react-paginate";
-import { GroupDBGet, ModalTextProps, RoleDBType } from "src/lib/type";
 import {
+  GroupDBGet,
+  GroupRoleType,
+  ModalTextProps,
+  RoleDBType,
+} from "src/lib/type";
+import {
+  assignRoles,
   deleteRole,
   fetchAllRoles,
   fetchRolesByGroup,
@@ -167,6 +173,38 @@ const RolesAssign = () => {
     }
   }, [groupId]);
 
+  const handlebuildDataToSave = () => {
+    if (!rolePersist || !groupId) return [];
+    const re: GroupRoleType[] = [];
+    rolePersist.forEach((item) => {
+      if (item.isAssigned) {
+        re.push({
+          groupId: groupId,
+          roleId: item.id,
+        });
+      }
+    });
+    return re;
+  };
+
+  const handleSave = async () => {
+    const dataToSave = handlebuildDataToSave();
+    if (dataToSave.length === 0) return;
+    try {
+      const data = await assignRoles(groupId!, dataToSave);
+      toast.success("The roles are assigned!");
+      console.log(data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // Access to config, request, and response
+        const status = handleError(error.response?.status || 500);
+        if (status === 401) {
+          handleLogOut();
+        }
+      }
+    }
+  };
+
   return (
     <div className="role-assign-container">
       <div className="container">
@@ -221,7 +259,9 @@ const RolesAssign = () => {
                   ))}
               </div>
               {groupId && (
-                <button className="btn btn-primary mt-3">Save changes</button>
+                <button className="btn btn-primary mt-3" onClick={handleSave}>
+                  Save changes
+                </button>
               )}
             </>
           )}

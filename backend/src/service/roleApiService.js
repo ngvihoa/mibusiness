@@ -127,10 +127,35 @@ const getRolesByGroup = async (groupId) => {
   }
 };
 
+const assignRolesToGroup = async (groupId, groupRoles) => {
+  try {
+    console.log("checking input", groupId, groupRoles);
+    if (groupId && !isNaN(groupId) && groupRoles) {
+      await db.Group_Role.destroy({
+        where: { groupId: +groupId },
+      });
+      let data = await db.Group_Role.bulkCreate(groupRoles);
+      return {
+        EM: "",
+        EC: 0,
+        DT: data,
+      };
+    } else throw new Error();
+  } catch (error) {
+    console.log(error);
+    return {
+      EM: "Error from server!",
+      EC: -2,
+      DT: "",
+    };
+  }
+};
+
 export default {
   createNewRoles,
   getAllRoles,
   getRolePaginated,
   deleteRole,
   getRolesByGroup,
+  assignRolesToGroup,
 };

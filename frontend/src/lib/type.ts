@@ -103,3 +103,8 @@ export interface RoleDBType {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface GroupRoleType {
+  groupId: number;
+  roleId: number;
+}
