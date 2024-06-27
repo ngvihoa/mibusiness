@@ -96,7 +96,9 @@ const checkPermission = async (req, res, next) => {
     }
     const roles = groupRoles.Roles;
     let currentUrl = req.path;
-    let access = roles.some((item) => item.url === currentUrl);
+    let access = roles.some(
+      (item) => item.url === currentUrl || currentUrl.includes(item.url)
+    );
     if (access) {
       next();
     } else {

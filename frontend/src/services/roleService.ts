@@ -16,4 +16,9 @@ const fetchAllRoles = (page?: number, limit?: number) => {
     `/role/read${page && limit ? `?page=${page}&limit=${limit}` : ""}`
   );
 };
-export { createRoles, deleteRole, fetchAllRoles };
+
+const fetchRolesByGroup = (groupId: number) => {
+  return axios.get(`/role/by-group/${groupId}`);
+};
+
+export { createRoles, deleteRole, fetchAllRoles, fetchRolesByGroup };

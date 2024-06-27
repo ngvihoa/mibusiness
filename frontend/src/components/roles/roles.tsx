@@ -18,6 +18,11 @@ const Roles = () => {
               Add new roles
             </NavLink>
           </Nav.Item>
+          <Nav.Item>
+            <NavLink className="nav-link" to="/roles/assign">
+              Assign roles
+            </NavLink>
+          </Nav.Item>
         </Nav>
       </div>
       <div>

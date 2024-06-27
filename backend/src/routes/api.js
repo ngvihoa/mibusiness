@@ -34,6 +34,7 @@ const initApiRoutes = (app) => {
   router.get("/role/read", roleController.readFunc);
   router.put("/role/update", roleController.updateFunc);
   router.delete("/role/delete", roleController.deleteFunc);
+  router.get("/role/by-group/:groupId", roleController.getRolesByGroup);
 
   // setup base url route
   return app.use("/api/v1", router);

@@ -122,9 +122,7 @@ const deleteFunc = async (req, res) => {
   try {
     const id = req.body.id;
     let data = await roleApiService.deleteRole(id);
-    if (+data.EC === -2) {
-      throw new Error();
-    }
+    if (+data.EC === -2) throw new Error();
 
     return res.status(200).json({
       EM: `Role ${req.body.url} is deleted!`,
@@ -140,9 +138,29 @@ const deleteFunc = async (req, res) => {
   }
 };
 
+const getRolesByGroup = async (req, res) => {
+  try {
+    const groupId = req.params.groupId;
+    let data = await roleApiService.getRolesByGroup(groupId);
+    if (+data.EC === -2) throw new Error();
+    return res.status(200).json({
+      EM: data.EM,
+      EC: 0,
+      DT: data.DT,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      EM: "Error from server!",
+      EC: -2,
+      DT: "",
+    });
+  }
+};
+
 export default {
   readFunc,
   createFunc,
   updateFunc,
   deleteFunc,
+  getRolesByGroup,
 };

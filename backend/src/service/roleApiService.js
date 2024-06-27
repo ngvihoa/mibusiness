@@ -95,9 +95,42 @@ const deleteRole = async (id) => {
   }
 };
 
+const getRolesByGroup = async (groupId) => {
+  try {
+    let role = [];
+    if (groupId && !isNaN(groupId)) {
+      const data = await db.Group.findOne({
+        where: { id: groupId },
+        attributes: ["id", "name", "description"],
+        include: [
+          {
+            model: db.Role,
+            attributes: ["id", "url", "description"],
+            through: { attributes: [] },
+          },
+        ],
+      });
+      role = data.Roles;
+    }
+    return {
+      EM: "",
+      EC: 0,
+      DT: role,
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      EM: "Error from server!",
+      EC: -2,
+      DT: "",
+    };
+  }
+};
+
 export default {
   createNewRoles,
   getAllRoles,
   getRolePaginated,
   deleteRole,
+  getRolesByGroup,
 };

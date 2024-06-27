@@ -7,6 +7,7 @@ import PreventAuthRoutes from "./prevent-auth-routes";
 import Roles from "src/components/roles/roles";
 import RolesDisplay from "src/components/roles/roles-display";
 import RolesAdding from "src/components/roles/roles-adding";
+import RolesAssign from "src/components/roles/roles-assign";
 
 const AppRoutes = () => {
   /**
@@ -26,6 +27,7 @@ const AppRoutes = () => {
             <Route path="" element={<Navigate to="display" replace />} />
             <Route path="display" element={<RolesDisplay />} />
             <Route path="adding" element={<RolesAdding />} />
+            <Route path="assign" element={<RolesAssign />} />
           </Route>
           <Route path="/projects" element={<>Projects</>} />
         </Route>
