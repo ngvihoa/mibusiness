@@ -5,17 +5,25 @@ import { toast } from "react-toastify";
 import ModalConfirm from "./modal-confirm";
 import { ModalTextProps, UsersType } from "src/lib/type";
 import ModalUser from "./modal-user";
-import { MdDelete, MdEdit } from "react-icons/md";
+import { MdDelete, MdEdit, MdEmail } from "react-icons/md";
 import { LuRefreshCw } from "react-icons/lu";
 import { FiPlusCircle } from "react-icons/fi";
-import "./users.scss";
+import { BiSolidPhone } from "react-icons/bi";
+import { PiGenderIntersexFill } from "react-icons/pi";
+import { FaUserGroup } from "react-icons/fa6";
 import axios from "axios";
 import useAuth from "src/hooks/auth.hook";
 import { handleError } from "src/lib/func";
+import "./users.scss";
 
 const initModal: ModalTextProps = {
   headingText: "",
   bodyText: "",
+};
+
+const styleIcon = {
+  width: 16,
+  height: 16,
 };
 
 const Users = () => {
@@ -30,7 +38,7 @@ const Users = () => {
   const [userList, setUserList] = useState<UsersType[] | null>(null);
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 6;
 
   const fetchUsers = async () => {
     try {
@@ -121,9 +129,9 @@ const Users = () => {
       <div className="manage-users-container container-fluid px-4 mx-0 container-md mx-md-auto">
         <div className="row">
           <div className="table-user-info mt-3 p-0">
-            <div className="row d-flex flex-row justify-content-between align-items-center mb-3">
-              <h3 className="col m-0">Manage users</h3>
-              <div className="actions col text-end">
+            <div className="header-container mb-3">
+              <h3 className="m-0">Manage users</h3>
+              <div className="actions">
                 <button className="btn btn-success" onClick={handleRefresh}>
                   <LuRefreshCw /> Refresh
                 </button>
@@ -135,8 +143,8 @@ const Users = () => {
                 </button>
               </div>
             </div>
-            <div className="container-fluid mx-0 px-0 overflow-x-auto">
-              <table className="table table-striped table-hover table-bordered">
+            <div className="container-fluid mx-0 px-0 overflow-x-auto user-container">
+              {/* <table className="table table-striped table-hover table-bordered">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -190,17 +198,61 @@ const Users = () => {
                     </tr>
                   )}
                 </tbody>
-              </table>
+              </table> */}
+              {userList && userList.length > 0 ? (
+                <>
+                  {userList.map((item, index) => (
+                    <div className="user-card" key={`row-${index}`}>
+                      <div className="username">{item.username}</div>
+                      <div className="id">Id: {item.id}</div>
+                      <div className="email">
+                        <MdEmail style={styleIcon} />
+                        {item.email}
+                      </div>
+                      <div className="phone">
+                        <BiSolidPhone style={styleIcon} />
+                        {item.phone}
+                      </div>
+                      <div className="gender">
+                        <PiGenderIntersexFill style={styleIcon} />
+                        {item.sex ? item.sex : "Other"}
+                      </div>
+                      <div className="group">
+                        <FaUserGroup style={styleIcon} />
+                        {item.Group ? item.Group.description : "Undefined"}
+                      </div>
+                      <div className="custom-button">
+                        <span
+                          title="Edit"
+                          className="edit fw-medium"
+                          onClick={() => handleShowModalUpdateUser(item)}
+                        >
+                          <MdEdit style={{ width: 16, height: 16 }} />
+                        </span>
+                        <span
+                          title="Delete"
+                          className="delete fw-medium"
+                          onClick={() => handleShowModalConfirmDelete(item)}
+                        >
+                          <MdDelete style={{ width: 16, height: 16 }} />
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              ) : (
+                <div>Not found users...</div>
+              )}
             </div>
             {pageCount > 0 && (
               <div className="table-footer-container">
                 <ReactPaginate
-                  nextLabel="next >"
+                  nextLabel=">"
                   onPageChange={handlePageClick}
                   pageRangeDisplayed={2}
                   marginPagesDisplayed={2}
                   pageCount={pageCount}
-                  previousLabel="< previous"
+                  previousLabel="<"
                   pageClassName="page-item"
                   pageLinkClassName="page-link"
                   previousClassName="page-item"
