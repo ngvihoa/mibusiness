@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./roles.scss";
 import { FiPlusCircle } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { v4 as uuid } from "uuid";
@@ -9,6 +8,8 @@ import { createRoles } from "src/services/roleService";
 import axios from "axios";
 import { handleError } from "src/lib/func";
 import useAuth from "src/hooks/auth.hook";
+import FillButton from "../button/fill-button";
+import LineButton from "../button/line-button";
 
 interface RoleListType {
   [key: string]: any;
@@ -113,13 +114,13 @@ const RolesAdding = () => {
 
   return (
     <div className="role-adding-container">
-      <div className="container">
+      <div className="content-container">
         <h3 className="role-title">Manage roles</h3>
         <div className="role-parent">
           {Object.entries(roleList).map(([key, value], index) => {
             return (
-              <div className="role-child row" key={key}>
-                <div className="role-input col-5 form-group">
+              <div className="role-child" key={key}>
+                <div className="role-input form-group">
                   <label htmlFor="url">Url:</label>
                   <input
                     type="text"
@@ -132,7 +133,7 @@ const RolesAdding = () => {
                     onChange={(e) => onChangeRole(key, e)}
                   />
                 </div>
-                <div className="role-input col-5 form-group">
+                <div className="role-input form-group">
                   <label htmlFor="url">Description:</label>
                   <input
                     type="text"
@@ -143,19 +144,16 @@ const RolesAdding = () => {
                     onChange={(e) => onChangeRole(key, e)}
                   />
                 </div>
-                <div className="role-input col-2">
+                <div className="role-input">
                   {Object.entries(roleList).length - 1 === index && (
-                    <button className="btn btn-primary" onClick={onAddInput}>
+                    <FillButton onClickFunction={onAddInput}>
                       <FiPlusCircle />
-                    </button>
+                    </FillButton>
                   )}
                   {Object.entries(roleList).length > 1 && (
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => onDeleteRole(key)}
-                    >
+                    <FillButton onClickFunction={() => onDeleteRole(key)}>
                       <MdDelete />
-                    </button>
+                    </FillButton>
                   )}
                 </div>
               </div>
@@ -163,9 +161,9 @@ const RolesAdding = () => {
           })}
         </div>
         <div className="role-bottom">
-          <button className="btn btn-primary" onClick={onSubmit}>
+          <FillButton className="fw-medium" onClickFunction={onSubmit}>
             Save new roles
-          </button>
+          </FillButton>
         </div>
       </div>
     </div>

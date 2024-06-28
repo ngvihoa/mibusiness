@@ -1,14 +1,9 @@
 import { ButtonProps } from "src/lib/type";
 
-const FillButton = ({
-  onClickFunction,
-  className,
-  variant,
-  children,
-}: ButtonProps) => {
+const FillButton = ({ onClickFunction, className, children }: ButtonProps) => {
   return (
     <button
-      className={`btn btn-${variant} ${className}`}
+      className={`btn fill-button ${className}`}
       onClick={onClickFunction}
     >
       {children}

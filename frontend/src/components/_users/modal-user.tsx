@@ -16,6 +16,8 @@ import { toast } from "react-toastify";
 import { handleError, validateEmail, validatePhone } from "src/lib/func";
 import axios from "axios";
 import useAuth from "src/hooks/auth.hook";
+import LineButton from "../button/line-button";
+import FillButton from "../button/fill-button";
 
 interface ModalUserProps {
   show: boolean;
@@ -355,15 +357,14 @@ const ModalUser = ({
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={onClose}>
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={existData ? handleSubmitUpdate : handleSubmitCreate}
+            <LineButton onClickFunction={onClose}>Close</LineButton>
+            <FillButton
+              onClickFunction={
+                existData ? handleSubmitUpdate : handleSubmitCreate
+              }
             >
               Save Changes
-            </Button>
+            </FillButton>
           </Modal.Footer>
         </Modal>
       )}

@@ -110,8 +110,8 @@ export interface GroupRoleType {
 }
 
 export interface ButtonProps {
-  onClickFunction: () => void;
+  onClickFunction?: () => void;
   className?: string;
-  variant: string;
+  variant?: string;
   children: React.ReactNode;
 }

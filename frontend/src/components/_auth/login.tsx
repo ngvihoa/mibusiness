@@ -8,7 +8,6 @@ import useAuth from "src/hooks/auth.hook";
 import FillButton from "../button/fill-button";
 import LineButton from "../button/line-button";
 import AuthLayout from "./auth-layout";
-import "./auth.scss";
 
 const initialLoginForm: LoginFormProps = {
   keyLogin: "",
@@ -108,22 +107,14 @@ const Login = () => {
           !formState.isValidPassword ? "is-invalid" : ""
         }`}
       />
-      <FillButton
-        variant="primary"
-        className="fw-medium fs-5"
-        onClickFunction={onLogIn}
-      >
+      <FillButton className="fw-medium fs-5" onClickFunction={onLogIn}>
         Log In
       </FillButton>
-      <span className="btn p-0 m-0 text-start btn-link text-decoration-none">
+      <span className="btn p-0 m-0 text-start text-link">
         Forgot your password?
       </span>
       <div className="hr"></div>
-      <LineButton
-        variant="primary"
-        className="fw-medium fs-5"
-        onClickFunction={handleToSignup}
-      >
+      <LineButton className="fw-medium fs-5" onClickFunction={handleToSignup}>
         Create new account
       </LineButton>
     </AuthLayout>

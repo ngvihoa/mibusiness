@@ -1,5 +1,4 @@
 import React from "react";
-import "./auth.scss";
 
 interface AuthLayoutProps {
   children: React.ReactNode;
@@ -30,7 +29,7 @@ justify-content-center align-items-center"
             className="content-right col-12 d-flex flex-column gap-3
       rounded-4 shadow p-4 py-5 bg-white col-md-6 col-lg-5"
           >
-            <h1 className="brand fw-bolder text-center text-primary w-100 d-md-none">
+            <h1 className="brand fw-bolder text-center w-100 d-md-none">
               MiBusiness
             </h1>
             {children}

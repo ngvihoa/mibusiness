@@ -1,0 +1,114 @@
+.home-container {
+  width: 100%;
+  height: 100dvh;
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: $teal-500;
+    // color: var(--custom-color-primary-2);
+    text-align: center;
+  }
+
+  p {
+    color: $gray-700;
+    font-size: 1rem;
+    max-width: 80%;
+    text-align: center;
+  }
+
+  .custom-button {
+    padding: 8px 16px;
+    border-radius: 10px;
+    background-color: var(--custom-color-primary-2);
+    color: white;
+    font-weight: 500;
+    transition: all 300ms ease-out;
+
+    &:hover,
+    &:active {
+      background-color: var(--custom-color-primary-3);
+      color: white;
+      scale: 1.05;
+    }
+
+    &:active {
+      scale: 0.95;
+    }
+  }
+
+  .dots {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+
+    .dot {
+      position: absolute;
+      border-radius: 100%;
+      aspect-ratio: 1;
+      background-color: $teal-500;
+    }
+    .dot:nth-child(1) {
+      top: -200px;
+      left: -200px;
+      width: 400px;
+    }
+    .dot:nth-child(2) {
+      bottom: -300px;
+      right: -300px;
+      width: 600px;
+    }
+    .dot:nth-child(3) {
+      bottom: -50px;
+      right: 150px;
+      min-width: 200px;
+      background-color: $teal-700;
+    }
+    .dot:nth-child(4) {
+      bottom: 250px;
+      right: -50px;
+      width: 100px;
+      background-color: $teal-300;
+    }
+    .dot:nth-child(5) {
+      top: 100px;
+      left: 100px;
+      width: 60px;
+      background-color: $teal-200;
+    }
+    .dot:nth-child(6) {
+      bottom: 190px;
+      left: 90px;
+      width: 40px;
+      background-color: $teal-600;
+    }
+    .dot:nth-child(7) {
+      bottom: 200px;
+      left: 100px;
+      width: 40px;
+      background-color: $teal-100;
+    }
+  }
+}
+
+@media (min-width: $bp-sm) {
+  .home-container {
+    h1 {
+      font-size: 3.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+      max-width: 60%;
+    }
+  }
+}

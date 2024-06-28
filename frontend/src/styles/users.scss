@@ -1,5 +1,5 @@
 .modal-user {
-  color: var(--custom-color-neutral-2);
+  color: $gray-800;
 
   .content-body {
     .red {
@@ -13,7 +13,7 @@
 }
 
 .manage-users-container {
-  color: var(--custom-color-neutral-2);
+  color: $gray-800;
   padding-top: 40px;
   button {
     display: inline-flex;
@@ -26,12 +26,13 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    padding-inline: 16px;
 
     .actions {
       text-align: left;
     }
 
-    @media (min-width: 576px) {
+    @media (min-width: $bp-sm) {
       & {
         flex-direction: row;
         justify-content: space-between;
@@ -45,19 +46,20 @@
   }
 
   .user-container {
-    max-height: 350px;
+    max-height: 400px;
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     gap: 16px;
     margin-bottom: 16px;
+    padding: 10px 16px;
 
-    @media (min-width: 576px) {
+    @media (min-width: $bp-sm) {
       & {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: $bp-lg) {
       & {
         grid-template-columns: repeat(3, 1fr);
       }
@@ -73,8 +75,8 @@
       transition: all 300ms ease-out;
 
       &:hover {
-        box-shadow: var(--bs-box-shadow-sm);
-        border-color: var(--custom-color-primary-1);
+        border-color: $teal-600;
+        transform: scale(1.05);
       }
 
       div {
@@ -102,18 +104,11 @@
         top: 8px;
         right: 16px;
 
-        span {
-          cursor: pointer;
-        }
-        span:hover {
-          color: var(--custom-color-primary-3);
-        }
-        .edit {
-          color: black;
-          margin-right: 6px;
-        }
-        .delete {
-          color: black;
+        .btn {
+          padding: 4px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
       }
     }

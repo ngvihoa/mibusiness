@@ -1,0 +1,42 @@
+.fill-button {
+  background-color: $teal-500;
+  border: 1px solid $teal-500;
+  color: white;
+  transition: all 300ms ease-out;
+
+  &:hover,
+  &:active {
+    background-color: $teal-600 !important;
+    border: 1px solid $teal-600;
+    color: white !important;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+.line-button {
+  background-color: white;
+  border: 1px solid $teal-500;
+  color: $teal-500;
+  transition: all 300ms ease-out;
+
+  &:hover,
+  &:active {
+    background-color: $teal-500 !important;
+    color: white !important;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.text-link {
+  color: $teal-600;
+
+  &:hover,
+  &:active {
+    color: $teal-800 !important;
+  }
+}

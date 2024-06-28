@@ -9,7 +9,8 @@ import { toast } from "react-toastify";
 import ModalConfirm from "src/components/modal-confirm/modal-confirm";
 import PaginationBar from "src/components/paginate-bar/pagination-bar";
 import usePagination from "src/hooks/pagination.hook";
-import "./roles.scss";
+import { styleIconSm } from "src/lib/data";
+import FillButton from "../button/fill-button";
 
 const initModal: ModalTextProps = {
   headingText: "",
@@ -91,7 +92,7 @@ const RolesDisplay = () => {
 
   return (
     <div className="role-display-container">
-      <div className="container">
+      <div className="content-container">
         <h3 className="role-title">Role list</h3>
         {roleList && (
           <>
@@ -105,12 +106,11 @@ const RolesDisplay = () => {
                       ? "No description"
                       : item.description}
                   </p>
-                  <div
-                    className="btn btn-danger"
-                    onClick={() => handleShowModalConfirmDelete(item)}
+                  <FillButton
+                    onClickFunction={() => handleShowModalConfirmDelete(item)}
                   >
-                    <MdDelete style={{ width: 14, height: 14 }} />
-                  </div>
+                    <MdDelete style={styleIconSm} />
+                  </FillButton>
                 </div>
               ))}
             </div>

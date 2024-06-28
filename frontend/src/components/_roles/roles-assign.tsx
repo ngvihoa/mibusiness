@@ -16,50 +16,7 @@ import useAuth from "src/hooks/auth.hook";
 import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
 import { fetchGroups } from "src/services/userService";
-import "./roles.scss";
-
-const mock: RoleDBType[] = [
-  {
-    id: 1,
-    url: "/user/read",
-    description: "Get user list",
-  },
-  {
-    id: 2,
-    url: "/user/read",
-    description: "",
-  },
-  {
-    id: 3,
-    url: "/user/read",
-    description: "Get user list",
-  },
-  {
-    id: 4,
-    url: "/user/read",
-    description: "Get user list",
-  },
-  {
-    id: 4,
-    url: "/user/read",
-    description: "Get user list",
-  },
-  {
-    id: 4,
-    url: "/user/read",
-    description: "Get user list",
-  },
-  {
-    id: 4,
-    url: "/user/read",
-    description: "Get user list",
-  },
-  {
-    id: 4,
-    url: "/user/read",
-    description: "Get user list",
-  },
-];
+import FillButton from "../button/fill-button";
 
 const initModal: ModalTextProps = {
   headingText: "",
@@ -171,6 +128,7 @@ const RolesAssign = () => {
 
   const handlebuildDataToSave = () => {
     if (!rolePersist || !groupId) return [];
+
     const re: GroupRoleType[] = [];
     rolePersist.forEach((item) => {
       if (item.isAssigned) {
@@ -185,7 +143,6 @@ const RolesAssign = () => {
 
   const handleSave = async () => {
     const dataToSave = handlebuildDataToSave();
-    if (dataToSave.length === 0) return;
     try {
       const data = await assignRoles(groupId!, dataToSave);
       toast.success("The roles are assigned!");
@@ -203,7 +160,7 @@ const RolesAssign = () => {
 
   return (
     <div className="role-assign-container">
-      <div className="container">
+      <div className="content-container">
         <h3 className="role-title">Assign roles</h3>
         <div className="role-parent">
           {groupList === null && <div>Fetching data failed...</div>}
@@ -255,9 +212,9 @@ const RolesAssign = () => {
                   ))}
               </div>
               {groupId && (
-                <button className="btn btn-primary mt-3" onClick={handleSave}>
+                <FillButton className="mt-3" onClickFunction={handleSave}>
                   Save changes
-                </button>
+                </FillButton>
               )}
             </>
           )}

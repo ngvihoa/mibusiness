@@ -1,0 +1,16 @@
+ul.pagination {
+  .page-link {
+    color: $teal-500;
+
+    &:focus {
+      box-shadow: 0 0 0 0.3rem $teal-200;
+    }
+  }
+
+  .active > .page-link,
+  .page-link.active {
+    color: white;
+    background-color: $teal-500;
+    border-color: $teal-500;
+  }
+}

@@ -3,7 +3,6 @@ import { useAppSelector } from "src/redux/store";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import "./navigation-bar.scss";
 import useAuth from "src/hooks/auth.hook";
 
 const NavigationBar = () => {

@@ -1,5 +1,7 @@
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { ModalTextProps } from "src/lib/type";
+import FillButton from "src/components/button/fill-button";
+import LineButton from "src/components/button/line-button";
 
 interface ModalConfirmProps {
   show: boolean;
@@ -27,12 +29,8 @@ const ModalConfirm = ({
         </Modal.Header>
         <Modal.Body>{text.bodyText}</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleConfirm}>
-            Save Changes
-          </Button>
+          <LineButton onClickFunction={handleClose}>Close</LineButton>
+          <FillButton onClickFunction={handleConfirm}>Save Changes</FillButton>
         </Modal.Footer>
       </Modal>
     </>

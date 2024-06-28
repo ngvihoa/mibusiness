@@ -3,8 +3,10 @@ import { BiSolidPhone } from "react-icons/bi";
 import { FaUserGroup } from "react-icons/fa6";
 import { MdDelete, MdEdit, MdEmail } from "react-icons/md";
 import { PiGenderIntersexFill } from "react-icons/pi";
-import { styleIcon } from "src/lib/data";
+import { styleIcon, styleIconSm } from "src/lib/data";
 import { UsersType } from "src/lib/type";
+import FillButton from "../button/fill-button";
+import LineButton from "../button/line-button";
 
 interface UserCardProps {
   user: UsersType;
@@ -38,20 +40,18 @@ const UserCard = ({
         {user.Group ? user.Group.description : "Undefined"}
       </div>
       <div className="custom-button">
-        <span
-          title="Edit"
-          className="edit fw-medium"
-          onClick={() => onShowModalUpdate(user)}
+        <LineButton
+          className="fw-medium"
+          onClickFunction={() => onShowModalUpdate(user)}
         >
-          <MdEdit style={{ width: 16, height: 16 }} />
-        </span>
-        <span
-          title="Delete"
-          className="delete fw-medium"
-          onClick={() => onShowModalDelete(user)}
+          <MdEdit style={styleIconSm} />
+        </LineButton>
+        <FillButton
+          className="fw-medium"
+          onClickFunction={() => onShowModalDelete(user)}
         >
-          <MdDelete style={{ width: 16, height: 16 }} />
-        </span>
+          <MdDelete style={styleIconSm} />
+        </FillButton>
       </div>
     </div>
   );

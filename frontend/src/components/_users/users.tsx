@@ -4,16 +4,11 @@ import { toast } from "react-toastify";
 import ModalConfirm from "src/components/modal-confirm/modal-confirm";
 import { ModalTextProps, UsersType } from "src/lib/type";
 import ModalUser from "./modal-user";
-import { MdDelete, MdEdit, MdEmail } from "react-icons/md";
 import { LuRefreshCw } from "react-icons/lu";
 import { FiPlusCircle } from "react-icons/fi";
-import { BiSolidPhone } from "react-icons/bi";
-import { PiGenderIntersexFill } from "react-icons/pi";
-import { FaUserGroup } from "react-icons/fa6";
 import axios from "axios";
 import useAuth from "src/hooks/auth.hook";
 import { handleError } from "src/lib/func";
-import "./users.scss";
 import usePagination from "src/hooks/pagination.hook";
 import PaginationBar from "src/components/paginate-bar/pagination-bar";
 import UserCard from "./user-card";
@@ -23,11 +18,6 @@ import LineButton from "../button/line-button";
 const initModal: ModalTextProps = {
   headingText: "",
   bodyText: "",
-};
-
-const styleIcon = {
-  width: 16,
-  height: 16,
 };
 
 const Users = () => {
@@ -129,7 +119,7 @@ const Users = () => {
 
   return (
     <>
-      <div className="manage-users-container container-fluid px-4 mx-0 container-md mx-md-auto">
+      <div className="manage-users-container container-fluid px-0 mx-0 container-md mx-md-auto">
         <div className="row">
           <div className="table-user-info mt-3 p-0">
             <div className="header-container mb-3">
@@ -147,7 +137,7 @@ const Users = () => {
                 </FillButton>
               </div>
             </div>
-            <div className="container-fluid mx-0 px-0 overflow-x-auto user-container">
+            <div className="container-fluid overflow-x-auto user-container">
               {userList && userList.length > 0 ? (
                 <>
                   {userList.map((item, index) => (

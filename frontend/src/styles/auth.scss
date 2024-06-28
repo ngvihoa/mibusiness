@@ -2,7 +2,7 @@
   .content-left {
     @media (width >= 768px) {
       div {
-        background: var(--custom-gradient-1);
+        background: $teal-500;
         box-shadow: var(--bs-box-shadow);
         color: white;
 
@@ -33,6 +33,10 @@
     .hr {
       border: 0.5px solid var(--custom-color-neutral-1);
       margin: 0.5rem 0;
+    }
+
+    .brand {
+      color: $teal-600;
     }
   }
 }

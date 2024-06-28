@@ -1,14 +1,9 @@
 import { ButtonProps } from "src/lib/type";
 
-const LineButton = ({
-  onClickFunction,
-  className,
-  variant,
-  children,
-}: ButtonProps) => {
+const LineButton = ({ onClickFunction, className, children }: ButtonProps) => {
   return (
     <button
-      className={`btn btn-outline-${variant} ${className}`}
+      className={`btn line-button ${className}`}
       onClick={onClickFunction}
     >
       {children}

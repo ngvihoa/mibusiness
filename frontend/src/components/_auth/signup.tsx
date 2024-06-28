@@ -7,7 +7,6 @@ import axios from "axios";
 import useAuth from "src/hooks/auth.hook";
 import FillButton from "../button/fill-button";
 import AuthLayout from "./auth-layout";
-import "./auth.scss";
 
 const initialForm = {
   email: "",
@@ -213,15 +212,11 @@ const Signup = () => {
           <label htmlFor="password">Confirm password</label>
         </div>
       </div>
-      <FillButton
-        variant="primary"
-        className="fw-medium fs-5"
-        onClickFunction={handleSignUp}
-      >
+      <FillButton className="fw-medium fs-5" onClickFunction={handleSignUp}>
         Sign Up
       </FillButton>
       <span
-        className="btn p-0 m-0 text-start btn-link text-decoration-none"
+        className="btn p-0 m-0 text-start text-link"
         onClick={handleToLogin}
       >
         Already have an account? Login.
