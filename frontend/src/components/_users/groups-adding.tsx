@@ -22,7 +22,7 @@ const initialRoleList: RoleListType = {
   },
 };
 
-const RolesAdding = () => {
+const GroupsAdding = () => {
   const { handleLogOut } = useAuth();
   const [roleList, setRoleList] = useState(initialRoleList);
 
@@ -112,38 +112,38 @@ const RolesAdding = () => {
   };
 
   return (
-    <div className="role-adding-container">
+    <div className="group-adding-container">
       <div className="content-container">
-        <h3 className="role-title">Manage roles</h3>
-        <div className="role-parent">
+        <h3 className="group-title">Manage groups</h3>
+        <div className="group-parent">
           {Object.entries(roleList).map(([key, value], index) => {
             return (
-              <div className="role-child" key={key}>
-                <div className="role-input form-group">
+              <div className="group-child" key={key}>
+                <div className="group-input form-group">
                   <label htmlFor="url">Url:</label>
                   <input
                     type="text"
-                    name="url"
+                    name="name"
                     className={`form-control ${
                       !value.isValid ? "is-invalid" : ""
                     }`}
-                    placeholder="Example: /user/design..."
+                    placeholder="Example: BA..."
                     value={value.url}
                     onChange={(e) => onChangeRole(key, e)}
                   />
                 </div>
-                <div className="role-input form-group">
-                  <label htmlFor="url">Description:</label>
+                <div className="group-input form-group">
+                  <label htmlFor="description">Description:</label>
                   <input
                     type="text"
                     name="description"
                     className="form-control"
-                    placeholder="Example: Design user..."
+                    placeholder="Example: Business Analyst..."
                     value={value.description}
                     onChange={(e) => onChangeRole(key, e)}
                   />
                 </div>
-                <div className="role-input">
+                <div className="group-input">
                   {Object.entries(roleList).length - 1 === index && (
                     <FillButton onClickFunction={onAddInput}>
                       <FiPlusCircle />
@@ -159,12 +159,12 @@ const RolesAdding = () => {
             );
           })}
         </div>
-        <div className="role-bottom">
-          <FillButton onClickFunction={onSubmit}>Save new roles</FillButton>
+        <div className="group-bottom">
+          <FillButton onClickFunction={onSubmit}>Save new groups</FillButton>
         </div>
       </div>
     </div>
   );
 };
 
-export default RolesAdding;
+export default GroupsAdding;

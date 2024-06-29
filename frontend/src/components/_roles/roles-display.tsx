@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { MdDelete } from "react-icons/md";
 import { ModalTextProps, RoleDBType } from "src/lib/type";
 import { deleteRole, fetchAllRoles } from "src/services/roleService";
 import axios from "axios";
@@ -9,8 +8,7 @@ import { toast } from "react-toastify";
 import ModalConfirm from "src/components/modal-confirm/modal-confirm";
 import PaginationBar from "src/components/paginate-bar/pagination-bar";
 import usePagination from "src/hooks/pagination.hook";
-import { styleIconSm } from "src/lib/data";
-import FillButton from "../button/fill-button";
+import RoleCard from "./role-card";
 
 const initModal: ModalTextProps = {
   headingText: "",
@@ -98,20 +96,11 @@ const RolesDisplay = () => {
           <>
             <div className="role-parent">
               {roleList.map((item, index) => (
-                <div className="role-child" key={item.id + "-" + index}>
-                  <p>{item.url}</p>
-                  <p>Id: {item.id}</p>
-                  <p>
-                    {!item.description || item.description === ""
-                      ? "No description"
-                      : item.description}
-                  </p>
-                  <FillButton
-                    onClickFunction={() => handleShowModalConfirmDelete(item)}
-                  >
-                    <MdDelete style={styleIconSm} />
-                  </FillButton>
-                </div>
+                <RoleCard
+                  key={item.id + "-" + index}
+                  role={item}
+                  openModalConfirm={handleShowModalConfirmDelete}
+                />
               ))}
             </div>
             {pageCount > 0 && (

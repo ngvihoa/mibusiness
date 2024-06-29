@@ -1,4 +1,4 @@
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import {
   GroupDBGet,
   ModalTextProps,
@@ -6,18 +6,15 @@ import {
   createUserFormProps,
   createUserFormStateProps,
 } from "src/lib/type";
-import {
-  createNewUser,
-  fetchGroups,
-  updateUser,
-} from "src/services/userService";
+import { createNewUser, updateUser } from "src/services/userService";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { handleError, validateEmail, validatePhone } from "src/lib/func";
 import axios from "axios";
 import useAuth from "src/hooks/auth.hook";
-import LineButton from "../button/line-button";
-import FillButton from "../button/fill-button";
+import LineButton from "src/components/button/line-button";
+import FillButton from "src/components/button/fill-button";
+import { fetchGroups } from "src/services/groupService";
 
 interface ModalUserProps {
   show: boolean;

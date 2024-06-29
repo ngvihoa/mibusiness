@@ -30,10 +30,6 @@ const deleteUser = (id: number) => {
   });
 };
 
-const fetchGroups = () => {
-  return axios.get(`/group/read`);
-};
-
 const createNewUser = (user: createUserFormProps) => {
   return axios.post(`/user/create`, {
     ...user,
@@ -56,7 +52,6 @@ export {
   logInUser,
   fetchAllUsers,
   deleteUser,
-  fetchGroups,
   createNewUser,
   updateUser,
   logOutUser,

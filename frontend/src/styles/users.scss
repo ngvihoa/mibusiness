@@ -14,108 +14,256 @@
 
 .manage-users-container {
   color: $gray-800;
-  padding-top: 40px;
-  button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
+  padding-top: 20px;
+  padding-bottom: 40px;
+
+  .tab-nav-container {
+    .nav-link {
+      color: gray;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nav-link.active {
+      font-weight: 600;
+      color: white;
+      background-color: $teal-500;
+    }
   }
 
-  .header-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding-inline: 16px;
-
-    .actions {
-      text-align: left;
-    }
-
-    @media (min-width: $bp-sm) {
-      & {
-        flex-direction: row;
-        justify-content: space-between;
+  .user-list-container {
+    .content-container {
+      button {
+        display: inline-flex;
         align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+
+      .header-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin: 20px 0 16px 0;
 
         .actions {
-          text-align: end;
+          text-align: left;
+        }
+
+        @media (min-width: $bp-sm) {
+          & {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            .actions {
+              text-align: end;
+            }
+          }
         }
       }
-    }
-  }
 
-  .user-container {
-    max-height: 400px;
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 16px;
-    margin-bottom: 16px;
-    padding: 10px 16px;
+      .user-container {
+        max-height: 360px;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 16px;
+        margin-bottom: 16px;
+        padding: 10px 16px;
 
-    @media (min-width: $bp-sm) {
-      & {
-        grid-template-columns: repeat(2, 1fr);
+        @media (min-width: $bp-sm) {
+          & {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (min-width: $bp-lg) {
+          & {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        .user-card {
+          position: relative;
+          padding: 8px 16px;
+          border-radius: var(--bs-border-radius-lg);
+          border: 1px solid var(--bs-border-color);
+          min-width: 250px;
+          flex: 1;
+          transition: all 300ms ease-out;
+
+          &:hover {
+            border-color: $teal-600;
+            transform: scale(1.05);
+          }
+
+          div {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+          }
+
+          .username {
+            font-weight: 600;
+            font-size: 1.2rem;
+          }
+
+          .id {
+            font-size: 0.8rem;
+            font-style: italic;
+          }
+
+          .gender {
+            text-transform: capitalize;
+          }
+
+          .custom-button {
+            position: absolute;
+            top: 8px;
+            right: 16px;
+
+            .btn {
+              padding: 4px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+          }
+        }
       }
-    }
-
-    @media (min-width: $bp-lg) {
-      & {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    .user-card {
-      position: relative;
-      padding: 8px 16px;
-      border-radius: var(--bs-border-radius-lg);
-      border: 1px solid var(--bs-border-color);
-      min-width: 250px;
-      flex: 1;
-      transition: all 300ms ease-out;
-
-      &:hover {
-        border-color: $teal-600;
-        transform: scale(1.05);
-      }
-
-      div {
+      .table-footer-container {
         display: flex;
+        justify-content: center;
         align-items: center;
-        gap: 4px;
+      }
+    }
+  }
+
+  .user-group-container {
+    .content-container {
+      .header-container {
+        margin: 20px 0 16px 0;
       }
 
-      .username {
-        font-weight: 600;
-        font-size: 1.2rem;
-      }
+      .group-container {
+        max-height: 360px;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 16px;
+        margin-bottom: 16px;
+        padding: 10px 16px;
 
-      .id {
-        font-size: 0.8rem;
-        font-style: italic;
-      }
+        @media (min-width: $bp-sm) {
+          & {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
 
-      .gender {
-        text-transform: capitalize;
-      }
+        @media (min-width: $bp-lg) {
+          & {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
 
-      .custom-button {
-        position: absolute;
-        top: 8px;
-        right: 16px;
+        .group-card {
+          position: relative;
+          padding: 8px 16px;
+          border-radius: var(--bs-border-radius-lg);
+          border: 1px solid var(--bs-border-color);
+          min-width: 250px;
+          flex: 1;
+          transition: all 300ms ease-out;
 
-        .btn {
-          padding: 4px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+          &:hover {
+            border-color: $teal-600;
+            transform: scale(1.05);
+          }
+
+          div {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+          }
+
+          .name {
+            font-weight: 600;
+            font-size: 1.2rem;
+          }
+
+          .id {
+            font-size: 0.8rem;
+            font-style: italic;
+          }
+
+          .custom-button {
+            position: absolute;
+            top: 8px;
+            right: 16px;
+
+            .btn {
+              padding: 4px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+          }
         }
       }
     }
   }
-  .table-footer-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+  .group-adding-container {
+    .group-title {
+      margin: 20px 0 16px 0;
+    }
+    .group-parent {
+      display: flex;
+      flex-flow: column;
+      gap: 14px;
+      max-height: 400px;
+      overflow: auto;
+      padding-bottom: 10px;
+
+      .group-child {
+        display: flex;
+        align-items: end;
+
+        .group-input {
+          padding-left: 10px;
+          padding-right: 0;
+          flex: 1;
+
+          &:last-child {
+            flex: 0;
+            flex-basis: 100px;
+          }
+
+          label {
+            font-weight: 600;
+            margin-bottom: 4px;
+          }
+          input {
+            margin: 0;
+          }
+
+          button {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 10px;
+
+            &:first-child {
+              margin-right: 6px;
+            }
+          }
+        }
+      }
+    }
+
+    .group-bottom {
+      padding-inline: 12px;
+      margin-top: 16px;
+    }
   }
 }

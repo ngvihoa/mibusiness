@@ -4,7 +4,7 @@ import { NavLink, Outlet } from "react-router-dom";
 
 const Roles = () => {
   return (
-    <div className="roles-container container">
+    <div className="roles-container container-fluid container-md">
       <div className="tab-nav-container">
         <Nav justify variant="tabs">
           <Nav.Item>

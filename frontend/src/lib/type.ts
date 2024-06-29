@@ -91,27 +91,32 @@ export type GroupDBGet = {
   name: string;
 };
 
-export interface RoleType {
+export type RoleType = {
   url: string;
   description: string;
-}
+};
 
-export interface RoleDBType {
+export type RoleDBType = {
   id: number;
   url: string;
   description: string;
   createdAt?: string;
   updatedAt?: string;
-}
+};
 
-export interface GroupRoleType {
+export type GroupRoleType = {
   groupId: number;
   roleId: number;
-}
+};
 
-export interface ButtonProps {
+export type ButtonProps = {
   onClickFunction?: () => void;
   className?: string;
   variant?: string;
   children: React.ReactNode;
-}
+};
+
+export type GroupPostType = {
+  name: string;
+  description: string;
+};

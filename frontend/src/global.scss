@@ -9,7 +9,14 @@
 
 body {
   background-color: #ffffff !important;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+  height: 100dvh;
+
+  &::-webkit-scrollbar {
+    display: hidden !important;
+  }
 }
 
 @import "./styles/button.scss";

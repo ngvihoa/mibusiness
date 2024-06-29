@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import FillButton from "../button/fill-button";
 
 const Home = () => {
@@ -8,8 +9,12 @@ const Home = () => {
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste aut
         officiis id accusamus, pariatur architecto quasi?
       </p>
-      <FillButton>Start now</FillButton>
+      <FillButton>
+        <NavLink to="/about">Start now</NavLink>
+      </FillButton>
       <div className="dots">
+        <div className="dot"></div>
+        <div className="dot"></div>
         <div className="dot"></div>
         <div className="dot"></div>
         <div className="dot"></div>

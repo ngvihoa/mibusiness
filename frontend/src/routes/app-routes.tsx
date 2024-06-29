@@ -9,6 +9,9 @@ import RolesDisplay from "src/components/_roles/roles-display";
 import RolesAdding from "src/components/_roles/roles-adding";
 import RolesAssign from "src/components/_roles/roles-assign";
 import Home from "src/components/_home/home";
+import UserList from "src/components/_users/user-list";
+import UserGroup from "src/components/_users/user-group";
+import GroupsAdding from "src/components/_users/groups-adding";
 
 const AppRoutes = () => {
   /**
@@ -23,7 +26,12 @@ const AppRoutes = () => {
           <Route path="/signup" element={<Signup />} />
         </Route>
         <Route element={<PrivateRoutes />}>
-          <Route path="/users" element={<Users />} />
+          <Route path="/users" element={<Users />}>
+            <Route path="" element={<Navigate to="list" replace />} />
+            <Route path="list" element={<UserList />} />
+            <Route path="group" element={<UserGroup />} />
+            <Route path="group-adding" element={<GroupsAdding />} />
+          </Route>
           <Route path="/roles" element={<Roles />}>
             <Route path="" element={<Navigate to="display" replace />} />
             <Route path="display" element={<RolesDisplay />} />

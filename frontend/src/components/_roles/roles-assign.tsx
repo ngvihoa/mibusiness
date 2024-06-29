@@ -15,7 +15,7 @@ import { handleError } from "src/lib/func";
 import useAuth from "src/hooks/auth.hook";
 import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
-import { fetchGroups } from "src/services/userService";
+import { fetchGroups } from "src/services/groupService";
 import FillButton from "../button/fill-button";
 
 const initModal: ModalTextProps = {
