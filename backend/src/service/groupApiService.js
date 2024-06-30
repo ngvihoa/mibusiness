@@ -1,5 +1,37 @@
 import db from "../models/index.js";
 
+const createNewGroups = async (groups) => {
+  try {
+    const oldGroups = await db.Group.findAll({
+      attributes: ["name", "description"],
+      raw: true,
+    });
+    const newGroups = groups.filter(
+      (group) => !oldGroups.some((oldGroup) => oldGroup.name === group.name)
+    );
+    if (newGroups.length === 0) {
+      return {
+        EM: "Nothing to create!",
+        EC: -1,
+        DT: "",
+      };
+    }
+    let data = await db.Group.bulkCreate(newGroups);
+    return {
+      EM: `Create successfully ${newGroups.length} group(s)!`,
+      EC: 0,
+      DT: data,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      EM: "Error from service!",
+      EC: -2,
+      DT: "",
+    };
+  }
+};
+
 const getGroups = async () => {
   try {
     let data = await db.Group.findAll({
@@ -20,6 +52,28 @@ const getGroups = async () => {
   }
 };
 
+const deleteGroup = async (id) => {
+  try {
+    await db.Group.destroy({
+      where: { id: id },
+    });
+    return {
+      EM: "",
+      EC: 0,
+      DT: "",
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      EM: "Error from service!",
+      EC: -2,
+      DT: [],
+    };
+  }
+};
+
 export default {
   getGroups,
+  createNewGroups,
+  deleteGroup,
 };

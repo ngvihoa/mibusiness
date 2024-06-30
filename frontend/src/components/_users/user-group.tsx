@@ -1,19 +1,12 @@
 import { useEffect, useState } from "react";
-import { deleteUser } from "src/services/userService";
 import { toast } from "react-toastify";
 import ModalConfirm from "src/components/modal-confirm/modal-confirm";
-import { GroupDBGet, ModalTextProps, UsersType } from "src/lib/type";
-import ModalUser from "./modal-user";
-import { LuRefreshCw } from "react-icons/lu";
-import { FiPlusCircle } from "react-icons/fi";
 import axios from "axios";
 import useAuth from "src/hooks/auth.hook";
 import { handleError } from "src/lib/func";
-import UserCard from "./user-card";
-import FillButton from "src/components/button/fill-button";
-import LineButton from "src/components/button/line-button";
-import { fetchGroups } from "src/services/groupService";
+import { deleteGroup, fetchGroups } from "src/services/groupService";
 import GroupCard from "./group-card";
+import { GroupDBGet, ModalTextProps } from "src/lib/type";
 
 const initModal: ModalTextProps = {
   headingText: "",
@@ -65,7 +58,7 @@ const UserGroup = () => {
   const handleConfirmDelete = async () => {
     try {
       if (dataModal) {
-        let data = await deleteUser(+dataModal.id);
+        let data = await deleteGroup(dataModal);
         toast.success(data.EM);
         await fetchGroupList();
         handleCloseModalConfirmDelete();

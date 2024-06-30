@@ -18,7 +18,7 @@ const GroupCard = ({ group, onShowModalDelete }: UserCardProps) => {
     <div className="group-card">
       <div className="name">{group.name}</div>
       <div className="id">Id: {group.id}</div>
-      <div className="desc">{group.description}</div>
+      <div className="desc">{group.description ?? "No description"}</div>
       <div className="custom-button">
         <FillButton
           className="fw-medium"

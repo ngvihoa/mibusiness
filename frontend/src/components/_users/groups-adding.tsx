@@ -3,20 +3,21 @@ import { FiPlusCircle } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
-import { RoleType } from "src/lib/type";
+import { GroupPostType, RoleType } from "src/lib/type";
 import { createRoles } from "src/services/roleService";
 import axios from "axios";
 import { handleError } from "src/lib/func";
 import useAuth from "src/hooks/auth.hook";
 import FillButton from "../button/fill-button";
+import { createGroups } from "src/services/groupService";
 
-interface RoleListType {
+interface GroupListType {
   [key: string]: any;
 }
 
-const initialRoleList: RoleListType = {
-  role1: {
-    url: "",
+const initialGroupList: GroupListType = {
+  group1: {
+    name: "",
     description: "",
     isValid: true,
   },
@@ -24,60 +25,61 @@ const initialRoleList: RoleListType = {
 
 const GroupsAdding = () => {
   const { handleLogOut } = useAuth();
-  const [roleList, setRoleList] = useState(initialRoleList);
+  const [groupList, setGroupList] = useState(initialGroupList);
 
   const onChangeRole = (key: string, e: any) => {
-    const tmpList = { ...roleList };
+    const tmpList = { ...groupList };
     tmpList[key][e.target.name] = e.target.value;
-    if (tmpList[key].url === "" && tmpList[key].isValid) {
+    if (tmpList[key].name === "" && tmpList[key].isValid) {
       tmpList[key].isValid = false;
-    } else if (tmpList[key].url !== "" && !tmpList[key].isValid) {
+    } else if (tmpList[key].name !== "" && !tmpList[key].isValid) {
       tmpList[key].isValid = true;
     }
-    setRoleList(tmpList);
+    setGroupList(tmpList);
   };
 
   const onAddInput = () => {
-    const tmpList = { ...roleList };
+    const tmpList = { ...groupList };
     const newIndex = uuid();
     tmpList[`child-${newIndex}`] = {
-      url: "",
+      name: "",
       description: "",
       isValid: true,
     };
-    setRoleList(tmpList);
+    setGroupList(tmpList);
   };
 
-  const onDeleteRole = (key: string) => {
-    const tmpList = { ...roleList };
+  const onDeleteGroup = (key: string) => {
+    const tmpList = { ...groupList };
     if (delete tmpList[key]) {
-      setRoleList(tmpList);
+      setGroupList(tmpList);
     }
   };
 
-  const handleValidateRoles = () => {
-    const tmpValid = { ...roleList };
+  const handleValidateGroup = () => {
+    const tmpValid = { ...groupList };
     let re = true;
-    for (const key in roleList) {
-      if (roleList[key].url === "") {
+    console.log(tmpValid);
+    for (const key in groupList) {
+      if (groupList[key].name === "") {
         tmpValid[key].isValid = false;
         re = false;
-      } else if (roleList[key].url !== "" && !tmpValid[key].isValid) {
+      } else if (groupList[key].name !== "" && !tmpValid[key].isValid) {
         tmpValid[key].isValid = true;
       }
     }
-    setRoleList(tmpValid);
+    setGroupList(tmpValid);
 
-    if (!re) toast.error("Please enter all url fields!");
+    if (!re) toast.error("Please enter all name fields!");
     return re;
   };
 
-  const buildDatatoPersist = (): RoleType[] => {
-    const tmpList = { ...roleList };
-    const dataToPersist: RoleType[] = [];
+  const buildDatatoPersist = (): GroupPostType[] => {
+    const tmpList = { ...groupList };
+    const dataToPersist: GroupPostType[] = [];
     for (const key in tmpList) {
       dataToPersist.push({
-        url: tmpList[key].url,
+        name: tmpList[key].name,
         description: tmpList[key].description,
       });
     }
@@ -86,15 +88,15 @@ const GroupsAdding = () => {
   };
 
   const onSubmit = async () => {
-    const check = handleValidateRoles();
+    const check = handleValidateGroup();
     if (!check) return;
-    const roles = buildDatatoPersist();
+    const groups = buildDatatoPersist();
     try {
-      let data = await createRoles(roles);
+      let data = await createGroups(groups);
       toast.success(data.EM);
-      setRoleList({
-        role1: {
-          url: "",
+      setGroupList({
+        group1: {
+          name: "",
           description: "",
           isValid: true,
         },
@@ -116,7 +118,7 @@ const GroupsAdding = () => {
       <div className="content-container">
         <h3 className="group-title">Manage groups</h3>
         <div className="group-parent">
-          {Object.entries(roleList).map(([key, value], index) => {
+          {Object.entries(groupList).map(([key, value], index) => {
             return (
               <div className="group-child" key={key}>
                 <div className="group-input form-group">
@@ -128,7 +130,7 @@ const GroupsAdding = () => {
                       !value.isValid ? "is-invalid" : ""
                     }`}
                     placeholder="Example: BA..."
-                    value={value.url}
+                    value={value.name}
                     onChange={(e) => onChangeRole(key, e)}
                   />
                 </div>
@@ -144,13 +146,13 @@ const GroupsAdding = () => {
                   />
                 </div>
                 <div className="group-input">
-                  {Object.entries(roleList).length - 1 === index && (
+                  {Object.entries(groupList).length - 1 === index && (
                     <FillButton onClickFunction={onAddInput}>
                       <FiPlusCircle />
                     </FillButton>
                   )}
-                  {Object.entries(roleList).length > 1 && (
-                    <FillButton onClickFunction={() => onDeleteRole(key)}>
+                  {Object.entries(groupList).length > 1 && (
+                    <FillButton onClickFunction={() => onDeleteGroup(key)}>
                       <MdDelete />
                     </FillButton>
                   )}

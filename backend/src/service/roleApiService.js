@@ -9,7 +9,6 @@ const createNewRoles = async (roles) => {
     const newRoles = roles.filter(
       (role) => !oldRole.some((oldRole) => oldRole.url === role.url)
     );
-    console.log("create roles:", newRoles);
     if (newRoles.length === 0) {
       return {
         EM: "Nothing to create!",
@@ -129,7 +128,7 @@ const getRolesByGroup = async (groupId) => {
 
 const assignRolesToGroup = async (groupId, groupRoles) => {
   try {
-    console.log("checking input", groupId, groupRoles);
+    // console.log("checking input", groupId, groupRoles);
     if (groupId && !isNaN(groupId) && groupRoles) {
       await db.Group_Role.destroy({
         where: { groupId: +groupId },
