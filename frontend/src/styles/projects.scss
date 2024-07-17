@@ -1,0 +1,32 @@
+.projects-container {
+  padding-top: 20px;
+  padding-bottom: 40px;
+  color: $gray-800;
+
+  h3 {
+    margin-top: 20px;
+    margin-bottom: 16px;
+  }
+
+  .project-item {
+    position: relative;
+
+    a {
+      color: $gray-800 !important;
+      text-decoration: none;
+    }
+
+    .custom-button {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+
+      .btn {
+        padding: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}
