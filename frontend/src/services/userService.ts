@@ -1,10 +1,6 @@
 // import axios from "axios";
-import {
-  LoginFormProps,
-  SignUpFormProps,
-  createUserFormProps,
-} from "src/lib/type";
-import axios from "src/config/axios.config";
+import { LoginFormProps, SignUpFormProps, createUserFormProps } from "lib/type";
+import axios from "config/axios.config";
 
 const signUpNewUser = (form: SignUpFormProps) => {
   return axios.post("/signup", {

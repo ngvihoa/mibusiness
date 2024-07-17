@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { LoginFormProps, LoginFormStateProps, LoginType } from "src/lib/type";
-import { logInUser } from "src/services/userService";
+import { LoginFormProps, LoginFormStateProps, LoginType } from "lib/type";
+import { logInUser } from "services/userService";
 import axios from "axios";
-import { handleError } from "src/lib/func";
-import useAuth from "src/hooks/auth.hook";
-import FillButton from "../button/fill-button";
-import LineButton from "../button/line-button";
+import { handleError } from "lib/func";
+import useAuth from "hooks/auth.hook";
+import FillButton from "components/button/fill-button";
+import LineButton from "components/button/line-button";
 import AuthLayout from "./auth-layout";
 
 const initialLoginForm: LoginFormProps = {

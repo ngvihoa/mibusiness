@@ -1,4 +1,4 @@
-import { ButtonProps } from "src/lib/type";
+import { ButtonProps } from "lib/type";
 
 const LineButton = ({ onClickFunction, className, children }: ButtonProps) => {
   return (

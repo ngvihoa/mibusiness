@@ -3,13 +3,13 @@ import { FiPlusCircle } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
-import { GroupPostType, RoleType } from "src/lib/type";
-import { createRoles } from "src/services/roleService";
+import { GroupPostType, RoleType } from "lib/type";
+import { createRoles } from "services/roleService";
 import axios from "axios";
-import { handleError } from "src/lib/func";
-import useAuth from "src/hooks/auth.hook";
+import { handleError } from "lib/func";
+import useAuth from "hooks/auth.hook";
 import FillButton from "../button/fill-button";
-import { createGroups } from "src/services/groupService";
+import { createGroups } from "services/groupService";
 
 interface GroupListType {
   [key: string]: any;

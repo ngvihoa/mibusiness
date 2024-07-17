@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { handleError, validateEmail, validatePhone } from "src/lib/func";
-import { SignUpFormProps, SignUpFormStateProps } from "src/lib/type";
-import { signUpNewUser } from "src/services/userService";
+import { handleError, validateEmail, validatePhone } from "lib/func";
+import { SignUpFormProps, SignUpFormStateProps } from "lib/type";
+import { signUpNewUser } from "services/userService";
 import axios from "axios";
-import useAuth from "src/hooks/auth.hook";
-import FillButton from "../button/fill-button";
+import useAuth from "hooks/auth.hook";
+import FillButton from "components/button/fill-button";
 import AuthLayout from "./auth-layout";
 
 const initialForm = {

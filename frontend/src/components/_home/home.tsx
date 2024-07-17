@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import FillButton from "../button/fill-button";
+import FillButton from "components/button/fill-button";
 
 const Home = () => {
   return (

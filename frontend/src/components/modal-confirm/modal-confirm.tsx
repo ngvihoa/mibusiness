@@ -1,7 +1,7 @@
 import { Modal } from "react-bootstrap";
-import { ModalTextProps } from "src/lib/type";
-import FillButton from "src/components/button/fill-button";
-import LineButton from "src/components/button/line-button";
+import { ModalTextProps } from "lib/type";
+import FillButton from "components/button/fill-button";
+import LineButton from "components/button/line-button";
 
 interface ModalConfirmProps {
   show: boolean;

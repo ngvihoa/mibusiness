@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import ModalConfirm from "src/components/modal-confirm/modal-confirm";
+import ModalConfirm from "components/modal-confirm/modal-confirm";
 import axios from "axios";
-import useAuth from "src/hooks/auth.hook";
-import { handleError } from "src/lib/func";
-import { deleteGroup, fetchGroups } from "src/services/groupService";
+import useAuth from "hooks/auth.hook";
+import { handleError } from "lib/func";
+import { deleteGroup, fetchGroups } from "services/groupService";
 import GroupCard from "./group-card";
-import { GroupDBGet, ModalTextProps } from "src/lib/type";
+import { GroupDBGet, ModalTextProps } from "lib/type";
 
 const initModal: ModalTextProps = {
   headingText: "",

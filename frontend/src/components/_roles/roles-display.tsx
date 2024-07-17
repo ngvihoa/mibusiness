@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { ModalTextProps, RoleDBType } from "src/lib/type";
-import { deleteRole, fetchAllRoles } from "src/services/roleService";
+import { ModalTextProps, RoleDBType } from "lib/type";
+import { deleteRole, fetchAllRoles } from "services/roleService";
 import axios from "axios";
-import { handleError } from "src/lib/func";
-import useAuth from "src/hooks/auth.hook";
+import { handleError } from "lib/func";
+import useAuth from "hooks/auth.hook";
 import { toast } from "react-toastify";
-import ModalConfirm from "src/components/modal-confirm/modal-confirm";
-import PaginationBar from "src/components/paginate-bar/pagination-bar";
-import usePagination from "src/hooks/pagination.hook";
+import ModalConfirm from "components/modal-confirm/modal-confirm";
+import PaginationBar from "components/paginate-bar/pagination-bar";
+import usePagination from "hooks/pagination.hook";
 import RoleCard from "./role-card";
 
 const initModal: ModalTextProps = {

@@ -5,16 +5,16 @@ import {
   UsersType,
   createUserFormProps,
   createUserFormStateProps,
-} from "src/lib/type";
-import { createNewUser, updateUser } from "src/services/userService";
+} from "lib/type";
+import { createNewUser, updateUser } from "services/userService";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { handleError, validateEmail, validatePhone } from "src/lib/func";
+import { handleError, validateEmail, validatePhone } from "lib/func";
 import axios from "axios";
-import useAuth from "src/hooks/auth.hook";
-import LineButton from "src/components/button/line-button";
-import FillButton from "src/components/button/fill-button";
-import { fetchGroups } from "src/services/groupService";
+import useAuth from "hooks/auth.hook";
+import LineButton from "components/button/line-button";
+import FillButton from "components/button/fill-button";
+import { fetchGroups } from "services/groupService";
 
 interface ModalUserProps {
   show: boolean;

@@ -4,19 +4,19 @@ import {
   GroupRoleType,
   ModalTextProps,
   RoleDBType,
-} from "src/lib/type";
+} from "lib/type";
 import {
   assignRoles,
   fetchAllRoles,
   fetchRolesByGroup,
-} from "src/services/roleService";
+} from "services/roleService";
 import axios from "axios";
-import { handleError } from "src/lib/func";
-import useAuth from "src/hooks/auth.hook";
+import { handleError } from "lib/func";
+import useAuth from "hooks/auth.hook";
 import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
-import { fetchGroups } from "src/services/groupService";
-import FillButton from "../button/fill-button";
+import { fetchGroups } from "services/groupService";
+import FillButton from "components/button/fill-button";
 
 const initModal: ModalTextProps = {
   headingText: "",

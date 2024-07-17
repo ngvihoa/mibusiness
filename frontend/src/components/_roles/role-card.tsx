@@ -1,7 +1,7 @@
 import { MdDelete } from "react-icons/md";
-import { styleIconSm } from "src/lib/data";
-import FillButton from "src/components/button/fill-button";
-import { RoleDBType } from "src/lib/type";
+import { styleIconSm } from "lib/data";
+import FillButton from "components/button/fill-button";
+import { RoleDBType } from "lib/type";
 
 interface RoleCardProps {
   role: RoleDBType;

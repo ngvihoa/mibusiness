@@ -1,9 +1,9 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { useAppSelector } from "src/redux/store";
+import { useAppSelector } from "stores/store";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import useAuth from "src/hooks/auth.hook";
+import useAuth from "hooks/auth.hook";
 
 const NavigationBar = () => {
   const { handleLogOut } = useAuth();

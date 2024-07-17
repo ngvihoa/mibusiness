@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAppSelector } from "src/redux/store";
+import { useAppSelector } from "stores/store";
 
 const PrivateRoutes = () => {
   const { isAuth } = useAppSelector((state) => state.auth.value);

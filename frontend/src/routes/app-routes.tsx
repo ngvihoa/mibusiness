@@ -1,17 +1,18 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import Users from "src/components/_users/users";
-import Login from "src/components/_auth/login";
-import Signup from "src/components/_auth/signup";
+import Users from "components/_users/users";
+import Login from "components/_auth/login";
+import Signup from "components/_auth/signup";
 import PrivateRoutes from "./private-routes";
 import PreventAuthRoutes from "./prevent-auth-routes";
-import Roles from "src/components/_roles/roles";
-import RolesDisplay from "src/components/_roles/roles-display";
-import RolesAdding from "src/components/_roles/roles-adding";
-import RolesAssign from "src/components/_roles/roles-assign";
-import Home from "src/components/_home/home";
-import UserList from "src/components/_users/user-list";
-import UserGroup from "src/components/_users/user-group";
-import GroupsAdding from "src/components/_users/groups-adding";
+import Roles from "components/_roles/roles";
+import RolesDisplay from "components/_roles/roles-display";
+import RolesAdding from "components/_roles/roles-adding";
+import RolesAssign from "components/_roles/roles-assign";
+import Home from "components/_home/home";
+import UserList from "components/_users/user-list";
+import UserGroup from "components/_users/user-group";
+import GroupsAdding from "components/_users/groups-adding";
+import Projects from "components/_projects/projects";
 
 const AppRoutes = () => {
   /**
@@ -38,7 +39,7 @@ const AppRoutes = () => {
             <Route path="adding" element={<RolesAdding />} />
             <Route path="assign" element={<RolesAssign />} />
           </Route>
-          <Route path="/projects" element={<>Projects</>} />
+          <Route path="/projects" element={<Projects />} />
         </Route>
         <Route path="*" element={<>404</>} />
       </Routes>

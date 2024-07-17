@@ -2,11 +2,11 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { handleError } from "src/lib/func";
-import { LoginType } from "src/lib/type";
-import { logIn, logOut } from "src/redux/features/auth-slice";
-import { AppDispatch } from "src/redux/store";
-import { logOutUser } from "src/services/userService";
+import { handleError } from "lib/func";
+import { LoginType } from "lib/type";
+import { logIn, logOut } from "stores/features/auth-slice";
+import { AppDispatch } from "stores/store";
+import { logOutUser } from "services/userService";
 
 const useAuth = () => {
   const dispatch = useDispatch<AppDispatch>();

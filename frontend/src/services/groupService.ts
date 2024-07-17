@@ -1,6 +1,6 @@
 // import axios from "axios";
-import { GroupDBGet, GroupPostType } from "src/lib/type";
-import axios from "src/config/axios.config";
+import { GroupDBGet, GroupPostType } from "lib/type";
+import axios from "config/axios.config";
 
 const fetchGroups = () => {
   return axios.get(`/group/read`);

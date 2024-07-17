@@ -3,10 +3,10 @@ import { BiSolidPhone } from "react-icons/bi";
 import { FaUserGroup } from "react-icons/fa6";
 import { MdDelete, MdEdit, MdEmail } from "react-icons/md";
 import { PiGenderIntersexFill } from "react-icons/pi";
-import { styleIcon, styleIconSm } from "src/lib/data";
-import { UsersType } from "src/lib/type";
-import FillButton from "../button/fill-button";
-import LineButton from "../button/line-button";
+import { styleIcon, styleIconSm } from "lib/data";
+import { UsersType } from "lib/type";
+import FillButton from "components/button/fill-button";
+import LineButton from "components/button/line-button";
 
 interface UserCardProps {
   user: UsersType;
