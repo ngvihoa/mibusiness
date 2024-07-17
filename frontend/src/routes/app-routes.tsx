@@ -1,18 +1,18 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import Users from "components/_users/users";
-import Login from "components/_auth/login";
-import Signup from "components/_auth/signup";
-import PrivateRoutes from "./private-routes";
-import PreventAuthRoutes from "./prevent-auth-routes";
-import Roles from "components/_roles/roles";
-import RolesDisplay from "components/_roles/roles-display";
-import RolesAdding from "components/_roles/roles-adding";
-import RolesAssign from "components/_roles/roles-assign";
-import Home from "components/_home/home";
-import UserList from "components/_users/user-list";
-import UserGroup from "components/_users/user-group";
-import GroupsAdding from "components/_users/groups-adding";
-import Projects from "components/_projects/projects";
+import Users from "pages/users/users";
+import Login from "pages/auth/login";
+import Signup from "pages/auth/signup";
+import PrivateRoutes from "routes/private-routes";
+import PreventAuthRoutes from "routes/prevent-auth-routes";
+import Roles from "pages/roles/roles";
+import RolesDisplay from "pages/roles/roles-display";
+import RolesAdding from "pages/roles/roles-adding";
+import RolesAssign from "pages/roles/roles-assign";
+import Home from "pages/home/home";
+import UserList from "pages/users/user-list";
+import UserGroup from "pages/users/user-group";
+import GroupsAdding from "pages/users/groups-adding";
+import Projects from "pages/projects/projects";
 
 const AppRoutes = () => {
   /**
