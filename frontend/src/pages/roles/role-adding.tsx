@@ -22,7 +22,7 @@ const initialRoleList: RoleListType = {
   },
 };
 
-const RolesAdding = () => {
+const RoleAdding = () => {
   const { handleLogOut } = useAuth();
   const [roleList, setRoleList] = useState(initialRoleList);
 
@@ -167,4 +167,4 @@ const RolesAdding = () => {
   );
 };
 
-export default RolesAdding;
+export default RoleAdding;

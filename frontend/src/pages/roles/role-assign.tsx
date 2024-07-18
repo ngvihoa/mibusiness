@@ -27,7 +27,7 @@ type RolePersistType = RoleDBType & {
   isAssigned: boolean;
 };
 
-const RolesAssign = () => {
+const RoleAssign = () => {
   const { handleLogOut } = useAuth();
 
   const [groupList, setGroupList] = useState<GroupDBGet[] | null>(null);
@@ -224,4 +224,4 @@ const RolesAssign = () => {
   );
 };
 
-export default RolesAssign;
+export default RoleAssign;

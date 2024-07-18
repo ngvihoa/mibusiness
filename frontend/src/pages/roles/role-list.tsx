@@ -15,7 +15,7 @@ const initModal: ModalTextProps = {
   bodyText: "",
 };
 
-const RolesDisplay = () => {
+const RoleList = () => {
   const { handleLogOut } = useAuth();
   const [showModalConfirmDelete, setShowModalConfirmDelete] = useState(false);
   const [modalText, setModalText] = useState<ModalTextProps>(initModal);
@@ -125,4 +125,4 @@ const RolesDisplay = () => {
   );
 };
 
-export default RolesDisplay;
+export default RoleList;

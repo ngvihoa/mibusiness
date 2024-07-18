@@ -25,20 +25,47 @@ const NavigationBar = () => {
                   <NavLink to="/" className="nav-link">
                     Home
                   </NavLink>
-                  <NavLink to="/users" className="nav-link">
-                    Users
+                  <NavLink to="/users/list" className="nav-link">
+                    <NavDropdown title="Users" id="basic-nav-dropdown">
+                      <NavDropdown.Item>
+                        <NavLink to="/users/list">User list</NavLink>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item>
+                        <NavLink to="/users/group">Group list</NavLink>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item>
+                        <NavLink to="/users/group/adding">Add groups</NavLink>
+                      </NavDropdown.Item>
+                    </NavDropdown>
                   </NavLink>
-                  <NavLink to="/roles" className="nav-link">
-                    Roles
+                  <NavLink to="/roles/list" className="nav-link">
+                    <NavDropdown title="Roles" id="basic-nav-dropdown">
+                      <NavDropdown.Item>
+                        <NavLink to="/roles/list">Role list</NavLink>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item>
+                        <NavLink to="/roles/adding">Add roles</NavLink>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item>
+                        <NavLink to="/roles/assign">Assign roles</NavLink>
+                      </NavDropdown.Item>
+                    </NavDropdown>
                   </NavLink>
-                  <NavLink to="/projects" className="nav-link">
-                    Projects
+                  <NavLink to="/projects/list" className="nav-link">
+                    <NavDropdown title="Projects" id="basic-nav-dropdown">
+                      <NavDropdown.Item>
+                        <NavLink to="/projects/list">Project list</NavLink>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item>
+                        <NavLink to="/projects/adding">Add projects</NavLink>
+                      </NavDropdown.Item>
+                    </NavDropdown>
                   </NavLink>
                   <NavLink to="/about" className="nav-link">
                     About
                   </NavLink>
                 </Nav>
-                <Nav className="ms-auto">
+                <Nav className="ms-auto nav-right">
                   {isAuth && (
                     <>
                       <Nav.Item className="welcome-text nav-link">
