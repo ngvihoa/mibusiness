@@ -6,7 +6,7 @@ import { handleError } from "lib/func";
 import useAuth from "hooks/auth.hook";
 import { toast } from "react-toastify";
 import ModalConfirm from "components/modal-confirm/modal-confirm";
-import PaginationBar from "components/paginate-bar/pagination-bar";
+import PaginationBar from "components/pagination-bar/pagination-bar";
 import usePagination from "hooks/pagination.hook";
 import RoleCard from "./role-card";
 

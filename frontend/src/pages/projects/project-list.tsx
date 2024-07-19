@@ -1,6 +1,6 @@
 import FillButton from "components/button/fill-button";
 import LineButton from "components/button/line-button";
-import PaginationBar from "components/paginate-bar/pagination-bar";
+import PaginationBar from "components/pagination-bar/pagination-bar";
 import { styleIcon, styleIconSm } from "lib/data";
 import React from "react";
 import { FaFilter } from "react-icons/fa6";

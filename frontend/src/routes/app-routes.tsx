@@ -5,8 +5,6 @@ import Signup from "pages/auth/signup";
 import PrivateRoutes from "routes/private-routes";
 import PreventAuthRoutes from "routes/prevent-auth-routes";
 import Roles from "pages/roles/roles";
-import RolesAdding from "pages/roles/role-adding";
-import RolesAssign from "pages/roles/role-assign";
 import Home from "pages/home/home";
 import UserList from "pages/users/user-list";
 import UserGroup from "pages/users/user-group";

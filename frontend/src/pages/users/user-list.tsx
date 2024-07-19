@@ -10,10 +10,14 @@ import axios from "axios";
 import useAuth from "hooks/auth.hook";
 import { handleError } from "lib/func";
 import usePagination from "hooks/pagination.hook";
-import PaginationBar from "components/paginate-bar/pagination-bar";
-import UserCard from "./user-card";
+import PaginationBar from "components/pagination-bar/pagination-bar";
 import FillButton from "components/button/fill-button";
 import LineButton from "components/button/line-button";
+import GeneralLayout from "components/layout/general-layout";
+import { FaFilter } from "react-icons/fa6";
+import { styleIcon, styleIconSm } from "lib/data";
+import { Table } from "react-bootstrap";
+import { MdDelete, MdEdit } from "react-icons/md";
 
 const initModal: ModalTextProps = {
   headingText: "",
@@ -36,7 +40,7 @@ const UserList = () => {
     currentPage,
     itemsPerPage,
     handlePageClick,
-  } = usePagination(6);
+  } = usePagination(10);
 
   const fetchUsers = async () => {
     try {
@@ -119,48 +123,92 @@ const UserList = () => {
 
   return (
     <>
-      <div className="user-list-container">
-        <div className="content-container">
-          <div className="header-container">
-            <h3 className="m-0">Manage users</h3>
-            <div className="actions">
-              <LineButton onClickFunction={handleRefresh}>
-                <LuRefreshCw /> Refresh
-              </LineButton>
-              <FillButton
-                className="ms-1"
-                onClickFunction={() => handleShowModalUpdateUser(null)}
-              >
-                <FiPlusCircle /> Add new user
-              </FillButton>
-            </div>
-          </div>
-          <div className="container-fluid overflow-x-auto user-container">
-            {userList && userList.length > 0 ? (
-              <>
-                {userList.map((item, index) => (
-                  <UserCard
-                    key={`user-${index}-${item.id}`}
-                    onShowModalDelete={handleShowModalConfirmDelete}
-                    onShowModalUpdate={handleShowModalUpdateUser}
-                    user={item}
-                  />
-                ))}
-              </>
-            ) : (
-              <div>Not found users...</div>
-            )}
-          </div>
-          {pageCount > 0 && (
-            <div className="table-footer-container">
-              <PaginationBar
-                handlePageClick={handlePageClick}
-                pageCount={pageCount}
-              />
-            </div>
-          )}
+      <GeneralLayout
+        classContainer="user-list-container"
+        name="User Management"
+      >
+        <div className="search-bar form-group d-flex gap-2">
+          <input
+            type="text"
+            placeholder="Search user..."
+            className="form-control"
+          />
+          <FillButton>Search</FillButton>
+          <LineButton onClickFunction={() => {}}>
+            <FaFilter style={styleIcon} />
+          </LineButton>
         </div>
-      </div>
+        <div className="table-action d-flex justify-content-end">
+          <LineButton onClickFunction={handleRefresh}>
+            <LuRefreshCw /> Refresh
+          </LineButton>
+          <FillButton
+            className="ms-1"
+            onClickFunction={() => handleShowModalUpdateUser(null)}
+          >
+            <FiPlusCircle /> Add new user
+          </FillButton>
+        </div>
+        <div className="table-container">
+          <Table responsive="lg" className="">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Group</th>
+                <th>Gender</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userList && userList.length > 0 ? (
+                <>
+                  {userList.map((item, index) => (
+                    <tr key={`user-${index}-${item.id}`}>
+                      <td>{index + 1}</td>
+                      <td>{item.username}</td>
+                      <td>{item.email}</td>
+                      <td>{item.phone}</td>
+                      <td>{item.Group ? item.Group.name : "None"}</td>
+                      <td>{item.sex}</td>
+                      <td>
+                        <div className="d-flex gap-1">
+                          <LineButton
+                            className="fw-medium"
+                            onClickFunction={() =>
+                              handleShowModalUpdateUser(item)
+                            }
+                          >
+                            <MdEdit style={styleIconSm} />
+                          </LineButton>
+                          <FillButton
+                            className="fw-medium"
+                            onClickFunction={() =>
+                              handleShowModalConfirmDelete(item)
+                            }
+                          >
+                            <MdDelete style={styleIconSm} />
+                          </FillButton>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </>
+              ) : (
+                <div>Not found users...</div>
+              )}
+            </tbody>
+          </Table>
+        </div>
+        {pageCount > 0 && (
+          <PaginationBar
+            handlePageClick={handlePageClick}
+            pageCount={pageCount}
+          />
+        )}
+      </GeneralLayout>
       <ModalConfirm
         show={showModalConfirmDelete}
         text={modalText}

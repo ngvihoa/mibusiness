@@ -25,7 +25,7 @@ const NavigationBar = () => {
                   <NavLink to="/" className="nav-link">
                     Home
                   </NavLink>
-                  <NavLink to="/users/list" className="nav-link">
+                  <NavLink to="/users" className="nav-link">
                     <NavDropdown title="Users" id="basic-nav-dropdown">
                       <NavDropdown.Item>
                         <NavLink to="/users/list">User list</NavLink>
@@ -38,7 +38,7 @@ const NavigationBar = () => {
                       </NavDropdown.Item>
                     </NavDropdown>
                   </NavLink>
-                  <NavLink to="/roles/list" className="nav-link">
+                  <NavLink to="/roles" className="nav-link">
                     <NavDropdown title="Roles" id="basic-nav-dropdown">
                       <NavDropdown.Item>
                         <NavLink to="/roles/list">Role list</NavLink>
@@ -51,7 +51,7 @@ const NavigationBar = () => {
                       </NavDropdown.Item>
                     </NavDropdown>
                   </NavLink>
-                  <NavLink to="/projects/list" className="nav-link">
+                  <NavLink to="/projects" className="nav-link">
                     <NavDropdown title="Projects" id="basic-nav-dropdown">
                       <NavDropdown.Item>
                         <NavLink to="/projects/list">Project list</NavLink>

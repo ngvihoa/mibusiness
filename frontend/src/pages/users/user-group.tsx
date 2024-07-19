@@ -5,8 +5,14 @@ import axios from "axios";
 import useAuth from "hooks/auth.hook";
 import { handleError } from "lib/func";
 import { deleteGroup, fetchGroups } from "services/groupService";
-import GroupCard from "./group-card";
 import { GroupDBGet, ModalTextProps } from "lib/type";
+import GeneralLayout from "components/layout/general-layout";
+import FillButton from "components/button/fill-button";
+import LineButton from "components/button/line-button";
+import { FaFilter } from "react-icons/fa6";
+import { styleIcon, styleIconSm } from "lib/data";
+import { Table } from "react-bootstrap";
+import { MdDelete, MdEdit } from "react-icons/md";
 
 const initModal: ModalTextProps = {
   headingText: "",
@@ -81,28 +87,71 @@ const UserGroup = () => {
 
   return (
     <>
-      <div className="user-group-container">
-        <div className="content-container">
-          <div className="header-container">
-            <h3 className="m-0">Group list</h3>
-          </div>
-          <div className="container-fluid overflow-x-auto group-container">
-            {groupList && groupList.length > 0 ? (
-              <>
-                {groupList.map((item, index) => (
-                  <GroupCard
-                    key={`user-${index}-${item.id}`}
-                    onShowModalDelete={handleShowModalConfirmDelete}
-                    group={item}
-                  />
-                ))}
-              </>
-            ) : (
-              <div>Not found groups...</div>
-            )}
-          </div>
+      <GeneralLayout
+        classContainer="user-group-container"
+        name="Group Management"
+      >
+        <div className="search-bar form-group d-flex gap-2">
+          <input
+            type="text"
+            placeholder="Search group user..."
+            className="form-control"
+          />
+          <FillButton>Search</FillButton>
+          <LineButton onClickFunction={() => {}}>
+            <FaFilter style={styleIcon} />
+          </LineButton>
         </div>
-      </div>
+        <div className="table-container">
+          <Table responsive="lg" className="">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {groupList && groupList.length > 0 ? (
+                <>
+                  {groupList.map((item, index) => (
+                    <tr key={`user-${index}-${item.id}`}>
+                      <td>{index + 1}</td>
+                      <td>{item.name}</td>
+                      <td>{item.description ?? "No description"}</td>
+                      <td>
+                        <div className="d-flex gap-1">
+                          <LineButton
+                            className="fw-medium"
+                            onClickFunction={() => {}}
+                            // new feature
+                            // onClickFunction={() =>
+                            //   handleShowModalUpdateUser(item)
+                            // }
+                          >
+                            <MdEdit style={styleIconSm} />
+                          </LineButton>
+                          <FillButton
+                            className="fw-medium"
+                            onClickFunction={() =>
+                              handleShowModalConfirmDelete(item)
+                            }
+                          >
+                            <MdDelete style={styleIconSm} />
+                          </FillButton>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </>
+              ) : (
+                <div>Not found groups...</div>
+              )}
+            </tbody>
+          </Table>
+        </div>
+      </GeneralLayout>
       <ModalConfirm
         show={showModalConfirmDelete}
         text={modalText}

@@ -3,6 +3,7 @@
   border: 1px solid $teal-500;
   color: white;
   transition: all 300ms ease-out;
+  font-size: inherit;
 
   a {
     text-decoration: none !important;
@@ -25,6 +26,7 @@
   border: 1px solid $teal-500;
   color: $teal-500;
   transition: all 300ms ease-out;
+  font-size: inherit;
 
   &:hover,
   &:active {

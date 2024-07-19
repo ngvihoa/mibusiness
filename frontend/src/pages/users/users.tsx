@@ -1,14 +1,8 @@
-import { Nav } from "react-bootstrap";
-import { NavLink, Outlet } from "react-router-dom";
+import GeneralLayout from "components/layout/general-layout";
+import { Outlet } from "react-router-dom";
 
 const Users = () => {
-  return (
-    <>
-      <div className="manage-users-container container-fluid container-md">
-        <Outlet />
-      </div>
-    </>
-  );
+  return <Outlet />;
 };
 
 export default Users;
