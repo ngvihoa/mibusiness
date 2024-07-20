@@ -4,6 +4,7 @@ import userController from "../controller/userController.js";
 import groupController from "../controller/groupController.js";
 import roleController from "../controller/roleController.js";
 import { checkPermission, checkToken } from "../middleware/jwt.action.js";
+import projectController from "../controller/projectController.js";
 
 const router = express.Router();
 
@@ -21,23 +22,29 @@ const initApiRoutes = (app) => {
   router.post("/logout", authController.handleLogOut);
 
   // user routes
-  router.post("/user/create", userController.createFunc); // C
-  router.get("/user/read", userController.readFunc); // R
-  router.put("/user/update", userController.updateFunc); // U
-  router.delete("/user/delete", userController.deleteFunc); // D
+  router.post("/user", userController.createFunc);
+  router.get("/user", userController.readFunc);
+  router.put("/user", userController.updateFunc);
+  router.delete("/user", userController.deleteFunc);
 
   // group routes
-  router.get("/group/read", groupController.readFunc); // R
-  router.post("/group/create", groupController.createFunc); // C
-  router.delete("/group/delete", groupController.deleteFunc); // D
+  router.get("/group", groupController.readFunc);
+  router.post("/group", groupController.createFunc);
+  router.delete("/group", groupController.deleteFunc);
 
   // role routes
-  router.post("/role/create", roleController.createFunc);
-  router.get("/role/read", roleController.readFunc);
-  router.put("/role/update", roleController.updateFunc);
-  router.delete("/role/delete", roleController.deleteFunc);
-  router.get("/role/by-group/:groupId", roleController.getRolesByGroup);
+  router.post("/role", roleController.createFunc);
+  router.get("/role", roleController.readFunc);
+  router.put("/role", roleController.updateFunc); // not implement yet
+  router.delete("/role", roleController.deleteFunc);
+  router.get("/role/byGroup/:groupId", roleController.getRolesByGroup);
   router.post("/role/assign", roleController.assignRoles);
+
+  // project routes
+  router.get("/project", projectController.readFunc);
+  router.post("/project", projectController.createFunc);
+  router.put("/project", projectController.updateFunc);
+  router.delete("/project", projectController.deleteFunc);
 
   // setup base url route
   return app.use("/api/v1", router);

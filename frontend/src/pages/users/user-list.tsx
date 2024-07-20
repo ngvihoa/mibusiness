@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { deleteUser, fetchAllUsers } from "services/userService";
 import { toast } from "react-toastify";
-import ModalConfirm from "components/modal-confirm/modal-confirm";
+import ModalConfirm from "components/modal/modal-confirm";
 import { ModalTextProps, UsersType } from "lib/type";
 import ModalUser from "./modal-user";
 import { LuRefreshCw } from "react-icons/lu";
@@ -18,6 +18,7 @@ import { FaFilter } from "react-icons/fa6";
 import { styleIcon, styleIconSm } from "lib/data";
 import { Table } from "react-bootstrap";
 import { MdDelete, MdEdit } from "react-icons/md";
+import ModalAlert from "components/modal/modal-alert";
 
 const initModal: ModalTextProps = {
   headingText: "",

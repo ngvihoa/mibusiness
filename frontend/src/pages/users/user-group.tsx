@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import ModalConfirm from "components/modal-confirm/modal-confirm";
+import ModalConfirm from "components/modal/modal-confirm";
 import axios from "axios";
 import useAuth from "hooks/auth.hook";
 import { handleError } from "lib/func";

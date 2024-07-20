@@ -10,7 +10,7 @@ const getGroupWithRole = async (groupId) => {
       include: [
         {
           model: db.Role,
-          attributes: ["id", "url", "description"],
+          attributes: ["id", "method", "url", "description"],
           through: { attributes: [] },
         },
       ],

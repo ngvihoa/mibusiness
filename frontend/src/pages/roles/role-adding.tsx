@@ -10,6 +10,7 @@ import { handleError } from "lib/func";
 import useAuth from "hooks/auth.hook";
 import FillButton from "components/button/fill-button";
 import GeneralLayout from "components/layout/general-layout";
+import LineButton from "components/button/line-button";
 
 interface RoleListType {
   [key: string]: any;
@@ -17,11 +18,14 @@ interface RoleListType {
 
 const initialRoleList: RoleListType = {
   role1: {
+    method: "GET",
     url: "",
     description: "",
     isValid: true,
   },
 };
+
+const methodList = ["GET", "POST", "PUT", "DELETE"];
 
 const RoleAdding = () => {
   const { handleLogOut } = useAuth();
@@ -42,6 +46,7 @@ const RoleAdding = () => {
     const tmpList = { ...roleList };
     const newIndex = uuid();
     tmpList[`child-${newIndex}`] = {
+      method: "GET",
       url: "",
       description: "",
       isValid: true,
@@ -78,6 +83,7 @@ const RoleAdding = () => {
     const dataToPersist: RoleType[] = [];
     for (const key in tmpList) {
       dataToPersist.push({
+        method: tmpList[key].method,
         url: tmpList[key].url,
         description: tmpList[key].description,
       });
@@ -95,6 +101,7 @@ const RoleAdding = () => {
       toast.success(data.EM);
       setRoleList({
         role1: {
+          method: "GET",
           url: "",
           description: "",
           isValid: true,
@@ -122,7 +129,24 @@ const RoleAdding = () => {
           return (
             <div className="role-child" key={key}>
               <div className="role-input form-group">
-                <label htmlFor="url">Url:</label>
+                <label htmlFor="method">Method:</label>
+                <select
+                  className="form-select"
+                  name="method"
+                  value={value.method}
+                  onChange={(e) => onChangeRole(key, e)}
+                >
+                  {methodList.map((item, index) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="role-input form-group">
+                <label htmlFor="url">
+                  Url (<span className="text-danger">*</span>):
+                </label>
                 <input
                   type="text"
                   name="url"
@@ -135,7 +159,7 @@ const RoleAdding = () => {
                 />
               </div>
               <div className="role-input form-group">
-                <label htmlFor="url">Description:</label>
+                <label htmlFor="description">Description:</label>
                 <input
                   type="text"
                   name="description"
@@ -145,24 +169,20 @@ const RoleAdding = () => {
                   onChange={(e) => onChangeRole(key, e)}
                 />
               </div>
-              <div className="role-input">
-                {Object.entries(roleList).length - 1 === index && (
-                  <FillButton onClickFunction={onAddInput}>
-                    <FiPlusCircle />
-                  </FillButton>
-                )}
-                {Object.entries(roleList).length > 1 && (
+              {Object.entries(roleList).length > 1 && (
+                <div className="role-input delete-button">
                   <FillButton onClickFunction={() => onDeleteRole(key)}>
                     <MdDelete />
                   </FillButton>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           );
         })}
       </div>
       <div className="role-bottom">
         <FillButton onClickFunction={onSubmit}>Save new roles</FillButton>
+        <LineButton onClickFunction={onAddInput}>Add new form</LineButton>
       </div>
     </GeneralLayout>
   );

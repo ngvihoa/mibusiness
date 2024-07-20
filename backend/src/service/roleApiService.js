@@ -3,11 +3,15 @@ import db from "../models/index.js";
 const createNewRoles = async (roles) => {
   try {
     const oldRole = await db.Role.findAll({
-      attributes: ["url", "description"],
+      attributes: ["method", "url", "description"],
       raw: true,
     });
     const newRoles = roles.filter(
-      (role) => !oldRole.some((oldRole) => oldRole.url === role.url)
+      (role) =>
+        !oldRole.some(
+          (oldRole) =>
+            oldRole.url === role.url && oldRole.method === role.method
+        )
     );
     if (newRoles.length === 0) {
       return {
@@ -54,7 +58,7 @@ const getRolePaginated = async (page, limit) => {
   try {
     let offset = (page - 1) * limit;
     const { count, rows } = await db.Role.findAndCountAll({
-      attributes: ["id", "url", "description"],
+      attributes: ["id", "method", "url", "description"],
       limit: +limit,
       offset: +offset,
       order: [["id", "DESC"]],
@@ -104,7 +108,7 @@ const getRolesByGroup = async (groupId) => {
         include: [
           {
             model: db.Role,
-            attributes: ["id", "url", "description"],
+            attributes: ["id", "method", "url", "description"],
             through: { attributes: [] },
           },
         ],

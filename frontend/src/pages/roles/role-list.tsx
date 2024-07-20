@@ -5,7 +5,7 @@ import axios from "axios";
 import { handleError } from "lib/func";
 import useAuth from "hooks/auth.hook";
 import { toast } from "react-toastify";
-import ModalConfirm from "components/modal-confirm/modal-confirm";
+import ModalConfirm from "components/modal/modal-confirm";
 import PaginationBar from "components/pagination-bar/pagination-bar";
 import usePagination from "hooks/pagination.hook";
 import RoleCard from "./role-card";
@@ -114,6 +114,7 @@ const RoleList = () => {
             <thead>
               <tr>
                 <th>#</th>
+                <th>Method</th>
                 <th>Role</th>
                 <th>Description</th>
                 <th>Action</th>
@@ -125,6 +126,7 @@ const RoleList = () => {
                   {roleList.map((item, index) => (
                     <tr key={`role-${index}-${item.id}`}>
                       <td>{index + 1}</td>
+                      <td>{item.method}</td>
                       <td>{item.url}</td>
                       <td>{item.description ?? "No description"}</td>
                       <td>

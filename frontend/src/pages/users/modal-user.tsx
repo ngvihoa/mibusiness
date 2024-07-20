@@ -233,18 +233,18 @@ const ModalUser = ({
 
   return (
     <>
-      {group.length > 0 && (
-        <Modal
-          size="lg"
-          show={show}
-          onHide={onClose}
-          centered
-          className="modal-user"
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>{text.headingText}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
+      <Modal
+        size="lg"
+        show={show}
+        onHide={onClose}
+        centered
+        className="modal-user"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>{text.headingText}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {group.length > 0 ? (
             <div className="content-body row">
               <div className="col-12 col-md-6 form-group">
                 <label htmlFor="email">
@@ -352,19 +352,30 @@ const ModalUser = ({
                 </select>
               </div>
             </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <LineButton onClickFunction={onClose}>Close</LineButton>
-            <FillButton
-              onClickFunction={
-                existData ? handleSubmitUpdate : handleSubmitCreate
-              }
-            >
-              Save Changes
-            </FillButton>
-          </Modal.Footer>
-        </Modal>
-      )}
+          ) : (
+            <div>
+              You have no right/mising right(s) to access this feature, please
+              contact Admin for the feature access.
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          {group.length > 0 ? (
+            <>
+              <LineButton onClickFunction={onClose}>Close</LineButton>
+              <FillButton
+                onClickFunction={
+                  existData ? handleSubmitUpdate : handleSubmitCreate
+                }
+              >
+                Save Changes
+              </FillButton>
+            </>
+          ) : (
+            <FillButton onClickFunction={onClose}>OK</FillButton>
+          )}
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

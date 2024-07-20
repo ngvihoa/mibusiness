@@ -15,11 +15,11 @@ const logInUser = (form: LoginFormProps) => {
 };
 
 const fetchAllUsers = (page: number, limit: number) => {
-  return axios.get(`/user/read?page=${page}&limit=${limit}`);
+  return axios.get(`/user?page=${page}&limit=${limit}`);
 };
 
 const deleteUser = (id: number) => {
-  return axios.delete(`/user/delete`, {
+  return axios.delete(`/user`, {
     data: {
       id: id,
     },
@@ -27,13 +27,13 @@ const deleteUser = (id: number) => {
 };
 
 const createNewUser = (user: createUserFormProps) => {
-  return axios.post(`/user/create`, {
+  return axios.post(`/user`, {
     ...user,
   });
 };
 
 const updateUser = (id: number, user: createUserFormProps) => {
-  return axios.put(`/user/update`, {
+  return axios.put(`/user`, {
     id,
     ...user,
   });
