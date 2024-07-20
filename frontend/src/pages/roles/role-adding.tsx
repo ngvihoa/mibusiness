@@ -9,6 +9,7 @@ import axios from "axios";
 import { handleError } from "lib/func";
 import useAuth from "hooks/auth.hook";
 import FillButton from "components/button/fill-button";
+import GeneralLayout from "components/layout/general-layout";
 
 interface RoleListType {
   [key: string]: any;
@@ -112,58 +113,58 @@ const RoleAdding = () => {
   };
 
   return (
-    <div className="role-adding-container">
-      <div className="content-container">
-        <h3 className="role-title">Manage roles</h3>
-        <div className="role-parent">
-          {Object.entries(roleList).map(([key, value], index) => {
-            return (
-              <div className="role-child" key={key}>
-                <div className="role-input form-group">
-                  <label htmlFor="url">Url:</label>
-                  <input
-                    type="text"
-                    name="url"
-                    className={`form-control ${
-                      !value.isValid ? "is-invalid" : ""
-                    }`}
-                    placeholder="Example: /user/design..."
-                    value={value.url}
-                    onChange={(e) => onChangeRole(key, e)}
-                  />
-                </div>
-                <div className="role-input form-group">
-                  <label htmlFor="url">Description:</label>
-                  <input
-                    type="text"
-                    name="description"
-                    className="form-control"
-                    placeholder="Example: Design user..."
-                    value={value.description}
-                    onChange={(e) => onChangeRole(key, e)}
-                  />
-                </div>
-                <div className="role-input">
-                  {Object.entries(roleList).length - 1 === index && (
-                    <FillButton onClickFunction={onAddInput}>
-                      <FiPlusCircle />
-                    </FillButton>
-                  )}
-                  {Object.entries(roleList).length > 1 && (
-                    <FillButton onClickFunction={() => onDeleteRole(key)}>
-                      <MdDelete />
-                    </FillButton>
-                  )}
-                </div>
+    <GeneralLayout
+      classContainer="role-adding-container"
+      name="Role Management"
+    >
+      <div className="role-parent">
+        {Object.entries(roleList).map(([key, value], index) => {
+          return (
+            <div className="role-child" key={key}>
+              <div className="role-input form-group">
+                <label htmlFor="url">Url:</label>
+                <input
+                  type="text"
+                  name="url"
+                  className={`form-control ${
+                    !value.isValid ? "is-invalid" : ""
+                  }`}
+                  placeholder="Example: /user/design..."
+                  value={value.url}
+                  onChange={(e) => onChangeRole(key, e)}
+                />
               </div>
-            );
-          })}
-        </div>
-        <div className="role-bottom">
-          <FillButton onClickFunction={onSubmit}>Save new roles</FillButton>
-        </div>
+              <div className="role-input form-group">
+                <label htmlFor="url">Description:</label>
+                <input
+                  type="text"
+                  name="description"
+                  className="form-control"
+                  placeholder="Example: Design user..."
+                  value={value.description}
+                  onChange={(e) => onChangeRole(key, e)}
+                />
+              </div>
+              <div className="role-input">
+                {Object.entries(roleList).length - 1 === index && (
+                  <FillButton onClickFunction={onAddInput}>
+                    <FiPlusCircle />
+                  </FillButton>
+                )}
+                {Object.entries(roleList).length > 1 && (
+                  <FillButton onClickFunction={() => onDeleteRole(key)}>
+                    <MdDelete />
+                  </FillButton>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
-    </div>
+      <div className="role-bottom">
+        <FillButton onClickFunction={onSubmit}>Save new roles</FillButton>
+      </div>
+    </GeneralLayout>
   );
 };
 

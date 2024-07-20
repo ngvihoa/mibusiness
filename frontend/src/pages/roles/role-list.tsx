@@ -9,6 +9,13 @@ import ModalConfirm from "components/modal-confirm/modal-confirm";
 import PaginationBar from "components/pagination-bar/pagination-bar";
 import usePagination from "hooks/pagination.hook";
 import RoleCard from "./role-card";
+import GeneralLayout from "components/layout/general-layout";
+import { MdDelete, MdEdit } from "react-icons/md";
+import { styleIcon, styleIconSm } from "lib/data";
+import FillButton from "components/button/fill-button";
+import LineButton from "components/button/line-button";
+import { Table } from "react-bootstrap";
+import { FaFilter } from "react-icons/fa6";
 
 const initModal: ModalTextProps = {
   headingText: "",
@@ -89,39 +96,82 @@ const RoleList = () => {
   }, [currentPage]);
 
   return (
-    <div className="role-display-container">
-      <div className="content-container">
-        <h3 className="role-title">Role list</h3>
-        {roleList && (
-          <>
-            <div className="role-parent">
-              {roleList.map((item, index) => (
-                <RoleCard
-                  key={item.id + "-" + index}
-                  role={item}
-                  openModalConfirm={handleShowModalConfirmDelete}
-                />
-              ))}
-            </div>
-            {pageCount > 0 && (
-              <div className="pagination-container">
-                <PaginationBar
-                  handlePageClick={handlePageClick}
-                  pageCount={pageCount}
-                />
-              </div>
-            )}
-          </>
+    <>
+      <GeneralLayout classContainer="role-list-container" name="Role List">
+        <div className="search-bar form-group d-flex gap-2">
+          <input
+            type="text"
+            placeholder="Search group user..."
+            className="form-control"
+          />
+          <FillButton>Search</FillButton>
+          <LineButton onClickFunction={() => {}}>
+            <FaFilter style={styleIcon} />
+          </LineButton>
+        </div>
+        <div className="table-container">
+          <Table responsive="lg" className="">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Role</th>
+                <th>Description</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {roleList && roleList.length > 0 ? (
+                <>
+                  {roleList.map((item, index) => (
+                    <tr key={`role-${index}-${item.id}`}>
+                      <td>{index + 1}</td>
+                      <td>{item.url}</td>
+                      <td>{item.description ?? "No description"}</td>
+                      <td>
+                        <div className="d-flex gap-1">
+                          <LineButton
+                            className="fw-medium"
+                            onClickFunction={() => {}}
+                            // new feature
+                            // onClickFunction={() =>
+                            //   handleShowModalUpdateUser(item)
+                            // }
+                          >
+                            <MdEdit style={styleIconSm} />
+                          </LineButton>
+                          <FillButton
+                            className="fw-medium"
+                            onClickFunction={() =>
+                              handleShowModalConfirmDelete(item)
+                            }
+                          >
+                            <MdDelete style={styleIconSm} />
+                          </FillButton>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </>
+              ) : (
+                <div>Not found roles...</div>
+              )}
+            </tbody>
+          </Table>
+        </div>
+        {pageCount > 0 && (
+          <PaginationBar
+            handlePageClick={handlePageClick}
+            pageCount={pageCount}
+          />
         )}
-        {!roleList && <div>Data not found</div>}
-      </div>
+      </GeneralLayout>
       <ModalConfirm
         show={showModalConfirmDelete}
         text={modalText}
         handleClose={handleCloseModalConfirmDelete}
         handleConfirm={handleConfirmDelete}
       />
-    </div>
+    </>
   );
 };
 

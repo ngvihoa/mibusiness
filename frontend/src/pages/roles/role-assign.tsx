@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
 import { fetchGroups } from "services/groupService";
 import FillButton from "components/button/fill-button";
+import GeneralLayout from "components/layout/general-layout";
 
 const initModal: ModalTextProps = {
   headingText: "",
@@ -159,9 +160,8 @@ const RoleAssign = () => {
   };
 
   return (
-    <div className="role-assign-container">
+    <GeneralLayout classContainer="role-assign-container" name="Assign Roles">
       <div className="content-container">
-        <h3 className="role-title">Assign roles</h3>
         <div className="role-parent">
           {groupList === null && <div>Fetching data failed...</div>}
           {groupList && groupList.length === 0 && (
@@ -220,7 +220,7 @@ const RoleAssign = () => {
           )}
         </div>
       </div>
-    </div>
+    </GeneralLayout>
   );
 };
 

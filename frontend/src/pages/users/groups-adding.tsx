@@ -3,13 +3,13 @@ import { FiPlusCircle } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
-import { GroupPostType, RoleType } from "lib/type";
-import { createRoles } from "services/roleService";
+import { GroupPostType } from "lib/type";
 import axios from "axios";
 import { handleError } from "lib/func";
 import useAuth from "hooks/auth.hook";
-import FillButton from "../../components/button/fill-button";
+import FillButton from "components/button/fill-button";
 import { createGroups } from "services/groupService";
+import GeneralLayout from "components/layout/general-layout";
 
 interface GroupListType {
   [key: string]: any;
@@ -114,58 +114,58 @@ const GroupsAdding = () => {
   };
 
   return (
-    <div className="group-adding-container">
-      <div className="content-container">
-        <h3 className="group-title">Manage groups</h3>
-        <div className="group-parent">
-          {Object.entries(groupList).map(([key, value], index) => {
-            return (
-              <div className="group-child" key={key}>
-                <div className="group-input form-group">
-                  <label htmlFor="url">Url:</label>
-                  <input
-                    type="text"
-                    name="name"
-                    className={`form-control ${
-                      !value.isValid ? "is-invalid" : ""
-                    }`}
-                    placeholder="Example: BA..."
-                    value={value.name}
-                    onChange={(e) => onChangeRole(key, e)}
-                  />
-                </div>
-                <div className="group-input form-group">
-                  <label htmlFor="description">Description:</label>
-                  <input
-                    type="text"
-                    name="description"
-                    className="form-control"
-                    placeholder="Example: Business Analyst..."
-                    value={value.description}
-                    onChange={(e) => onChangeRole(key, e)}
-                  />
-                </div>
-                <div className="group-input">
-                  {Object.entries(groupList).length - 1 === index && (
-                    <FillButton onClickFunction={onAddInput}>
-                      <FiPlusCircle />
-                    </FillButton>
-                  )}
-                  {Object.entries(groupList).length > 1 && (
-                    <FillButton onClickFunction={() => onDeleteGroup(key)}>
-                      <MdDelete />
-                    </FillButton>
-                  )}
-                </div>
+    <GeneralLayout
+      classContainer="group-adding-container"
+      name="Add New Groups"
+    >
+      <div className="group-parent">
+        {Object.entries(groupList).map(([key, value], index) => {
+          return (
+            <div className="group-child" key={key}>
+              <div className="group-input form-group">
+                <label htmlFor="url">Url:</label>
+                <input
+                  type="text"
+                  name="name"
+                  className={`form-control ${
+                    !value.isValid ? "is-invalid" : ""
+                  }`}
+                  placeholder="Example: BA..."
+                  value={value.name}
+                  onChange={(e) => onChangeRole(key, e)}
+                />
               </div>
-            );
-          })}
-        </div>
-        <div className="group-bottom">
-          <FillButton onClickFunction={onSubmit}>Save new groups</FillButton>
-        </div>
+              <div className="group-input form-group">
+                <label htmlFor="description">Description:</label>
+                <input
+                  type="text"
+                  name="description"
+                  className="form-control"
+                  placeholder="Example: Business Analyst..."
+                  value={value.description}
+                  onChange={(e) => onChangeRole(key, e)}
+                />
+              </div>
+              <div className="group-input">
+                {Object.entries(groupList).length - 1 === index && (
+                  <FillButton onClickFunction={onAddInput}>
+                    <FiPlusCircle />
+                  </FillButton>
+                )}
+                {Object.entries(groupList).length > 1 && (
+                  <FillButton onClickFunction={() => onDeleteGroup(key)}>
+                    <MdDelete />
+                  </FillButton>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
-    </div>
+      <div className="group-bottom">
+        <FillButton onClickFunction={onSubmit}>Save new groups</FillButton>
+      </div>
+    </GeneralLayout>
   );
 };
 
