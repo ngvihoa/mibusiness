@@ -1,4 +1,4 @@
-.projects-container {
+.project-list-container {
   padding-top: 20px;
   padding-bottom: 40px;
   color: $gray-800;
@@ -26,6 +26,27 @@
         display: flex;
         justify-content: center;
         align-items: center;
+      }
+    }
+  }
+}
+
+.project-adding-container {
+  form {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 16px;
+
+    .form-group {
+      label {
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+    }
+
+    @media screen and (min-width: $bp-sm) {
+      & {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   }

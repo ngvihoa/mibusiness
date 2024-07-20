@@ -1,5 +1,6 @@
 import FillButton from "components/button/fill-button";
 import LineButton from "components/button/line-button";
+import GeneralLayout from "components/layout/general-layout";
 import PaginationBar from "components/pagination-bar/pagination-bar";
 import { styleIcon, styleIconSm } from "lib/data";
 import React from "react";
@@ -92,8 +93,7 @@ const projects = [
 
 const ProjectList = () => {
   return (
-    <div className="projects-container container mt-20">
-      <h3>Project List</h3>
+    <GeneralLayout classContainer="project-list-container" name="Project List">
       <div className="search-bar form-group d-flex gap-2">
         <input
           type="text"
@@ -208,7 +208,7 @@ const ProjectList = () => {
           </div>
         </div>
       </div>
-    </div>
+    </GeneralLayout>
   );
 };
 
