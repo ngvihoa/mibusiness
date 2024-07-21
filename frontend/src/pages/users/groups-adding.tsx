@@ -10,6 +10,7 @@ import useAuth from "hooks/auth.hook";
 import FillButton from "components/button/fill-button";
 import { createGroups } from "services/groupService";
 import GeneralLayout from "components/layout/general-layout";
+import LineButton from "components/button/line-button";
 
 interface GroupListType {
   [key: string]: any;
@@ -123,7 +124,7 @@ const GroupsAdding = () => {
           return (
             <div className="group-child" key={key}>
               <div className="group-input form-group">
-                <label htmlFor="url">Url:</label>
+                <label htmlFor="name">Name:</label>
                 <input
                   type="text"
                   name="name"
@@ -146,24 +147,20 @@ const GroupsAdding = () => {
                   onChange={(e) => onChangeRole(key, e)}
                 />
               </div>
-              <div className="group-input">
-                {Object.entries(groupList).length - 1 === index && (
-                  <FillButton onClickFunction={onAddInput}>
-                    <FiPlusCircle />
-                  </FillButton>
-                )}
-                {Object.entries(groupList).length > 1 && (
+              {Object.entries(groupList).length > 1 && (
+                <div className="group-input delete-button">
                   <FillButton onClickFunction={() => onDeleteGroup(key)}>
                     <MdDelete />
                   </FillButton>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           );
         })}
       </div>
       <div className="group-bottom">
         <FillButton onClickFunction={onSubmit}>Save new groups</FillButton>
+        <LineButton onClickFunction={onAddInput}>Add new form</LineButton>
       </div>
     </GeneralLayout>
   );

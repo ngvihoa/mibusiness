@@ -98,9 +98,6 @@ const UserGroup = () => {
             className="form-control"
           />
           <FillButton>Search</FillButton>
-          <LineButton onClickFunction={() => {}}>
-            <FaFilter style={styleIcon} />
-          </LineButton>
         </div>
         <div className="table-container">
           <Table responsive="lg" className="">

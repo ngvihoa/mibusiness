@@ -65,10 +65,11 @@
         padding-left: 10px;
         padding-right: 0;
         flex: 1;
+        flex-basis: 250px;
 
-        &:last-child {
+        &.delete-button {
           flex: 0;
-          flex-basis: 100px;
+          flex-basis: 50px;
         }
 
         label {
@@ -84,10 +85,6 @@
           justify-content: center;
           align-items: center;
           padding: 10px 10px;
-
-          &:first-child {
-            margin-right: 6px;
-          }
         }
       }
     }
@@ -96,5 +93,7 @@
   .group-bottom {
     padding-inline: 12px;
     margin-top: 16px;
+    display: flex;
+    gap: 8px;
   }
 }
