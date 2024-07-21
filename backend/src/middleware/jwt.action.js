@@ -59,16 +59,14 @@ const checkToken = (req, res, next) => {
       next();
     } else {
       res.status(401).json({
-        EC: -1,
-        EM: "Unauthorized Access",
-        DT: "",
+        message: "Unauthorized access, please login!",
+        data: null,
       });
     }
   } else {
     return res.status(401).json({
-      EC: -1,
-      EM: "Unauthorized Access",
-      DT: "",
+      message: "Unauthorized access, please login!",
+      data: null,
     });
   }
 };
@@ -82,16 +80,14 @@ const checkPermission = async (req, res, next) => {
       groupRoles = await getGroupWithRole(groupId);
     } catch (error) {
       return res.status(500).json({
-        EM: "Something wrong with service!",
-        EC: "-2",
-        DT: "",
+        message: "Server error!",
+        data: null,
       });
     }
     if (!groupRoles || _.isEmpty(groupRoles) || groupRoles.Roles.length === 0) {
       return res.status(403).json({
-        EC: -3,
-        EM: "You don't have permission to access this resources",
-        DT: "",
+        message: "Forbiden access, please contact admin for more information!",
+        data: null,
       });
     }
     const roles = groupRoles.Roles;
@@ -106,16 +102,14 @@ const checkPermission = async (req, res, next) => {
       next();
     } else {
       return res.status(403).json({
-        EC: -3,
-        EM: "You don't have permission to access this resources",
-        DT: "",
+        message: "Forbiden access, please contact admin for more information!",
+        data: null,
       });
     }
   } else {
     return res.status(401).json({
-      EC: -1,
-      EM: "Unauthorized access",
-      DT: "",
+      message: "Unauthorized access, please login!",
+      data: null,
     });
   }
 };

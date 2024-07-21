@@ -6,31 +6,31 @@ import "dotenv/config.js";
 import { Op } from "sequelize";
 
 const createNewUser = async (rawData) => {
-  // check email, phone unique
-  if (await helperService.checkEmailExist(rawData.email)) {
-    return {
-      EM: "The email has already existed.",
-      EC: "-1",
-      DT: {
-        isValidEmail: false,
-      },
-    };
-  }
-  if (await helperService.checkPhoneExist(rawData.phone)) {
-    return {
-      EM: "The phone number has already existed.",
-      EC: "-1",
-      DT: {
-        isValidPhone: false,
-      },
-    };
-  }
-
-  // hash password
-  let hashPass = helperService.hashPassword(rawData.password);
-
-  // create user
   try {
+    // check email, phone unique
+    if (await helperService.checkEmailExist(rawData.email)) {
+      return {
+        message: "The email has already existed.",
+        status: 400,
+        data: {
+          isValidEmail: false,
+        },
+      };
+    }
+    if (await helperService.checkPhoneExist(rawData.phone)) {
+      return {
+        message: "The phone number has already existed.",
+        status: 400,
+        data: {
+          isValidPhone: false,
+        },
+      };
+    }
+
+    // hash password
+    let hashPass = helperService.hashPassword(rawData.password);
+
+    // create user
     await db.User.create({
       ...rawData,
       password: hashPass,
@@ -38,15 +38,15 @@ const createNewUser = async (rawData) => {
       sex: "other",
     });
     return {
-      EM: "New user has been created successfully!",
-      EC: "0",
-      DT: "",
+      message: "New user has been created!",
+      status: 200,
+      data: null,
     };
   } catch (e) {
     return {
-      EM: "Something wrong with service!",
-      EC: "-2",
-      DT: "",
+      message: "Server error!",
+      status: 500,
+      data: null,
     };
   }
 };
@@ -73,9 +73,9 @@ const handleUserLogIn = async (rawData) => {
         let token = createJWT(payloadJWT);
 
         return {
-          EM: "Login success!",
-          EC: 0,
-          DT: {
+          message: "Login success!",
+          status: 200,
+          data: {
             access_token: token,
             email: user.email,
             username: user.username,
@@ -86,18 +86,18 @@ const handleUserLogIn = async (rawData) => {
     }
 
     return {
-      EM: "Your email, phone number or password is incorrect",
-      EC: "-1",
-      DT: {
+      message: "Your email, phone number or password is incorrect",
+      status: 400,
+      data: {
         isValidKeyLogin: false,
         isValidPassword: false,
       },
     };
   } catch (e) {
     return {
-      EM: "Something wrong with service!",
-      EC: "-2",
-      DT: "",
+      message: "Server error!",
+      status: 500,
+      data: null,
     };
   }
 };

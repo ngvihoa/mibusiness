@@ -1,10 +1,6 @@
 import accountService from "../service/accountService";
 import helperService from "../service/helperService";
 
-const testApi = (req, res) => {
-  return res.status(200).json({ message: "API is working", data: "test data" });
-};
-
 const handleSignUp = async (req, res) => {
   try {
     if (
@@ -15,9 +11,8 @@ const handleSignUp = async (req, res) => {
       !req.body.confirmPassword
     ) {
       return res.status(400).json({
-        EM: "Missing required fields!",
-        EC: "-1",
-        DT: {
+        message: "Missing required fields!",
+        data: {
           isValidEmail: !!req.body.email,
           isValidUsername: !!req.body.username,
           isValidPhone: !!req.body.phone,
@@ -35,9 +30,8 @@ const handleSignUp = async (req, res) => {
 
     if (!helperService.validateEmail(email)) {
       return res.status(400).json({
-        EM: "You have entered invalid email!",
-        EC: "-1",
-        DT: {
+        message: "You have entered invalid email!",
+        data: {
           isValidEmail: false,
         },
       });
@@ -45,9 +39,8 @@ const handleSignUp = async (req, res) => {
 
     if (!helperService.validatePhone(phone)) {
       return res.status(400).json({
-        EM: "Phone number should have 10 digits!",
-        EC: "-1",
-        DT: {
+        message: "Phone number should have 10 digits!",
+        data: {
           isValidPhone: false,
         },
       });
@@ -55,9 +48,8 @@ const handleSignUp = async (req, res) => {
 
     if (!helperService.validatePassword(password)) {
       return res.status(400).json({
-        EM: "Your password's length should have at least 8 characters!",
-        EC: "-1",
-        DT: {
+        message: "Your password's length should have at least 8 characters!",
+        data: {
           isValidPassword: false,
         },
       });
@@ -65,9 +57,8 @@ const handleSignUp = async (req, res) => {
 
     if (password !== confirmPassword) {
       return res.status(400).json({
-        EM: "Passwords do not match!",
-        EC: "-1",
-        DT: {
+        message: "Passwords do not match!",
+        data: {
           isValidPassword: false,
           isValidConfirmPassword: false,
         },
@@ -75,27 +66,16 @@ const handleSignUp = async (req, res) => {
     }
 
     let user = { email, username, phone, password };
-    // console.log(user);
-    let data = await accountService.createNewUser(user);
+    let response = await accountService.createNewUser(user);
 
-    if (+data.EC === -1) {
-      return res.status(400).json({
-        EM: data.EM,
-        EC: data.EC,
-        DT: data.DT,
-      });
-    }
-
-    return res.status(200).json({
-      EM: data.EM,
-      EC: data.EC,
-      DT: data.DT,
+    return res.status(response.status).json({
+      message: response.message,
+      data: response.data,
     });
   } catch (e) {
     return res.status(500).json({
-      EM: "Error from server!", // error message
-      EC: "-1", // error code
-      DT: "", // data
+      message: "Server error!",
+      data: null,
     });
   }
 };
@@ -104,9 +84,8 @@ const handleLogIn = async (req, res) => {
   try {
     if (!req.body.keyLogin || !req.body.password) {
       return res.status(400).json({
-        EM: "Missing required fields!",
-        EC: "-1",
-        DT: {
+        message: "Missing required fields!",
+        data: {
           isValidKeyLogin: !!req.body.keyLogin,
           isValidPassword: !!req.body.password,
         },
@@ -123,9 +102,8 @@ const handleLogIn = async (req, res) => {
       !helperService.validatePassword(password)
     ) {
       return res.status(400).json({
-        EM: "Your email, phone number or password is incorrect!",
-        EC: "-1",
-        DT: {
+        message: "Your email, phone number or password is incorrect!",
+        data: {
           isValidKeyLogin: false,
           isValidPassword: false,
         },
@@ -133,37 +111,28 @@ const handleLogIn = async (req, res) => {
     }
 
     // check user
-    let data = await accountService.handleUserLogIn(req.body);
-    if (+data.EC === -1) {
-      return res.status(404).json({
-        EM: data.EM,
-        EC: data.EC,
-        DT: data.DT,
-      });
-    } else if (+data.EC === -2) {
-      return res.status(500).json({
-        EM: data.EM,
-        EC: data.EC,
-        DT: data.DT,
+    let response = await accountService.handleUserLogIn(req.body);
+    if (response.status !== 200) {
+      return res.status(response.status).json({
+        message: response.message,
+        data: response.data,
       });
     }
 
     //set cookie
-    res.cookie("jwt", data.DT.access_token, {
+    res.cookie("jwt", data.data.access_token, {
       httpOnly: true,
       maxAge: 60 * 60 * 1000,
     });
 
     return res.status(200).json({
-      EM: data.EM,
-      EC: data.EC,
-      DT: data.DT,
+      message: data.message,
+      data: data.data,
     });
   } catch (e) {
     return res.status(500).json({
-      EM: "Error from server!",
-      EC: "-2",
-      DT: "",
+      message: "Server error!",
+      data: null,
     });
   }
 };
@@ -174,21 +143,18 @@ const handleLogOut = async (req, res) => {
     res.clearCookie("jwt");
 
     return res.status(200).json({
-      EM: "ok",
-      EC: 0,
-      DT: "",
+      message: "ok",
+      data: null,
     });
   } catch (e) {
     return res.status(500).json({
-      EM: "Error from server!",
-      EC: "-2",
-      DT: "",
+      message: "Server error!",
+      data: null,
     });
   }
 };
 
 export default {
-  testApi,
   handleSignUp,
   handleLogIn,
   handleLogOut,
