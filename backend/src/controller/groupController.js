@@ -3,78 +3,75 @@ import groupApiService from "../service/groupApiService";
 const createFunc = async (req, res) => {
   try {
     // add to db
-    let data = await groupApiService.createNewGroups(req.body);
-    if (+data.EC === -1) {
-      return res.status(400).json({
-        EM: data.EM,
-        EC: "-1",
-        DT: data.DT,
-      });
-    } else if (+data.EC === -2) {
-      throw new Error();
-    }
-    return res.status(200).json({
-      EM: data.EM,
-      EC: data.EC,
-      DT: data.DT,
+    let response = await groupApiService.createNewGroups(req.body);
+    return res.status(response.status).json({
+      message: response.message,
+      data: response.data,
     });
   } catch (e) {
+    console.log(e);
     return res.status(500).json({
-      EM: "Error from server!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      data: null,
     });
   }
 };
 
 const readFunc = async (req, res) => {
   try {
-    let data = await groupApiService.getGroups();
-    if (+data.EC === -2) {
-      throw new Error();
-    }
-    return res.status(200).json({
-      EM: data.EM,
-      EC: 0,
-      DT: data.DT,
+    let response = await groupApiService.getGroups();
+    return res.status(response.status).json({
+      message: response.message,
+      data: response.data,
     });
   } catch (e) {
     console.log(e);
     return res.status(500).json({
-      EM: "Error from server!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      data: null,
     });
   }
 };
 
-// const updateFunc = async (req, res) => {
-//   try {
-//   } catch (e) {
-//     return res.status(500).json({
-//       EM: "Error from server!",
-//       EC: -1,
-//       DT: "",
-//     });
-//   }
-// };
+const updateFunc = async (req, res) => {
+  try {
+    if (!req.body.id || !req.body.name) {
+      return res.status(400).json({
+        message: "Missing required fields!",
+        data: null,
+      });
+    }
+    let response = await groupApiService.updateGroup(req.body);
+    return res.status(response.status).json({
+      message: response.message,
+      data: response.data,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      message: "Error from server!",
+      data: null,
+    });
+  }
+};
 
 const deleteFunc = async (req, res) => {
   try {
     const id = req.body.id;
-    let data = await groupApiService.deleteGroup(id);
-    if (+data.EC === -2) throw new Error();
+    let response = await groupApiService.deleteGroup(id);
 
-    return res.status(200).json({
-      EM: `Group ${req.body.name} is deleted!`,
-      EC: data.EC,
-      DT: data.DT,
+    let message =
+      response.status === 200
+        ? `Group ${req.body.name} is deleted!`
+        : response.message;
+    return res.status(response.status).json({
+      message: message,
+      data: response.data,
     });
   } catch (e) {
+    console.log(e);
     return res.status(500).json({
-      EM: "Error from server!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      data: null,
     });
   }
 };
@@ -82,6 +79,6 @@ const deleteFunc = async (req, res) => {
 export default {
   readFunc,
   createFunc,
-  // updateFunc,
+  updateFunc,
   deleteFunc,
 };
