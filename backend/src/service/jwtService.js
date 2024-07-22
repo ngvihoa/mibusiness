@@ -1,4 +1,3 @@
-import { raw } from "body-parser";
 import db from "../models";
 
 const getGroupWithRole = async (groupId) => {
@@ -14,7 +13,6 @@ const getGroupWithRole = async (groupId) => {
           through: { attributes: [] },
         },
       ],
-      raw: true,
     });
   } catch (error) {
     console.log(error);

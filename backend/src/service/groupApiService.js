@@ -69,7 +69,7 @@ const updateGroup = async (group) => {
       description: group.description,
     });
     return {
-      message: `${group.name} is updated!`,
+      message: `Group ${group.id} - ${group.name} is updated!`,
       status: 200,
       data: null,
     };
