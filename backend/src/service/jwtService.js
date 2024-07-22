@@ -14,12 +14,13 @@ const getGroupWithRole = async (groupId) => {
           through: { attributes: [] },
         },
       ],
+      raw: true,
     });
   } catch (error) {
     console.log(error);
   }
 
-  return role ? role : {};
+  return role ?? {};
 };
 
 export { getGroupWithRole };

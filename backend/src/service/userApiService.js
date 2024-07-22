@@ -10,24 +10,16 @@ const getAllUsers = async () => {
         attributes: ["name", "description"],
       },
     });
-    if (users) {
-      return {
-        EM: "Read data success",
-        EC: 0,
-        DT: users,
-      };
-    } else {
-      return {
-        EM: "Read data success",
-        EC: 0,
-        DT: [],
-      };
-    }
+    return {
+      message: "Read data success",
+      status: 200,
+      data: users ?? [],
+    };
   } catch (e) {
     return {
-      EM: "Error from server - service",
-      EC: -1,
-      DT: "",
+      message: "Server error!",
+      status: 500,
+      data: null,
     };
   }
 };
@@ -47,15 +39,15 @@ const getUserPaginated = async (page, limit) => {
     });
     const totalPages = Math.ceil(count / limit);
     return {
-      EM: "Found users from " + offset + " to " + (offset + limit),
-      EC: 0,
-      DT: { totalRows: count, totalPages: totalPages, users: rows },
+      message: "Found users from " + offset + " to " + (offset + limit),
+      status: 200,
+      data: { totalRows: count, totalPages: totalPages, users: rows },
     };
   } catch (e) {
     return {
-      EM: "Error from server - service",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      status: 500,
+      data: null,
     };
   }
 };
@@ -65,9 +57,9 @@ const createNewUser = async (user) => {
     // check email, phone unique
     if (await helperService.checkEmailExist(user.email)) {
       return {
-        EM: "The email has already existed.",
-        EC: "-1",
-        DT: {
+        message: "The email has already existed.",
+        status: 400,
+        data: {
           email: false,
         },
       };
@@ -75,9 +67,9 @@ const createNewUser = async (user) => {
 
     if (await helperService.checkPhoneExist(user.phone)) {
       return {
-        EM: "The phone number has already existed.",
-        EC: "-1",
-        DT: {
+        message: "The phone number has already existed.",
+        status: 400,
+        data: {
           phone: false,
         },
       };
@@ -92,16 +84,16 @@ const createNewUser = async (user) => {
       password: hashPass,
     });
     return {
-      EM: "Create new user ok!",
-      EC: 0,
-      DT: user,
+      message: "New user is created!",
+      status: 200,
+      data: user,
     };
   } catch (e) {
     console.log(e);
     return {
-      EM: "Error from server - service",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      status: 500,
+      data: null,
     };
   }
 };
@@ -120,23 +112,23 @@ const updateUser = async (data) => {
         groupId: data.groupId,
       });
       return {
-        EM: "Update user successfully",
-        EC: 0,
-        DT: "",
+        message: "Update user successfully",
+        status: 200,
+        data: null,
       };
     } else {
       return {
-        EM: "Updating user is not exist",
-        EC: -1,
-        DT: "",
+        message: "Updating user is not exist",
+        status: 400,
+        data: null,
       };
     }
   } catch (e) {
     console.log(e);
     return {
-      EM: "Error from server - service",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      status: 500,
+      data: null,
     };
   }
 };
@@ -147,16 +139,16 @@ const deleteUser = async (id) => {
       where: { id: id },
     });
     return {
-      EM: "Delete successfully user " + id,
-      EC: 0,
-      DT: "",
+      message: "Delete successfully user " + id,
+      status: 200,
+      data: null,
     };
   } catch (e) {
     console.log(e);
     return {
-      EM: "Error from server - service",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      status: 500,
+      data: null,
     };
   }
 };

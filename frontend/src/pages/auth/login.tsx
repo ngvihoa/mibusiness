@@ -49,11 +49,11 @@ const Login = () => {
   const onLogIn = async () => {
     if (isValidLoginForm()) {
       try {
-        let data = await logInUser(formLogin);
+        let res = await logInUser(formLogin);
         const authState: LoginType = {
-          accessToken: data.DT.access_token,
-          email: data.DT.email,
-          username: data.DT.username,
+          accessToken: res.data.access_token,
+          email: res.data.email,
+          username: res.data.username,
         };
         handleLogIn(authState);
       } catch (error) {
@@ -61,11 +61,11 @@ const Login = () => {
           const status = handleError(error.response?.status || 500);
           if (status === 400) {
             const data = error.response?.data;
-            if (data.DT) {
-              toast.error(data.EM);
+            if (data.data) {
+              toast.error(data.message);
               setFormState((prev) => ({
                 ...prev,
-                ...data.DT,
+                ...data.data,
               }));
             }
           }

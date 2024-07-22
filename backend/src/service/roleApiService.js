@@ -15,23 +15,23 @@ const createNewRoles = async (roles) => {
     );
     if (newRoles.length === 0) {
       return {
-        EM: "Nothing to create!",
-        EC: -1,
-        DT: "",
+        message: "Nothing to create!",
+        status: 400,
+        data: null,
       };
     }
     let data = await db.Role.bulkCreate(newRoles);
     return {
-      EM: `Create successfully ${newRoles.length} role(s)!`,
-      EC: 0,
-      DT: data,
+      message: `Create successfully ${newRoles.length} role(s)!`,
+      status: 200,
+      data: data,
     };
   } catch (error) {
     console.log(error);
     return {
-      EM: "Error from service!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      status: 500,
+      data: null,
     };
   }
 };
@@ -40,16 +40,16 @@ const getAllRoles = async () => {
   try {
     let data = await db.Role.findAll();
     return {
-      EM: "Get all roles successfully",
-      EC: 0,
-      DT: data,
+      message: "Get all roles successfully",
+      status: 200,
+      data: data,
     };
   } catch (error) {
     console.log(error);
     return {
-      EM: "Error from service!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      status: 500,
+      data: null,
     };
   }
 };
@@ -65,15 +65,15 @@ const getRolePaginated = async (page, limit) => {
     });
     const totalPages = Math.ceil(count / limit);
     return {
-      EM: "Get roles successfully!",
-      EC: 0,
-      DT: { totalRows: count, totalPages: totalPages, roles: rows },
+      message: "Get roles successfully!",
+      status: 200,
+      data: { totalRows: count, totalPages: totalPages, roles: rows },
     };
   } catch (e) {
     return {
-      EM: "Error from server!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      status: 500,
+      data: null,
     };
   }
 };
@@ -84,16 +84,16 @@ const deleteRole = async (id) => {
       where: { id: id },
     });
     return {
-      EM: "",
-      EC: 0,
-      DT: "",
+      message: "",
+      status: 200,
+      data: null,
     };
   } catch (e) {
     console.log(e);
     return {
-      EM: "Error from server!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      status: 500,
+      data: null,
     };
   }
 };
@@ -116,16 +116,16 @@ const getRolesByGroup = async (groupId) => {
       role = data.Roles;
     }
     return {
-      EM: "",
-      EC: 0,
-      DT: role,
+      message: "",
+      status: 200,
+      data: role,
     };
   } catch (e) {
     console.log(e);
     return {
-      EM: "Error from server!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      status: 500,
+      data: null,
     };
   }
 };
@@ -139,17 +139,17 @@ const assignRolesToGroup = async (groupId, groupRoles) => {
       });
       let data = await db.Group_Role.bulkCreate(groupRoles);
       return {
-        EM: "",
-        EC: 0,
-        DT: data,
+        message: "Assign successfully!",
+        status: 200,
+        data: data,
       };
     } else throw new Error();
   } catch (error) {
     console.log(error);
     return {
-      EM: "Error from server!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      status: 500,
+      data: null,
     };
   }
 };

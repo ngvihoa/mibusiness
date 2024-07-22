@@ -3,11 +3,10 @@ import projectApiService from "../service/projectApiService";
 const readFunc = async (req, res) => {
   try {
   } catch (error) {
-    return {
-      EM: "Server error!",
-      EC: -2,
-      DT: "",
-    };
+    return res.status(500).json({
+      message: "Server error!",
+      data: null,
+    });
   }
 };
 const createFunc = async (req, res) => {
@@ -17,9 +16,8 @@ const createFunc = async (req, res) => {
     const name = req.body.name;
     if (!name) {
       return res.status(400).json({
-        EM: "Project's name cannot be empty!",
-        EC: -1,
-        DT: "",
+        message: "Project's name cannot be empty!",
+        data: "",
       });
     }
 
@@ -31,36 +29,33 @@ const createFunc = async (req, res) => {
       customerId: req.body.customerId || null,
     };
     // ...
-    const data = await projectApiService.createProject(project);
+    const response = await projectApiService.createProject(project);
     return res
-      .status(201)
-      .json({ EM: "Project is created!", EC: 0, DT: data.DT });
+      .status(200)
+      .json({ message: "Project is created!", data: response.data });
   } catch (error) {
     return res.status(500).json({
-      EM: "Server error!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      data: null,
     });
   }
 };
 const updateFunc = async (req, res) => {
   try {
   } catch (error) {
-    return {
-      EM: "Server error!",
-      EC: -2,
-      DT: "",
-    };
+    return res.status(500).json({
+      message: "Server error!",
+      data: null,
+    });
   }
 };
 const deleteFunc = async (req, res) => {
   try {
   } catch (error) {
-    return {
-      EM: "Server error!",
-      EC: -2,
-      DT: "",
-    };
+    return res.status(500).json({
+      message: "Server error!",
+      data: null,
+    });
   }
 };
 

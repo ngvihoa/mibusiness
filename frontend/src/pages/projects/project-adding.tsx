@@ -15,7 +15,7 @@ const ProjectAdding = () => {
   const fetchUsers = async () => {
     try {
       let data = await fetchAllUsers(1, 10);
-      setUserList(data.DT.users);
+      setUserList(data.data.users);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         // Access to config, request, and response

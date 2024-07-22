@@ -94,7 +94,7 @@ const GroupsAdding = () => {
     const groups = buildDatatoPersist();
     try {
       let data = await createGroups(groups);
-      toast.success(data.EM);
+      toast.success(data.message);
       setGroupList({
         group1: {
           name: "",
@@ -108,7 +108,7 @@ const GroupsAdding = () => {
         if (status === 401) {
           handleLogOut();
         } else if (status === 400) {
-          toast.error(error.response?.data.EM || "Bad Request");
+          toast.error(error.response?.data.message || "Bad Request");
         }
       }
     }

@@ -31,7 +31,7 @@ const UserGroup = () => {
   const fetchGroupList = async () => {
     try {
       let data = await fetchGroups();
-      setGroupList(data.DT);
+      setGroupList(data.data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         // Access to config, request, and response
@@ -65,7 +65,7 @@ const UserGroup = () => {
     try {
       if (dataModal) {
         let data = await deleteGroup(dataModal);
-        toast.success(data.EM);
+        toast.success(data.message);
         await fetchGroupList();
         handleCloseModalConfirmDelete();
       }

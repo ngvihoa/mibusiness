@@ -48,7 +48,7 @@ const updateFunc = async (req, res) => {
     });
   } catch (e) {
     return res.status(500).json({
-      message: "Error from server!",
+      message: "Server error!",
       data: null,
     });
   }

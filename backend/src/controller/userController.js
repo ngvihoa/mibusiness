@@ -11,9 +11,8 @@ const createFunc = async (req, res) => {
       !req.body.groupId
     ) {
       return res.status(400).json({
-        EM: "Missing required fields!",
-        EC: "-1",
-        DT: {
+        message: "Missing required fields!",
+        data: {
           email: !!req.body.email,
           username: !!req.body.username,
           phone: !!req.body.phone,
@@ -33,9 +32,8 @@ const createFunc = async (req, res) => {
 
     if (!helperService.validateEmail(email)) {
       return res.status(400).json({
-        EM: "You have entered invalid email!",
-        EC: "-1",
-        DT: {
+        message: "You have entered invalid email!",
+        data: {
           email: false,
         },
       });
@@ -43,9 +41,8 @@ const createFunc = async (req, res) => {
 
     if (!helperService.validatePhone(phone)) {
       return res.status(400).json({
-        EM: "Phone number should have 10 digits!",
-        EC: "-1",
-        DT: {
+        message: "Phone number should have 10 digits!",
+        data: {
           phone: false,
         },
       });
@@ -53,9 +50,8 @@ const createFunc = async (req, res) => {
 
     if (!helperService.validatePassword(password)) {
       return res.status(400).json({
-        EM: "Your password's length should have at least 8 characters!",
-        EC: "-1",
-        DT: {
+        message: "Your password's length should have at least 8 characters!",
+        data: {
           password: false,
         },
       });
@@ -63,66 +59,46 @@ const createFunc = async (req, res) => {
 
     if (!helperService.validateGroup(groupId)) {
       return res.status(400).json({
-        EM: "Group Id is invalid",
-        EC: "-1",
-        DT: {
+        message: "Group id is invalid",
+        data: {
           groupId: false,
         },
       });
     }
 
     let user = { email, username, phone, password, address, sex, groupId };
-    let data = await userApiService.createNewUser(user);
-    if (+data.EC === -1) {
-      return res.status(400).json({
-        EM: data.EM,
-        EC: "-1",
-        DT: data.DT,
-      });
-    } else if (+data.EC === -2) {
-      throw new Error();
-    }
-    return res.status(200).json({
-      EM: data.EM,
-      EC: data.EC,
-      DT: data.DT,
+    let response = await userApiService.createNewUser(user);
+    return res.status(response.status).json({
+      message: response.message,
+      data: response.data,
     });
   } catch (e) {
     return res.status(500).json({
-      EM: "Error from server!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      data: null,
     });
   }
 };
 
 const readFunc = async (req, res) => {
   try {
+    let response;
     if (req.query.page && req.query.limit) {
       let page = req.query.page;
       let limit = req.query.limit;
-      let data = await userApiService.getUserPaginated(page, limit);
-      if (+data.EC === -2) throw new Error();
-      return res.status(200).json({
-        EM: data.EM,
-        EC: data.EC,
-        DT: data.DT,
-      });
+      response = await userApiService.getUserPaginated(page, limit);
     } else {
-      let data = await userApiService.getAllUsers();
-      if (+data.EC === -2) throw new Error();
-      return res.status(200).json({
-        EM: data.EM,
-        EC: data.EC,
-        DT: data.DT,
-      });
+      response = await userApiService.getAllUsers();
     }
+    return res.status(response.status).json({
+      message: response.message,
+      data: response.data,
+    });
   } catch (e) {
     console.log(e);
     return res.status(500).json({
-      EM: "Error from server!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      data: null,
     });
   }
 };
@@ -132,17 +108,15 @@ const updateFunc = async (req, res) => {
     let id = Number(req.body.id);
     if (id === null || id === undefined || isNaN(id)) {
       return res.status(400).json({
-        EM: "Missing user id!",
-        EC: "-1",
-        DT: {},
+        message: "Missing user id!",
+        data: {},
       });
     }
 
     if (!req.body.username || !req.body.groupId) {
       return res.status(400).json({
-        EM: "Missing required fields!",
-        EC: "-1",
-        DT: {
+        message: "Missing required fields!",
+        data: {
           username: !!req.body.username,
           groupId: !!req.body.groupId,
         },
@@ -156,36 +130,24 @@ const updateFunc = async (req, res) => {
 
     if (!helperService.validateGroup(groupId)) {
       return res.status(400).json({
-        EM: "Group Id is invalid",
-        EC: "-1",
-        DT: {
+        message: "Group Id is invalid",
+        data: {
           groupId: false,
         },
       });
     }
 
     let user = { id, username, address, sex, groupId };
-    let data = await userApiService.updateUser(user);
-    if (+data.EC === -1) {
-      return res.status(400).json({
-        EM: data.EM,
-        EC: "-1",
-        DT: data.DT,
-      });
-    } else if (+data.EC === -2) {
-      throw new Error();
-    }
-    return res.status(200).json({
-      EM: data.EM,
-      EC: data.EC,
-      DT: data.DT,
+    let response = await userApiService.updateUser(user);
+    return res.status(response.status).json({
+      message: response.message,
+      data: response.data,
     });
   } catch (e) {
     console.log(e);
     return res.status(500).json({
-      EM: "Error from server!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      data: null,
     });
   }
 };
@@ -193,21 +155,15 @@ const updateFunc = async (req, res) => {
 const deleteFunc = async (req, res) => {
   try {
     const id = req.body.id;
-    let data = await userApiService.deleteUser(id);
-    if (+data.EC === -2) {
-      throw new Error();
-    }
-
-    return res.status(200).json({
-      EM: data.EM,
-      EC: data.EC,
-      DT: data.DT,
+    let response = await userApiService.deleteUser(id);
+    return res.status(response.status).json({
+      message: response.message,
+      data: response.data,
     });
   } catch (e) {
     return res.status(500).json({
-      EM: "Error from server!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      data: null,
     });
   }
 };

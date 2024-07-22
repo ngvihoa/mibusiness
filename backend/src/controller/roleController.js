@@ -4,57 +4,38 @@ import helperService from "../service/helperService";
 const createFunc = async (req, res) => {
   try {
     // add to db
-    let data = await roleApiService.createNewRoles(req.body);
-    if (+data.EC === -1) {
-      return res.status(400).json({
-        EM: data.EM,
-        EC: "-1",
-        DT: data.DT,
-      });
-    } else if (+data.EC === -2) {
-      throw new Error();
-    }
-    return res.status(200).json({
-      EM: data.EM,
-      EC: data.EC,
-      DT: data.DT,
+    let response = await roleApiService.createNewRoles(req.body);
+    return res.status(response.status).json({
+      message: response.message,
+      data: response.data,
     });
   } catch (e) {
     return res.status(500).json({
-      EM: "Error from server!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      data: null,
     });
   }
 };
 
 const readFunc = async (req, res) => {
+  let response = null;
   try {
     if (req.query.page && req.query.limit) {
       let page = req.query.page;
       let limit = req.query.limit;
-      let data = await roleApiService.getRolePaginated(page, limit);
-      if (+data.EC === -2) throw new Error();
-      return res.status(200).json({
-        EM: data.EM,
-        EC: 0,
-        DT: data.DT,
-      });
+      response = await roleApiService.getRolePaginated(page, limit);
     } else {
-      let data = await roleApiService.getAllRoles();
-      if (+data.EC === -2) throw new Error();
-      return res.status(200).json({
-        EM: data.EM,
-        EC: 0,
-        DT: data.DT,
-      });
+      response = await roleApiService.getAllRoles();
     }
+    return res.status(response.status).json({
+      message: response.message,
+      data: response.data,
+    });
   } catch (e) {
     console.log(e);
     return res.status(500).json({
-      EM: "Error from server!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      data: null,
     });
   }
 };
@@ -64,16 +45,14 @@ const updateFunc = async (req, res) => {
   //   let id = Number(req.body.id);
   //   if (id === null || id === undefined || isNaN(id)) {
   //     return res.status(400).json({
-  //       EM: "Missing user id!",
-  //       EC: "-1",
-  //       DT: {},
+  //       message: "Missing user id!",
+  //       data: {},
   //     });
   //   }
   //   if (!req.body.username || !req.body.groupId) {
   //     return res.status(400).json({
-  //       EM: "Missing required fields!",
-  //       EC: "-1",
-  //       DT: {
+  //       message: "Missing required fields!",
+  //       data: {
   //         username: !!req.body.username,
   //         groupId: !!req.body.groupId,
   //       },
@@ -85,35 +64,23 @@ const updateFunc = async (req, res) => {
   //   const groupId = Number(req.body.groupId);
   //   if (!helperService.validateGroup(groupId)) {
   //     return res.status(400).json({
-  //       EM: "Group Id is invalid",
-  //       EC: "-1",
-  //       DT: {
+  //       message: "Group id is invalid",
+  //       data: {
   //         groupId: false,
   //       },
   //     });
   //   }
   //   let user = { id, username, address, sex, groupId };
-  //   let data = await userApiService.updateUser(user);
-  //   if (+data.EC === -1) {
-  //     return res.status(400).json({
-  //       EM: data.EM,
-  //       EC: "-1",
-  //       DT: data.DT,
-  //     });
-  //   } else if (+data.EC === -2) {
-  //     throw new Error();
-  //   }
-  //   return res.status(200).json({
-  //     EM: data.EM,
-  //     EC: data.EC,
-  //     DT: data.DT,
+  //   let response = await userApiService.updateUser(user);
+  //   return res.status(response.status).json({
+  //     message: response.message,
+  //     data: response.data,
   //   });
   // } catch (e) {
   //   console.log(e);
   //   return res.status(500).json({
-  //     EM: "Error from server!",
-  //     EC: -2,
-  //     DT: "",
+  //     message: "Server error!",
+  //     data: null,
   //   });
   // }
 };
@@ -121,19 +88,15 @@ const updateFunc = async (req, res) => {
 const deleteFunc = async (req, res) => {
   try {
     const id = req.body.id;
-    let data = await roleApiService.deleteRole(id);
-    if (+data.EC === -2) throw new Error();
-
-    return res.status(200).json({
-      EM: `Role ${req.body.url} is deleted!`,
-      EC: data.EC,
-      DT: data.DT,
+    let response = await roleApiService.deleteRole(id);
+    return res.status(response.status).json({
+      message: `Role ${req.body.url} is deleted!`,
+      data: response.data,
     });
   } catch (e) {
     return res.status(500).json({
-      EM: "Error from server!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      data: null,
     });
   }
 };
@@ -141,18 +104,15 @@ const deleteFunc = async (req, res) => {
 const getRolesByGroup = async (req, res) => {
   try {
     const groupId = req.params.groupId;
-    let data = await roleApiService.getRolesByGroup(groupId);
-    if (+data.EC === -2) throw new Error();
-    return res.status(200).json({
-      EM: data.EM,
-      EC: 0,
-      DT: data.DT,
+    let response = await roleApiService.getRolesByGroup(groupId);
+    return res.status(response.status).json({
+      message: response.message,
+      data: response.data,
     });
   } catch (error) {
     return res.status(500).json({
-      EM: "Error from server!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      data: null,
     });
   }
 };
@@ -161,19 +121,16 @@ const assignRoles = async (req, res) => {
   try {
     const groupId = req.body.groupId;
     const groupRoles = req.body.groupRoles;
-    let data = await roleApiService.assignRolesToGroup(groupId, groupRoles);
-    if (+data.EC === -2) throw new Error();
-    return res.status(200).json({
-      EM: data.EM,
-      EC: 0,
-      DT: data.DT,
+    let response = await roleApiService.assignRolesToGroup(groupId, groupRoles);
+    return res.status(response.status).json({
+      message: response.message,
+      data: response.data,
     });
   } catch (error) {
     // console.log(error);
     return res.status(500).json({
-      EM: "Error from server!",
-      EC: -2,
-      DT: "",
+      message: "Server error!",
+      data: null,
     });
   }
 };

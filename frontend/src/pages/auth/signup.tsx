@@ -119,7 +119,7 @@ const Signup = () => {
       let isValid = isValidateInput();
       if (isValid) {
         const data = await signUpNewUser(form);
-        toast.success(data.EM);
+        toast.success(data.message);
         handleToLogin();
       }
     } catch (error) {
@@ -127,11 +127,11 @@ const Signup = () => {
         const status = handleError(error.response?.status || 500);
         if (status === 400) {
           const data = error.response?.data;
-          toast.error(data.EM);
-          if (data.DT)
+          toast.error(data.message);
+          if (data.data)
             setFormState((prev) => ({
               ...prev,
-              ...data.DT,
+              ...data.data,
             }));
         }
       }

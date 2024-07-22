@@ -120,16 +120,17 @@ const handleLogIn = async (req, res) => {
     }
 
     //set cookie
-    res.cookie("jwt", data.data.access_token, {
+    res.cookie("jwt", response.data.access_token, {
       httpOnly: true,
       maxAge: 60 * 60 * 1000,
     });
 
     return res.status(200).json({
-      message: data.message,
-      data: data.data,
+      message: response.message,
+      data: response.data,
     });
   } catch (e) {
+    console.log(e);
     return res.status(500).json({
       message: "Server error!",
       data: null,

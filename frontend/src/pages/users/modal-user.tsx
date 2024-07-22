@@ -61,10 +61,10 @@ const ModalUser = ({
   const getGroups = async () => {
     try {
       let data = await fetchGroups();
-      setGroup(data.DT);
+      setGroup(data.data);
       setForm((prev) => ({
         ...prev,
-        groupId: data.DT[0].id,
+        groupId: data.data[0].id,
       }));
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -189,11 +189,11 @@ const ModalUser = ({
         let status = handleError(error.response?.status || 500);
         if (status === 400) {
           let data = error.response?.data;
-          if (data.DT) {
-            toast.error(data.EM);
+          if (data.data) {
+            toast.error(data.message);
             setFormState((prev) => ({
               ...prev,
-              ...data.DT,
+              ...data.data,
             }));
           }
         } else if (status === 401) {
@@ -217,11 +217,11 @@ const ModalUser = ({
         let status = handleError(error.response?.status || 500);
         if (status === 400) {
           let data = error.response?.data;
-          if (data.DT) {
-            toast.error(data.EM);
+          if (data.data) {
+            toast.error(data.message);
             setFormState((prev) => ({
               ...prev,
-              ...data.DT,
+              ...data.data,
             }));
           }
         } else if (status === 401) {

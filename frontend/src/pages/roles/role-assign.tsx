@@ -72,7 +72,7 @@ const RoleAssign = () => {
   const getGroups = async () => {
     try {
       let data = await fetchGroups();
-      setGroupList(data.DT);
+      setGroupList(data.data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         // Access to config, request, and response
@@ -87,7 +87,7 @@ const RoleAssign = () => {
   const getAllRoles = async () => {
     try {
       let data = await fetchAllRoles();
-      setRoleList(data.DT);
+      setRoleList(data.data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         // Access to config, request, and response
@@ -108,7 +108,7 @@ const RoleAssign = () => {
     try {
       if (groupId === null) return;
       let data = await fetchRolesByGroup(groupId);
-      const res = handleBuildDataPersist(roleList!, data.DT);
+      const res = handleBuildDataPersist(roleList!, data.data);
       setRolePersist(res);
     } catch (error) {
       if (axios.isAxiosError(error)) {

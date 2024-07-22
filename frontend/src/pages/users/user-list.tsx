@@ -18,7 +18,6 @@ import { FaFilter } from "react-icons/fa6";
 import { styleIcon, styleIconSm } from "lib/data";
 import { Table } from "react-bootstrap";
 import { MdDelete, MdEdit } from "react-icons/md";
-import ModalAlert from "components/modal/modal-alert";
 
 const initModal: ModalTextProps = {
   headingText: "",
@@ -46,11 +45,10 @@ const UserList = () => {
   const fetchUsers = async () => {
     try {
       let data = await fetchAllUsers(currentPage, itemsPerPage);
-      setPageCount(data.DT.totalPages);
-      setUserList(data.DT.users);
+      setPageCount(data.data.totalPages);
+      setUserList(data.data.users);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        // Access to config, request, and response
         const status = handleError(error.response?.status || 500);
         if (status === 401) {
           handleLogOut();
@@ -81,7 +79,7 @@ const UserList = () => {
     try {
       if (dataModal) {
         let data = await deleteUser(+dataModal.id);
-        toast.success(data.EM);
+        toast.success(data.message);
         await fetchUsers();
         handleCloseModalConfirmDelete();
       }

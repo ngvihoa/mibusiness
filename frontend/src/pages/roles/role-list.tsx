@@ -41,9 +41,9 @@ const RoleList = () => {
   const fetchRoles = async () => {
     try {
       let data = await fetchAllRoles(currentPage, itemsPerPage);
-      setPageCount(data.DT.totalPages);
-      setRoleList(data.DT.roles);
-      // console.log(data.DT.roles);
+      setPageCount(data.data.totalPages);
+      setRoleList(data.data.roles);
+      // console.log(data.data.roles);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         // Access to config, request, and response
@@ -76,7 +76,7 @@ const RoleList = () => {
     try {
       if (dataModal) {
         let data = await deleteRole(dataModal);
-        toast.success(data.EM);
+        toast.success(data.message);
         await fetchRoles();
         handleCloseModalConfirmDelete();
       }

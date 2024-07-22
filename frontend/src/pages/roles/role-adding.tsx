@@ -98,7 +98,7 @@ const RoleAdding = () => {
     const roles = buildDatatoPersist();
     try {
       let data = await createRoles(roles);
-      toast.success(data.EM);
+      toast.success(data.message);
       setRoleList({
         role1: {
           method: "GET",
@@ -113,7 +113,7 @@ const RoleAdding = () => {
         if (status === 401) {
           handleLogOut();
         } else if (status === 400) {
-          toast.error(error.response?.data.EM || "Bad Request");
+          toast.error(error.response?.data.message || "Bad Request");
         }
       }
     }

@@ -79,6 +79,7 @@ const checkPermission = async (req, res, next) => {
     try {
       groupRoles = await getGroupWithRole(groupId);
     } catch (error) {
+      // console.log(">>>Checking error:::", error);
       return res.status(500).json({
         message: "Server error!",
         data: null,
