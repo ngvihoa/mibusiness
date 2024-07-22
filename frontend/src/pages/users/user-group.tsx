@@ -9,10 +9,10 @@ import { GroupDBGet, ModalTextProps } from "lib/type";
 import GeneralLayout from "components/layout/general-layout";
 import FillButton from "components/button/fill-button";
 import LineButton from "components/button/line-button";
-import { FaFilter } from "react-icons/fa6";
-import { styleIcon, styleIconSm } from "lib/data";
+import { styleIconSm } from "lib/data";
 import { Table } from "react-bootstrap";
 import { MdDelete, MdEdit } from "react-icons/md";
+import ModalGroup from "./modal-group";
 
 const initModal: ModalTextProps = {
   headingText: "",
@@ -23,6 +23,7 @@ const UserGroup = () => {
   const { handleLogOut } = useAuth();
   // confirm delete user states
   const [showModalConfirmDelete, setShowModalConfirmDelete] = useState(false);
+  const [showModalUpdate, setShowModalUpdate] = useState(false);
   const [modalText, setModalText] = useState<ModalTextProps>(initModal);
 
   const [dataModal, setDataModal] = useState<GroupDBGet | null>(null);
@@ -43,7 +44,24 @@ const UserGroup = () => {
     }
   };
 
-  // function for delete user
+  // function for update group
+  const handleCloseModalUpdate = () => {
+    setDataModal(null);
+    setShowModalUpdate(false);
+  };
+  const handleShowModalUpdateGroup = (group: GroupDBGet) => {
+    setModalText({
+      headingText: "Update user group",
+      bodyText: "",
+    });
+    setDataModal(group);
+    setShowModalUpdate(true);
+  };
+  const handleUpdate = async () => {
+    await fetchGroupList();
+  };
+
+  // function for delete group
   const handleCloseModalConfirmDelete = () => {
     setDataModal(null);
     setShowModalConfirmDelete(false);
@@ -121,11 +139,9 @@ const UserGroup = () => {
                         <div className="d-flex gap-1">
                           <LineButton
                             className="fw-medium"
-                            onClickFunction={() => {}}
-                            // new feature
-                            // onClickFunction={() =>
-                            //   handleShowModalUpdateUser(item)
-                            // }
+                            onClickFunction={() =>
+                              handleShowModalUpdateGroup(item)
+                            }
                           >
                             <MdEdit style={styleIconSm} />
                           </LineButton>
@@ -154,6 +170,13 @@ const UserGroup = () => {
         text={modalText}
         handleClose={handleCloseModalConfirmDelete}
         handleConfirm={handleConfirmDelete}
+      />
+      <ModalGroup
+        show={showModalUpdate}
+        text={modalText}
+        handleClose={handleCloseModalUpdate}
+        handleConfirm={handleUpdate}
+        group={dataModal}
       />
     </>
   );
