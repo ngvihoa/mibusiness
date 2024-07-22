@@ -4,6 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import useAuth from "hooks/auth.hook";
+import { matchPath } from "react-router-dom";
 
 const NavigationBar = () => {
   const { handleLogOut } = useAuth();
@@ -25,7 +26,11 @@ const NavigationBar = () => {
                   <NavLink to="/" className="nav-link">
                     Home
                   </NavLink>
-                  <NavLink to="/users" className="nav-link">
+                  <div
+                    className={`nav-link ${
+                      matchPath("/users/*", location.pathname) ? "active" : ""
+                    }`}
+                  >
                     <NavDropdown title="Users" id="basic-nav-dropdown">
                       <NavDropdown.Item>
                         <NavLink to="/users/list">User list</NavLink>
@@ -37,8 +42,12 @@ const NavigationBar = () => {
                         <NavLink to="/users/group/adding">Add groups</NavLink>
                       </NavDropdown.Item>
                     </NavDropdown>
-                  </NavLink>
-                  <NavLink to="/roles" className="nav-link">
+                  </div>
+                  <div
+                    className={`nav-link ${
+                      matchPath("/roles/*", location.pathname) ? "active" : ""
+                    }`}
+                  >
                     <NavDropdown title="Roles" id="basic-nav-dropdown">
                       <NavDropdown.Item>
                         <NavLink to="/roles/list">Role list</NavLink>
@@ -50,8 +59,14 @@ const NavigationBar = () => {
                         <NavLink to="/roles/assign">Assign roles</NavLink>
                       </NavDropdown.Item>
                     </NavDropdown>
-                  </NavLink>
-                  <NavLink to="/projects" className="nav-link">
+                  </div>
+                  <div
+                    className={`nav-link ${
+                      matchPath("/projects/*", location.pathname)
+                        ? "active"
+                        : ""
+                    }`}
+                  >
                     <NavDropdown title="Projects" id="basic-nav-dropdown">
                       <NavDropdown.Item>
                         <NavLink to="/projects/list">Project list</NavLink>
@@ -60,7 +75,7 @@ const NavigationBar = () => {
                         <NavLink to="/projects/adding">Add projects</NavLink>
                       </NavDropdown.Item>
                     </NavDropdown>
-                  </NavLink>
+                  </div>
                   <NavLink to="/about" className="nav-link">
                     About
                   </NavLink>
