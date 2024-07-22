@@ -44,6 +44,13 @@
       }
     }
 
+    .fill-button,
+    .line-button {
+      grid-column: 1 / span 2;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
     @media screen and (min-width: $bp-sm) {
       & {
         grid-template-columns: repeat(2, 1fr);

@@ -172,10 +172,28 @@ const getUserAccount = async (req, res) => {
   console.log(">>> checking token valid:", req.user);
 };
 
+const getUsersByGroup = async (req, res) => {
+  try {
+    const groupId = req.params.groupId;
+    let response = await userApiService.getUsersByGroup(groupId);
+    return res.status(response.status).json({
+      message: response.message,
+      data: response.data,
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({
+      message: "Server error!",
+      data: null,
+    });
+  }
+};
+
 export default {
   readFunc,
   createFunc,
   updateFunc,
   deleteFunc,
   getUserAccount,
+  getUsersByGroup,
 };

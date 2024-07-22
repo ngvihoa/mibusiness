@@ -153,10 +153,31 @@ const deleteUser = async (id) => {
   }
 };
 
+const getUsersByGroup = async (groupId) => {
+  try {
+    let users = await db.User.findAll({
+      attributes: ["id", "username"],
+      where: { groupId: groupId },
+    });
+    return {
+      message: "Read data success",
+      status: 200,
+      data: users ?? [],
+    };
+  } catch (e) {
+    return {
+      message: "Server error!",
+      status: 500,
+      data: null,
+    };
+  }
+};
+
 export default {
   getAllUsers,
   createNewUser,
   updateUser,
   deleteUser,
   getUserPaginated,
+  getUsersByGroup,
 };
