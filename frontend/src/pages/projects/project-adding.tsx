@@ -72,7 +72,7 @@ const ProjectAdding = () => {
           </div>
           <div className="select-container">
             <label htmlFor="group">
-              Customer (<i>*</i>):
+              Customer (<i className="text-danger">*</i>):
             </label>
             <Form.Select
               name="group"

@@ -11,7 +11,12 @@ interface ModalAlertProps {
 const ModalAlert = ({ show, handleClose, text }: ModalAlertProps) => {
   return (
     <>
-      <Modal show={show} onHide={handleClose} centered className="model-alert">
+      <Modal
+        show={show}
+        onHide={handleClose}
+        centered
+        className="modal modal-alert"
+      >
         <Modal.Header closeButton>
           <Modal.Title>{text.headingText}</Modal.Title>
         </Modal.Header>

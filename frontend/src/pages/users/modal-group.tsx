@@ -116,7 +116,7 @@ const ModalGroup = ({
         show={show}
         onHide={onClose}
         centered
-        className="modal-group"
+        className="modal modal-group"
       >
         <Modal.Header closeButton>
           <Modal.Title>{text.headingText}</Modal.Title>

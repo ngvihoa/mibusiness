@@ -22,7 +22,7 @@ const ModalConfirm = ({
         show={show}
         onHide={handleClose}
         centered
-        className="model-confirm"
+        className="modal modal-confirm"
       >
         <Modal.Header closeButton>
           <Modal.Title>{text.headingText}</Modal.Title>

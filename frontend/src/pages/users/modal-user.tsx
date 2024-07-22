@@ -238,7 +238,7 @@ const ModalUser = ({
         show={show}
         onHide={onClose}
         centered
-        className="modal-user"
+        className="modal modal-user"
       >
         <Modal.Header closeButton>
           <Modal.Title>{text.headingText}</Modal.Title>
