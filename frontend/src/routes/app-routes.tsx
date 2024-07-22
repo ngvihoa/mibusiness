@@ -43,6 +43,7 @@ const AppRoutes = () => {
             <Route path="list" element={<ProjectList />} />
             <Route path="adding" element={<ProjectAdding />} />
           </Route>
+          <Route path="/about" element={<>About</>}></Route>
         </Route>
         <Route path="*" element={<>404</>} />
       </Routes>

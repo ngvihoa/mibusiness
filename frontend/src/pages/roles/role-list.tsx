@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import ModalConfirm from "components/modal/modal-confirm";
 import PaginationBar from "components/pagination-bar/pagination-bar";
 import usePagination from "hooks/pagination.hook";
-import RoleCard from "./role-card";
 import GeneralLayout from "components/layout/general-layout";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { styleIcon, styleIconSm } from "lib/data";

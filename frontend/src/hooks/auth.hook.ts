@@ -15,7 +15,6 @@ const useAuth = () => {
   const handleLogOut = async () => {
     try {
       const res = await logOutUser();
-      console.log(res);
       if (res.message === "ok") {
         dispatch(logOut());
         navigate("/login");

@@ -56,7 +56,9 @@ const RoleAssign = () => {
     roleList.forEach((role) => {
       const tmpRole: RolePersistType = {
         ...role,
-        isAssigned: roleAssign.some((role2) => role2.url === role.url),
+        isAssigned: roleAssign.some(
+          (role2) => role2.url === role.url && role2.method === role.method
+        ),
       };
       tmp.push(tmpRole);
     });
@@ -206,7 +208,7 @@ const RoleAssign = () => {
                         className="form-check-label"
                         htmlFor={`role-${index}`}
                       >
-                        {item.url}
+                        {item.method} {item.url}
                       </label>
                     </div>
                   ))}

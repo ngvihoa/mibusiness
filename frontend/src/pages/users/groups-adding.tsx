@@ -60,7 +60,6 @@ const GroupsAdding = () => {
   const handleValidateGroup = () => {
     const tmpValid = { ...groupList };
     let re = true;
-    console.log(tmpValid);
     for (const key in groupList) {
       if (groupList[key].name === "") {
         tmpValid[key].isValid = false;
