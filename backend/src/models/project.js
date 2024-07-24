@@ -9,12 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Project.belongsTo(models.User, { foreignKey: "customerId" });
       Project.belongsToMany(models.User, {
         through: "Project_User",
         foreignKey: "projectId",
-      });
-      Project.belongsTo(models.User, {
-        foreignKey: "customerId",
       });
       // mising hasMany tasks and comments
     }

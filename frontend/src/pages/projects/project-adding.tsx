@@ -3,10 +3,11 @@ import FillButton from "components/button/fill-button";
 import GeneralLayout from "components/layout/general-layout";
 import useAuth from "hooks/auth.hook";
 import { handleError } from "lib/func";
-import { UsersType } from "lib/type";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
-import { fetchAllUsers, getUsersByGroup } from "services/userService";
+import { toast } from "react-toastify";
+import { createProject } from "services/projectService";
+import { getUsersByGroup } from "services/userService";
 
 interface UsersByGroup {
   id: number;
@@ -30,8 +31,8 @@ const initalForm: ProjectAddingForm = {
 const ProjectAdding = () => {
   const { handleLogOut } = useAuth();
   const [userList, setUserList] = useState<UsersByGroup[] | null>(null);
-  // const [customerId, setCustomerId] = useState<number | null>(null);
   const [form, setForm] = useState<ProjectAddingForm>(initalForm);
+  const [error, setError] = useState(false);
 
   const fetchUsers = async () => {
     try {
@@ -54,6 +55,35 @@ const ProjectAdding = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setError(false);
+    if (!form.name) {
+      toast.error("Project's name cannot be empty!");
+      setError(true);
+      return;
+    }
+    try {
+      let res = await createProject({
+        name: form.name,
+        description: form.description ?? null,
+        startDate: form.startDate ?? new Date(),
+        endDate: null,
+        customerId: isNaN(Number(form.customerId))
+          ? null
+          : Number(form.customerId),
+      });
+      toast.success(res.message);
+      setForm(initalForm);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const status = handleError(error.response?.status || 500);
+        if (status === 401) {
+          handleLogOut();
+        } else if (status === 400) {
+          toast.error(error.response?.data.message);
+          setError(true);
+        }
+      }
+    }
   };
 
   useEffect(() => {
@@ -75,7 +105,8 @@ const ProjectAdding = () => {
               type="text"
               name="name"
               placeholder="Enter project name..."
-              className="form-control"
+              className={`form-control ${error ? "is-invalid" : ""}`}
+              value={form.name}
               onChange={(e) => handleOnChange(e)}
             />
           </div>
@@ -86,6 +117,7 @@ const ProjectAdding = () => {
               name="description"
               placeholder="Enter project name..."
               className="form-control"
+              value={form.description}
               onChange={(e) => handleOnChange(e)}
             />
           </div>
@@ -95,12 +127,17 @@ const ProjectAdding = () => {
               type="date"
               name="startDate"
               className="form-control"
+              value={form.startDate}
               onChange={(e) => handleOnChange(e)}
             />
           </div>
           <div className="select-container">
             <label htmlFor="customerId">Customer:</label>
-            <Form.Select name="customerId" onChange={(e) => handleOnChange(e)}>
+            <Form.Select
+              name="customerId"
+              value={form.customerId}
+              onChange={(e) => handleOnChange(e)}
+            >
               <option value="">Choose a group...</option>
               {userList?.map((item, index) => (
                 <option key={index + "-" + item.id} value={item.id}>

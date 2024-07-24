@@ -1,12 +1,18 @@
+import axios from "axios";
 import FillButton from "components/button/fill-button";
 import LineButton from "components/button/line-button";
 import GeneralLayout from "components/layout/general-layout";
 import PaginationBar from "components/pagination-bar/pagination-bar";
+import useAuth from "hooks/auth.hook";
+import usePagination from "hooks/pagination.hook";
 import { styleIcon, styleIconSm } from "lib/data";
-import React from "react";
+import { handleError, YMD2DMY } from "lib/func";
+import { ProjectDBGet } from "lib/interfaces/project.interface";
+import { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { getProjects } from "services/projectService";
 
 const projects = [
   {
@@ -92,6 +98,37 @@ const projects = [
 ];
 
 const ProjectList = () => {
+  const { handleLogOut } = useAuth();
+  // confirm delete user states
+  const [projectList, setProjectList] = useState<ProjectDBGet[] | null>(null);
+
+  const {
+    pageCount,
+    setPageCount,
+    currentPage,
+    itemsPerPage,
+    handlePageClick,
+  } = usePagination(10);
+
+  const fetchProjects = async () => {
+    try {
+      let response = await getProjects(currentPage, itemsPerPage);
+      setPageCount(response.data.totalPages);
+      setProjectList(response.data.projects);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const status = handleError(error.response?.status || 500);
+        if (status === 401) {
+          handleLogOut();
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
   return (
     <GeneralLayout classContainer="project-list-container" name="Project List">
       <div className="search-bar form-group d-flex gap-2">
@@ -112,7 +149,7 @@ const ProjectList = () => {
           shadow-sm w-100"
           >
             <div className="filter-item">
-              <h6>Filter by time</h6>
+              <label>Filter by time</label>
               <div className="d-flex gap-4 align-items-center">
                 <input
                   type="date"
@@ -130,7 +167,7 @@ const ProjectList = () => {
               </div>
             </div>
             <div className="filter-item">
-              <h6>Filter by owner</h6>
+              <label>Filter by owner</label>
               <div className="d-flex gap-2 justify-content-evenly">
                 <div className="form-check">
                   <input
@@ -168,43 +205,48 @@ const ProjectList = () => {
               </div>
             </div>
             <div className="filter-item">
-              <h6>Filter something</h6>
+              <label>Filter something</label>
               <p>See future...</p>
             </div>
           </div>
         </div>
         <div className="projects-list-container col-12 col-lg-8">
           <div className="projects-list mb-4">
-            {projects.map((project, index) => {
-              return (
-                <div
-                  key={`project-${project.id}-${index}`}
-                  className={`project-item w-100 border-bottom p-2 pb-3`}
-                >
-                  <div className="fw-semibold">
-                    <Link to="#">{project.name}</Link>
+            {projectList &&
+              projectList.length &&
+              projectList.map((project, index) => {
+                return (
+                  <div
+                    key={`project-${project.id}-${index}`}
+                    className={`project-item w-100 border-bottom p-2 pb-3`}
+                  >
+                    <div className="w-100 mt-2 d-flex justify-content-between gap-2">
+                      <span className=" fw-semibold">
+                        <Link to="#">{project.name}</Link>
+                      </span>
+                      <span>
+                        {YMD2DMY(project.startDate)} -{" "}
+                        {project.endDate ?? "On going"}
+                      </span>
+                    </div>
+                    <div className="description">
+                      {project.description ?? "No description"}
+                    </div>
+                    <div>
+                      Owner: {project.User ? project.User.username : "None"}
+                    </div>
                   </div>
-                  <div className="w-100 mt-2 d-flex justify-content-between">
-                    <span>{project.descripton}</span>
-                    <span>
-                      {project.startDate} - {project.endDate ?? "Current"}
-                    </span>
-                  </div>
-                  <div>Owner: {project.customerId ?? "None"}</div>
-                  <div className="custom-button">
-                    <FillButton
-                      className="fw-medium"
-                      onClickFunction={() => {}}
-                    >
-                      <MdDelete style={styleIconSm} />
-                    </FillButton>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            {(!projectList || !projectList.length) && (
+              <div>No project founded...</div>
+            )}
           </div>
           <div className="d-flex justify-content-center">
-            <PaginationBar handlePageClick={() => {}} pageCount={25} />
+            <PaginationBar
+              handlePageClick={handlePageClick}
+              pageCount={pageCount}
+            />
           </div>
         </div>
       </div>

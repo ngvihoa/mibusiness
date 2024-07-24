@@ -72,9 +72,24 @@ function handleError(status: number) {
   return status;
 }
 
+function isValidIsoDate(str: string) {
+  const d = new Date(str);
+  return d instanceof Date && !isNaN(d.getTime()) && d.toISOString() === str;
+}
+
+const YMD2DMY = (time: string) => {
+  if (!isValidIsoDate(time)) return "Time error";
+  let date = new Date(time);
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
+  return `${day}/${month}/${year}`;
+};
+
 export {
   eliminateSpecialChars as htmlspecialchars,
   validateEmail,
   validatePhone,
   handleError,
+  YMD2DMY,
 };

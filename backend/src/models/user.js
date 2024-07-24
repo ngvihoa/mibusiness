@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
         through: "Project_User",
         foreignKey: "userId",
       });
+      User.hasMany(models.Project, {
+        foreignKey: "customerId",
+      });
     }
   }
   User.init(
