@@ -1,5 +1,6 @@
-import { GroupRoleType, RoleDBType, RoleType } from "lib/type";
 import axios from "config/axios.config";
+import { GroupRoleType } from "lib/interfaces/group.interface";
+import { RoleDBType, RoleType } from "lib/interfaces/role.interface";
 
 const createRoles = (roles: RoleType[]) => {
   return axios.post("/role", roles);

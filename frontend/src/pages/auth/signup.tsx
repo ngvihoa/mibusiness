@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { handleError, validateEmail, validatePhone } from "lib/func";
-import { SignUpFormProps, SignUpFormStateProps } from "lib/type";
+import {
+  SignUpFormProps,
+  SignUpFormStateProps,
+} from "lib/interfaces/auth.interface";
 import { signUpNewUser } from "services/userService";
 import axios from "axios";
 import useAuth from "hooks/auth.hook";

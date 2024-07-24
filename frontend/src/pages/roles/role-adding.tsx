@@ -3,7 +3,7 @@ import { FiPlusCircle } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
-import { RoleType } from "lib/type";
+import { RoleType } from "lib/interfaces/role.interface";
 import { createRoles } from "services/roleService";
 import axios from "axios";
 import { handleError } from "lib/func";

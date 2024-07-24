@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
-import {
-  GroupDBGet,
-  GroupRoleType,
-  ModalTextProps,
-  RoleDBType,
-} from "lib/type";
+import { ModalTextProps } from "lib/interfaces/component.interface";
+import { RoleDBType } from "lib/interfaces/role.interface";
+import { GroupDBGet, GroupRoleType } from "lib/interfaces/group.interface";
 import {
   assignRoles,
   fetchAllRoles,

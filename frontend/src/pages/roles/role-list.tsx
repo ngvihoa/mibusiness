@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ModalTextProps, RoleDBType } from "lib/type";
+import { ModalTextProps } from "lib/interfaces/component.interface";
 import { deleteRole, fetchAllRoles } from "services/roleService";
 import axios from "axios";
 import { handleError } from "lib/func";
@@ -15,6 +15,7 @@ import FillButton from "components/button/fill-button";
 import LineButton from "components/button/line-button";
 import { Table } from "react-bootstrap";
 import { FaFilter } from "react-icons/fa6";
+import { RoleDBType } from "lib/interfaces/role.interface";
 
 const initModal: ModalTextProps = {
   headingText: "",

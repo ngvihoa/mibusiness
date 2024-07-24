@@ -1,11 +1,11 @@
 import { Modal } from "react-bootstrap";
 import {
-  GroupDBGet,
-  ModalTextProps,
   UsersType,
   createUserFormProps,
   createUserFormStateProps,
-} from "lib/type";
+} from "lib/interfaces/user.interface";
+import { GroupDBGet } from "lib/interfaces/group.interface";
+import { ModalTextProps } from "lib/interfaces/component.interface";
 import { createNewUser, updateUser } from "services/userService";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";

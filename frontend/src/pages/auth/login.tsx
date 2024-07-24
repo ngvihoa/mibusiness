@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { LoginFormProps, LoginFormStateProps, LoginType } from "lib/type";
+import {
+  LoginFormProps,
+  LoginFormStateProps,
+} from "lib/interfaces/auth.interface";
+import { LoginType } from "lib/interfaces/auth-store.interface";
 import { logInUser } from "services/userService";
 import axios from "axios";
 import { handleError } from "lib/func";

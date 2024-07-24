@@ -1,12 +1,8 @@
 import React from "react";
-import { BiSolidPhone } from "react-icons/bi";
-import { FaUserGroup } from "react-icons/fa6";
-import { MdDelete, MdEdit, MdEmail } from "react-icons/md";
-import { PiGenderIntersexFill } from "react-icons/pi";
-import { styleIcon, styleIconSm } from "lib/data";
-import { GroupDBGet } from "lib/type";
+import { MdDelete } from "react-icons/md";
+import { styleIconSm } from "lib/data";
 import FillButton from "components/button/fill-button";
-import LineButton from "components/button/line-button";
+import { GroupDBGet } from "lib/interfaces/group.interface";
 
 interface UserCardProps {
   group: GroupDBGet;

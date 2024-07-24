@@ -1,5 +1,5 @@
 import { Modal } from "react-bootstrap";
-import { ModalTextProps } from "lib/type";
+import { ModalTextProps } from "lib/interfaces/component.interface";
 import FillButton from "components/button/fill-button";
 
 interface ModalAlertProps {

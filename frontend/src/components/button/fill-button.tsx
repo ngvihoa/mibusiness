@@ -1,4 +1,4 @@
-import { ButtonProps } from "lib/type";
+import { ButtonProps } from "lib/interfaces/component.interface";
 
 const FillButton = ({ onClickFunction, className, children }: ButtonProps) => {
   return (

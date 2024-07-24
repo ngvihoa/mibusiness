@@ -1,5 +1,5 @@
 // import axios from "axios";
-import { GroupDBGet, GroupPostType } from "lib/type";
+import { GroupDBGet, GroupPostType } from "lib/interfaces/group.interface";
 import axios from "config/axios.config";
 
 const fetchGroups = () => {

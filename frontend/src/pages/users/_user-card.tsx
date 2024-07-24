@@ -4,9 +4,9 @@ import { FaUserGroup } from "react-icons/fa6";
 import { MdDelete, MdEdit, MdEmail } from "react-icons/md";
 import { PiGenderIntersexFill } from "react-icons/pi";
 import { styleIcon, styleIconSm } from "lib/data";
-import { UsersType } from "lib/type";
 import FillButton from "components/button/fill-button";
 import LineButton from "components/button/line-button";
+import { UsersType } from "lib/interfaces/user.interface";
 
 interface UserCardProps {
   user: UsersType;

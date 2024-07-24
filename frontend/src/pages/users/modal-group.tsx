@@ -1,5 +1,6 @@
 import { Modal } from "react-bootstrap";
-import { GroupDBGet, GroupPostType, ModalTextProps } from "lib/type";
+import { GroupDBGet, GroupPostType } from "lib/interfaces/group.interface";
+import { ModalTextProps } from "lib/interfaces/component.interface";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { handleError } from "lib/func";

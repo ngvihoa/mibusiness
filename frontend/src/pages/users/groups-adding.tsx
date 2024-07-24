@@ -3,7 +3,6 @@ import { FiPlusCircle } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
-import { GroupPostType } from "lib/type";
 import axios from "axios";
 import { handleError } from "lib/func";
 import useAuth from "hooks/auth.hook";
@@ -11,6 +10,7 @@ import FillButton from "components/button/fill-button";
 import { createGroups } from "services/groupService";
 import GeneralLayout from "components/layout/general-layout";
 import LineButton from "components/button/line-button";
+import { GroupPostType } from "lib/interfaces/group.interface";
 
 interface GroupListType {
   [key: string]: any;

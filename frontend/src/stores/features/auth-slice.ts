@@ -1,4 +1,8 @@
-import { AuthState, InitialState, LoginType } from "lib/type";
+import {
+  AuthState,
+  InitialState,
+  LoginType,
+} from "lib/interfaces/auth-store.interface";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
