@@ -11,6 +11,10 @@ const getProjects = (page?: number, limit?: number) => {
   );
 };
 
+const getProjectById = (id: number) => {
+  return axios.get(`/project/${id}`);
+};
+
 const createProject = (project: ProjectPostType) => {
   return axios.post("/project", project);
 };
@@ -27,4 +31,10 @@ const deleteProject = (project: ProjectDBGet) => {
     data: project,
   });
 };
-export { getProjects, createProject, updateProject, deleteProject };
+export {
+  getProjects,
+  createProject,
+  updateProject,
+  deleteProject,
+  getProjectById,
+};

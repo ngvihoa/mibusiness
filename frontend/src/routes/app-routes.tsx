@@ -15,6 +15,7 @@ import ProjectList from "pages/projects/project-list";
 import RoleList from "pages/roles/role-list";
 import RoleAdding from "pages/roles/role-adding";
 import RoleAssign from "pages/roles/role-assign";
+import Project from "pages/projects/project";
 
 const AppRoutes = () => {
   return (
@@ -42,6 +43,7 @@ const AppRoutes = () => {
             <Route path="" element={<Navigate to="list" replace />} />
             <Route path="list" element={<ProjectList />} />
             <Route path="adding" element={<ProjectAdding />} />
+            <Route path=":groupId" element={<Project />} />
           </Route>
           <Route path="/about" element={<>About</>}></Route>
         </Route>

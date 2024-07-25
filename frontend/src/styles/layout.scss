@@ -3,9 +3,12 @@
   padding-bottom: 40px;
   color: $gray-800;
 
-  h3 {
+  .layout-header {
     margin-top: 20px;
     margin-bottom: 16px;
-    color: inherit;
+
+    h3 {
+      color: inherit;
+    }
   }
 }

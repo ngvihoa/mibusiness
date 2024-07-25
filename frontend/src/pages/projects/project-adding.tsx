@@ -3,8 +3,10 @@ import FillButton from "components/button/fill-button";
 import GeneralLayout from "components/layout/general-layout";
 import useAuth from "hooks/auth.hook";
 import { handleError } from "lib/func";
+import { ProjectPostType } from "lib/interfaces/project.interface";
 import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createProject } from "services/projectService";
 import { getUsersByGroup } from "services/userService";
@@ -30,6 +32,7 @@ const initalForm: ProjectAddingForm = {
 
 const ProjectAdding = () => {
   const { handleLogOut } = useAuth();
+  const navigate = useNavigate();
   const [userList, setUserList] = useState<UsersByGroup[] | null>(null);
   const [form, setForm] = useState<ProjectAddingForm>(initalForm);
   const [error, setError] = useState(false);
@@ -62,17 +65,22 @@ const ProjectAdding = () => {
       return;
     }
     try {
-      let res = await createProject({
+      const newProject: ProjectPostType = {
         name: form.name,
         description: form.description ?? null,
-        startDate: form.startDate ?? new Date(),
+        startDate: !form.startDate
+          ? new Date().toISOString().slice(0, 10)
+          : form.startDate,
         endDate: null,
-        customerId: isNaN(Number(form.customerId))
-          ? null
-          : Number(form.customerId),
-      });
+        customerId:
+          isNaN(Number(form.customerId)) || Number(form.customerId) < 1
+            ? null
+            : Number(form.customerId),
+      };
+      let res = await createProject(newProject);
       toast.success(res.message);
       setForm(initalForm);
+      navigate(`/projects/${res.data.id}`);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const status = handleError(error.response?.status || 500);

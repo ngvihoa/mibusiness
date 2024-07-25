@@ -44,6 +44,7 @@ const initApiRoutes = (app) => {
 
   // project routes
   router.get("/project", projectController.readFunc);
+  router.get("/project/:projectId", projectController.getProjectById);
   router.post("/project", projectController.createFunc);
   router.put("/project", projectController.updateFunc);
   router.delete("/project", projectController.deleteFunc);

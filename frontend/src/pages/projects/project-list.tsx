@@ -5,97 +5,13 @@ import GeneralLayout from "components/layout/general-layout";
 import PaginationBar from "components/pagination-bar/pagination-bar";
 import useAuth from "hooks/auth.hook";
 import usePagination from "hooks/pagination.hook";
-import { styleIcon, styleIconSm } from "lib/data";
+import { styleIcon } from "lib/data";
 import { handleError, YMD2DMY } from "lib/func";
 import { ProjectDBGet } from "lib/interfaces/project.interface";
 import { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa6";
-import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { getProjects } from "services/projectService";
-
-const projects = [
-  {
-    id: 1,
-    name: "PakiSlot",
-    descripton: "Develop a parking lot management system",
-    startDate: "10/2023",
-    endDate: null,
-    customerId: null,
-  },
-  {
-    id: 2,
-    name: "PakiSlot",
-    descripton: "Develop a parking lot management system",
-    startDate: "10/2023",
-    endDate: "05/2024",
-    customerId: null,
-  },
-  {
-    id: 3,
-    name: "PakiSlot",
-    descripton: "Develop a parking lot management system",
-    startDate: "10/2023",
-    endDate: "05/2024",
-    customerId: null,
-  },
-  {
-    id: 4,
-    name: "PakiSlot",
-    descripton: "Develop a parking lot management system",
-    startDate: "10/2023",
-    endDate: "05/2024",
-    customerId: null,
-  },
-  {
-    id: 5,
-    name: "PakiSlot",
-    descripton: "Develop a parking lot management system",
-    startDate: "10/2023",
-    endDate: "05/2024",
-    customerId: null,
-  },
-  {
-    id: 6,
-    name: "PakiSlot",
-    descripton: "Develop a parking lot management system",
-    startDate: "10/2023",
-    endDate: "05/2024",
-    customerId: null,
-  },
-  {
-    id: 7,
-    name: "PakiSlot",
-    descripton: "Develop a parking lot management system",
-    startDate: "10/2023",
-    endDate: "05/2024",
-    customerId: null,
-  },
-  {
-    id: 8,
-    name: "PakiSlot",
-    descripton: "Develop a parking lot management system",
-    startDate: "10/2023",
-    endDate: "05/2024",
-    customerId: null,
-  },
-  {
-    id: 9,
-    name: "PakiSlot",
-    descripton: "Develop a parking lot management system",
-    startDate: "10/2023",
-    endDate: "05/2024",
-    customerId: null,
-  },
-  {
-    id: 10,
-    name: "PakiSlot",
-    descripton: "Develop a parking lot management system",
-    startDate: "10/2023",
-    endDate: "05/2024",
-    customerId: null,
-  },
-];
 
 const ProjectList = () => {
   const { handleLogOut } = useAuth();
@@ -222,7 +138,9 @@ const ProjectList = () => {
                   >
                     <div className="w-100 mt-2 d-flex justify-content-between gap-2">
                       <span className=" fw-semibold">
-                        <Link to="#">{project.name}</Link>
+                        <Link to={`/projects/${project.id}`}>
+                          {project.name}
+                        </Link>
                       </span>
                       <span>
                         {YMD2DMY(project.startDate)} -{" "}

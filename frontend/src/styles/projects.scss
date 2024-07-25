@@ -67,3 +67,33 @@
     }
   }
 }
+
+.project-container {
+  font-size: 0.9rem;
+
+  .section {
+    & > div:first-child {
+      font-weight: 500;
+      margin: 0 0 0.625rem 0;
+    }
+  }
+
+  .tags {
+    margin-block: 1rem;
+    span {
+      background-color: $teal-300 !important;
+      font-weight: 500;
+      color: $teal-800;
+      cursor: pointer;
+      transition: all linear 200ms;
+
+      &:hover {
+        background-color: $teal-500 !important;
+        color: white;
+      }
+    }
+  }
+  .more-info {
+    color: $gray-700;
+  }
+}

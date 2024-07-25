@@ -12,11 +12,14 @@ const createProject = async (project) => {
         data: project,
       };
     }
-    await db.Project.create(project);
+    let res = await db.Project.create(project, {
+      raw: true,
+    });
+    console.log(res);
     return {
       message: `Project ${project.name} is created!`,
       status: 200,
-      data: project,
+      data: { id: res.dataValues.id, ...project },
     };
   } catch (error) {
     console.log(error);
@@ -30,6 +33,22 @@ const createProject = async (project) => {
 
 const getAllProjects = async () => {
   try {
+    const res = await db.Project.findAll({
+      attributes: [
+        "id",
+        "name",
+        "description",
+        "startDate",
+        "endDate",
+        "customerId",
+      ],
+      order: [["startDate", "DESC"]],
+    });
+    return {
+      message: "",
+      status: 200,
+      data: res ?? [],
+    };
   } catch (error) {
     console.log(error);
     return {
@@ -76,6 +95,38 @@ const getProjectPaginated = async (page, limit) => {
   }
 };
 
+const getUserById = async (projectId) => {
+  try {
+    const project = await db.Project.findByPk(projectId, {
+      attributes: [
+        "id",
+        "name",
+        "description",
+        "startDate",
+        "endDate",
+        "customerId",
+      ],
+      include: {
+        model: db.User,
+        attributes: ["id", "username"],
+      },
+    });
+
+    return {
+      message: project ? `Found project ${projectId}!` : "Project not found",
+      status: 200,
+      data: project,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      message: "Server error!",
+      status: 500,
+      data: null,
+    };
+  }
+};
+
 const deleteProject = async (id) => {
   try {
     // await db.Group.destroy({
@@ -101,4 +152,5 @@ export default {
   getAllProjects,
   getProjectPaginated,
   deleteProject,
+  getUserById,
 };

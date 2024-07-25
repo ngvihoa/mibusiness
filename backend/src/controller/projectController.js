@@ -21,6 +21,29 @@ const readFunc = async (req, res) => {
     });
   }
 };
+
+const getProjectById = async (req, res) => {
+  try {
+    let id = req.params.projectId;
+    let response;
+    if (isNaN(Number(id))) {
+      return res.status(400).json({
+        message: "Invalid project id",
+        data: null,
+      });
+    }
+    response = await projectApiService.getUserById(id);
+    return res
+      .status(response.status)
+      .json({ message: response.message, data: response.data });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Server error!",
+      data: null,
+    });
+  }
+};
+
 const createFunc = async (req, res) => {
   try {
     // project name is required, the rest is optional
@@ -63,6 +86,7 @@ const updateFunc = async (req, res) => {
     });
   }
 };
+
 const deleteFunc = async (req, res) => {
   try {
   } catch (error) {
@@ -78,4 +102,5 @@ export default {
   createFunc,
   updateFunc,
   deleteFunc,
+  getProjectById,
 };

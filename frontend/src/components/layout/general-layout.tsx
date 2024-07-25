@@ -1,23 +1,29 @@
 import React from "react";
+import { Container } from "react-bootstrap";
 
 interface GeneralLayoutProps {
   name: string;
   children: React.ReactNode;
   classContainer: string;
+  fluid?: boolean;
 }
 
 const GeneralLayout = ({
   name,
   children,
   classContainer,
+  fluid = false,
 }: GeneralLayoutProps) => {
   return (
-    <div
-      className={`${classContainer} general-layout-container container mt-20`}
+    <Container
+      className={`${classContainer} general-layout-container mt-20`}
+      fluid={fluid}
     >
-      <h3>{name}</h3>
+      <div className="layout-header">
+        <h3>{name}</h3>
+      </div>
       {children}
-    </div>
+    </Container>
   );
 };
 

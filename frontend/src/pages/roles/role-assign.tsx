@@ -16,11 +16,6 @@ import { fetchGroups } from "services/groupService";
 import FillButton from "components/button/fill-button";
 import GeneralLayout from "components/layout/general-layout";
 
-const initModal: ModalTextProps = {
-  headingText: "",
-  bodyText: "",
-};
-
 type RolePersistType = RoleDBType & {
   isAssigned: boolean;
 };

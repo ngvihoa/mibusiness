@@ -180,7 +180,7 @@ const ModalUser = ({
     try {
       const isValid = isValidateInputCreate();
       if (!isValid) return;
-      let data = await createNewUser(form);
+      await createNewUser(form);
       toast.success("New user is created!");
       onClose();
       handleConfirm();

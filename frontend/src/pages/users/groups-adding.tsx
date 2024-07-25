@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { FiPlusCircle } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
