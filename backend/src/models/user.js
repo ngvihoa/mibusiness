@@ -14,6 +14,13 @@ module.exports = (sequelize, DataTypes) => {
         through: "Project_User",
         foreignKey: "userId",
       });
+      User.belongsToMany(models.Task, {
+        through: "User_Task",
+        foreignKey: "userId",
+      });
+      User.hasMany(models.Task, {
+        foreignKey: "creatorId",
+      });
       User.hasMany(models.Project, {
         foreignKey: "customerId",
       });
@@ -28,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       sex: DataTypes.STRING,
       phone: DataTypes.STRING,
       groupId: DataTypes.INTEGER,
+      img: DataTypes.TEXT,
     },
     {
       sequelize,
